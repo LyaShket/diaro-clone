@@ -1,7 +1,10 @@
 <section class="p-4">
 
-  <form>
-    <textarea class="form-control w-100" rows="10" placeholder="Wright your entry here 🖋️..."></textarea>
+  <form [formGroup]="formGroup" (submit)="send()">
+    <input class="form-control w-100 mb-1" type="text" placeholder="Write title" formControlName="title"
+           (keyup.enter)="body.focus()">
+    <textarea class="form-control w-100 mb-1" rows="10" placeholder="Wright your entry here 🖋️..."
+              formControlName="body" (keyup.enter)="send()" #body></textarea>
     <button class="btn btn-primary w-100">Send</button>
   </form>
 
@@ -10,8 +13,15 @@
 <section class="p-4">
 
   <ul class="list-group">
-    <li class="list-group-item">Entry 1</li>
-    <li class="list-group-item">Entry 2</li>
+    <li class="list-group-item" *ngFor="let entry of entries">
+      <div class="d-flex gap-3 align-items-center">
+        <p class="mb-0 text-nowrap">{{ entry.created | date }}</p>
+        <div>
+          <h6 *ngIf="entry.title">{{ entry.title }}</h6>
+          <p class="mb-0">{{ entry.body }}</p>
+        </div>
+      </div>
+    </li>
   </ul>
 
 </section>
