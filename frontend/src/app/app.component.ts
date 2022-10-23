@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   });
 
   entries: any[] = [];
+  htmlstring: any;
 
   constructor(
     private diaryEntryService: DiaryEntryService,
@@ -57,5 +58,9 @@ export class AppComponent implements OnInit {
       console.log(res);
       this.cdr.detectChanges();
     });
+  }
+
+  onEditorChange(value: any) {
+    this.formGroup.controls.body.setValue(value?.html);
   }
 }

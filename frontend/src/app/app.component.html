@@ -1,10 +1,11 @@
 <section class="p-4">
 
   <form [formGroup]="formGroup" (submit)="send()">
-    <input class="form-control w-100 mb-1" type="text" placeholder="Write title" formControlName="title"
-           (keyup.enter)="body.focus()">
-    <textarea class="form-control w-100 mb-1" rows="10" placeholder="Wright your entry here 🖋️..."
-              formControlName="body" (keyup.enter)="send()" #body></textarea>
+    <input class="form-control w-100 mb-1" type="text" placeholder="Write title" formControlName="title">
+<!--           (keyup.enter)="body.focus()">-->
+    <quill-editor class="w-100" style="height: 250px;" #body (onContentChanged)="onEditorChange($event)"
+                  (keyup.enter)="send()">
+    </quill-editor>
     <button class="btn btn-primary w-100">Send</button>
   </form>
 
@@ -18,7 +19,7 @@
         <p class="mb-0 text-nowrap">{{ entry.created | date }}</p>
         <div>
           <h6 *ngIf="entry.title">{{ entry.title }}</h6>
-          <p class="mb-0">{{ entry.body }}</p>
+          <quill-view-html [content]="entry.body" theme="snow"></quill-view-html>
         </div>
       </div>
     </li>
