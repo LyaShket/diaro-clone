@@ -1,6 +1,7 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DiaryEntryService} from "./shared/services/diary-entry.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {QuillEditorComponent} from "ngx-quill";
 
 @Component({
   selector: 'app-root',
@@ -10,11 +11,12 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 export class AppComponent implements OnInit {
   formGroup = new FormGroup({
     title: new FormControl('', []),
-    body: new FormControl('', [Validators.required])
+    body: new FormControl('', [Validators.required]),
+    text: new FormControl('', [Validators.required]),
   });
 
   entries: any[] = [];
-  htmlstring: any;
+  content: any;
 
   constructor(
     private diaryEntryService: DiaryEntryService,
@@ -33,8 +35,9 @@ export class AppComponent implements OnInit {
 
     let entry: any = this.formGroup.value;
     entry = {
+      ...entry,
       title: entry?.title?.trim(),
-      body: entry?.body?.trim(),
+      text: entry?.text?.trim(),
       created: new Date().getTime(),
       updated: new Date().getTime(),
     };
@@ -44,9 +47,13 @@ export class AppComponent implements OnInit {
     }
 
     this.formGroup.reset();
+    this.content = '';
+
     this.diaryEntryService.create(entry).then(() => {
       this.getAllEntries();
     });
+
+    this.cdr.detectChanges();
   }
 
   getAllEntries() {
@@ -62,5 +69,6 @@ export class AppComponent implements OnInit {
 
   onEditorChange(value: any) {
     this.formGroup.controls.body.setValue(value?.html);
+    this.formGroup.controls.text.setValue(value?.text);
   }
 }
