@@ -1,31 +1,3 @@
-<section class="p-4">
-
-  <form [formGroup]="formGroup" (submit)="send()">
-    <input class="form-control w-100 mb-1" type="text" placeholder="Write title" formControlName="title">
-    <quill-editor class="w-100" style="height: 250px;"
-                  [(ngModel)]="content"
-                  [ngModelOptions]="{standalone: true}"
-                  (onContentChanged)="onEditorChange($event)"
-                  (keyup.enter)="send()"
-    ></quill-editor>
-    <button class="btn btn-primary w-100">Send</button>
-  </form>
-
-</section>
-
-<section class="p-4">
-
-  <ul class="list-group">
-    <li class="list-group-item" *ngFor="let entry of entries">
-      <div class="d-flex gap-3 align-items-center">
-        <p class="mb-0 text-nowrap">{{ entry.created | date }}</p>
-        <div>
-          <h6 *ngIf="entry.title">{{ entry.title }}</h6>
-          <p class="mb-0">{{ entry.text }}</p>
-          <!--          <quill-view-html [content]="entry.body" theme="snow"></quill-view-html>-->
-        </div>
-      </div>
-    </li>
-  </ul>
-
-</section>
+<header>Header</header>
+<router-outlet></router-outlet>
+<footer>Footer</footer>

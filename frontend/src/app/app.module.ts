@@ -6,10 +6,15 @@ import { AppComponent } from './app.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {QuillConfigModule, QuillModule} from "ngx-quill";
+import {RouterModule, Routes} from "@angular/router";
+import { HomeComponent } from './pages/home/home.component';
+import { DiaryEntryComponent } from './pages/diary-entry/diary-entry.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    DiaryEntryComponent
   ],
   imports: [
     BrowserModule,
@@ -20,6 +25,7 @@ import {QuillConfigModule, QuillModule} from "ngx-quill";
     QuillModule.forRoot(),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [],
 })
 export class AppModule { }

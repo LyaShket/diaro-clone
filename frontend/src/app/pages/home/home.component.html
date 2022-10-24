@@ -1,0 +1,18 @@
+<section class="p-4">
+
+  <button class="btn btn-primary mb-2" routerLink="/entry">➕ new entry</button>
+
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let entry of entries">
+      <div class="d-flex gap-3 align-items-center">
+        <p class="mb-0 text-nowrap">{{ entry.created | date }}</p>
+        <div>
+          <h6 *ngIf="entry.title">{{ entry.title }}</h6>
+          <p class="mb-0">{{ entry.text }}</p>
+          <!--          <quill-view-html [content]="entry.body" theme="snow"></quill-view-html>-->
+        </div>
+      </div>
+    </li>
+  </ul>
+
+</section>

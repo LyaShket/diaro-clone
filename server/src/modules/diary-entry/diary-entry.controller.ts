@@ -7,7 +7,7 @@ export class DiaryEntryController {
 
   @Post()
   create(@Body() entry: any) {
-    return this.entries.push(entry);
+    return this.entries.unshift(entry);
   }
 
   @Get()

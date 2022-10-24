@@ -1,0 +1,16 @@
+<section class="p-4">
+
+  <button class="btn btn-primary mb-2" routerLink="/">go back</button>
+
+  <form [formGroup]="formGroup" (submit)="send()">
+    <input class="form-control w-100 mb-1" type="text" placeholder="Write title" formControlName="title">
+    <quill-editor class="w-100" style="height: 250px;"
+                  [(ngModel)]="content"
+                  [ngModelOptions]="{standalone: true}"
+                  (onContentChanged)="onEditorChange($event)"
+                  (keyup.enter)="send()"
+    ></quill-editor>
+    <button class="btn btn-primary w-100">Send</button>
+  </form>
+
+</section>
