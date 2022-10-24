@@ -8,7 +8,7 @@ import {DiaryEntryService} from "../../shared/services/diary-entry.service";
   styleUrls: ['./diary-entry.component.scss']
 })
 export class DiaryEntryComponent {
-
+  entry: any;
   formGroup = new FormGroup({
     title: new FormControl('', []),
     body: new FormControl('', [Validators.required]),
@@ -16,6 +16,7 @@ export class DiaryEntryComponent {
   });
 
   content: any;
+  edit = true;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -43,11 +44,13 @@ export class DiaryEntryComponent {
 
     this.formGroup.reset();
     this.content = '';
+    this.entry = entry;
 
     this.diaryEntryService.create(entry).then(() => {
       // this.getAllEntries();
     });
 
+    this.edit = false;
     this.cdr.detectChanges();
   }
 
@@ -56,4 +59,20 @@ export class DiaryEntryComponent {
     this.formGroup.controls.text.setValue(value?.text);
   }
 
+  buildForm(entry: any) {
+    this.formGroup.controls.body.setValue(entry?.body || '');
+    this.formGroup.controls.text.setValue(entry?.text || '');
+    this.formGroup.controls.title.setValue(entry?.title || '');
+  }
+
+  switchEdit(edit: boolean) {
+    this.edit = edit;
+
+    if (this.edit) {
+      this.content = this.entry.body;
+      this.buildForm(this.entry);
+    }
+
+    this.cdr.detectChanges();
+  }
 }

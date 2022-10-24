@@ -2,7 +2,7 @@
 
   <button class="btn btn-primary mb-2" routerLink="/">go back</button>
 
-  <form [formGroup]="formGroup" (submit)="send()">
+  <form [formGroup]="formGroup" (submit)="send()" *ngIf="edit">
     <input class="form-control w-100 mb-1" type="text" placeholder="Write title" formControlName="title">
     <quill-editor class="w-100" style="height: 250px;"
                   [(ngModel)]="content"
@@ -12,5 +12,10 @@
     ></quill-editor>
     <button class="btn btn-primary w-100">Send</button>
   </form>
+
+  <div *ngIf="!edit" (click)="switchEdit(true)">
+    <h3>{{entry?.title}}</h3>
+    <quill-view-html [content]="entry?.body" theme="snow"></quill-view-html>
+  </div>
 
 </section>
