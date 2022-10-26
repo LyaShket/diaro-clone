@@ -16,8 +16,8 @@
   </form>
 
   <div *ngIf="!edit" (click)="switchEdit(true)" class="animate__animated animate__fadeIn animate__faster">
-    <h3>{{entry?.title}}</h3>
-    <quill-view-html [content]="entry?.body || ''" theme="snow"></quill-view-html>
+    <h3>{{entry.title}}</h3>
+    <quill-view-html [content]="entry.body || ''" theme="snow"></quill-view-html>
   </div>
 
 </section>
