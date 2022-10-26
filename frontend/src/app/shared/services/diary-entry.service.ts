@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {IEntry} from "../../interfaces/entry";
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +16,10 @@ export class DiaryEntryService {
   }
 
   getAll() {
-    return this.http.get<any[]>('http://localhost:3000/diary-entry').toPromise();
+    return this.http.get<IEntry[]>('http://localhost:3000/diary-entry').toPromise();
   }
 
   get(id: string) {
-    return this.http.get<any>('http://localhost:3000/diary-entry/' + id).toPromise();
+    return this.http.get<IEntry>('http://localhost:3000/diary-entry/' + id).toPromise();
   }
 }

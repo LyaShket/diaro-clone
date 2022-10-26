@@ -1,5 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {DiaryEntryService} from "../../shared/services/diary-entry.service";
+import {IEntry} from "../../interfaces/entry";
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,7 @@ import {DiaryEntryService} from "../../shared/services/diary-entry.service";
 })
 export class HomeComponent implements OnInit {
 
-  entries: any[] = [];
+  entries: IEntry[] = [];
 
   constructor(
     private diaryEntryService: DiaryEntryService,
@@ -25,7 +26,6 @@ export class HomeComponent implements OnInit {
         return;
       }
       this.entries = res;
-      console.log(res);
       this.cdr.detectChanges();
     });
   }

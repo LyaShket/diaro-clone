@@ -4,6 +4,8 @@ import {DiaryEntryService} from "../../shared/services/diary-entry.service";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription} from "rxjs";
 import uniqid from 'uniqid';
+import {IEntry} from "../../interfaces/entry";
+import {ContentChange} from "ngx-quill";
 
 @Component({
   selector: 'app-diary-entry',
@@ -11,7 +13,7 @@ import uniqid from 'uniqid';
   styleUrls: ['./diary-entry.component.scss']
 })
 export class DiaryEntryComponent implements OnInit {
-  entry: any;
+  entry: IEntry = {};
   formGroup = new FormGroup({
     id: new FormControl('', [Validators.required]),
     title: new FormControl('', []),
@@ -19,7 +21,7 @@ export class DiaryEntryComponent implements OnInit {
     text: new FormControl('', [Validators.required]),
   });
 
-  content: any;
+  content = '';
   edit = false;
 
   constructor(
@@ -32,7 +34,7 @@ export class DiaryEntryComponent implements OnInit {
   ngOnInit(): void {
     const routeId = this.route.snapshot.paramMap.get('id');
     if (!routeId || routeId === 'new') {
-      this.buildForm(null);
+      this.buildForm({});
       this.edit = true;
     } else {
       this.getEntry(routeId);
@@ -42,6 +44,10 @@ export class DiaryEntryComponent implements OnInit {
 
   getEntry(id: string) {
     this.diaryEntryService.get(id).then(res => {
+      if (!res) {
+        return;
+      }
+
       this.entry = res;
       this.buildForm(this.entry);
       this.cdr.detectChanges();
@@ -53,7 +59,7 @@ export class DiaryEntryComponent implements OnInit {
       return;
     }
 
-    let entry: any = this.formGroup.value;
+    let entry: IEntry = <IEntry>this.formGroup.value;
     entry = {
       ...entry,
       title: entry?.title?.trim(),
@@ -76,12 +82,12 @@ export class DiaryEntryComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  onEditorChange(value: any) {
+  onEditorChange(value: ContentChange) {
     this.formGroup.controls.body.setValue(value?.html);
     this.formGroup.controls.text.setValue(value?.text);
   }
 
-  buildForm(entry: any) {
+  buildForm(entry: IEntry) {
     this.formGroup.controls.id.setValue(entry?.id || uniqid());
     this.formGroup.controls.body.setValue(entry?.body || '');
     this.formGroup.controls.text.setValue(entry?.text || '');
@@ -92,7 +98,7 @@ export class DiaryEntryComponent implements OnInit {
     this.edit = edit;
 
     if (this.edit) {
-      this.content = this.entry.body;
+      this.content = this.entry?.body || '';
       this.buildForm(this.entry);
     }
 
