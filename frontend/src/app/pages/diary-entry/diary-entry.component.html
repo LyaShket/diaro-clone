@@ -2,6 +2,8 @@
 
   <button class="btn btn-primary mb-2" routerLink="/">go back</button>
 
+  <p class="mb-1 text-nowrap animate__animated animate__fadeIn animate__faster">{{ entry.created | date }}</p>
+
   <form [formGroup]="formGroup" (submit)="send()" *ngIf="edit" class="animate__animated animate__fadeIn animate__faster">
     <input class="form-control w-100 mb-1" type="text" placeholder="Write title" formControlName="title">
     <quill-editor class="w-100 height-250"
