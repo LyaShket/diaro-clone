@@ -4,7 +4,7 @@
 
   <form [formGroup]="formGroup" (submit)="send()" *ngIf="edit" class="animate__animated animate__fadeIn animate__faster">
     <input class="form-control w-100 mb-1" type="text" placeholder="Write title" formControlName="title">
-    <quill-editor class="w-100" style="height: 250px;"
+    <quill-editor class="w-100 height-250"
                   [(ngModel)]="content"
                   [ngModelOptions]="{standalone: true}"
                   (onContentChanged)="onEditorChange($event)"
