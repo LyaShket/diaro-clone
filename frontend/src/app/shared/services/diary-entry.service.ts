@@ -17,4 +17,8 @@ export class DiaryEntryService {
   getAll() {
     return this.http.get<any[]>('http://localhost:3000/diary-entry').toPromise();
   }
+
+  get(id: string) {
+    return this.http.get<any>('http://localhost:3000/diary-entry/' + id).toPromise();
+  }
 }

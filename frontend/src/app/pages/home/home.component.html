@@ -1,9 +1,9 @@
 <section class="p-4">
 
-  <button class="btn btn-primary mb-2" routerLink="/entry">➕ new entry</button>
+  <button class="btn btn-primary mb-2" routerLink="/entry/new">create new entry</button>
 
   <ul class="list-group">
-    <li class="list-group-item" *ngFor="let entry of entries">
+    <li class="list-group-item animate__animated animate__fadeIn animate__faster" *ngFor="let entry of entries" [routerLink]="['/entry/' + entry.id ]">
       <div class="d-flex gap-3 align-items-center">
         <p class="mb-0 text-nowrap">{{ entry.created | date }}</p>
         <div>

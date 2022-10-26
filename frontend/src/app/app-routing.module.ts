@@ -5,7 +5,7 @@ import {DiaryEntryComponent} from "./pages/diary-entry/diary-entry.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'entry', component: DiaryEntryComponent },
+  { path: 'entry/:id', component: DiaryEntryComponent },
 ];
 
 @NgModule({
