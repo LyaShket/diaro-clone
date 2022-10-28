@@ -19,10 +19,15 @@ export class DiaryEntryComponent implements OnInit {
     title: new FormControl('', []),
     body: new FormControl('', [Validators.required]),
     text: new FormControl('', [Validators.required]),
+    tags: new FormControl([]),
+    category: new FormControl(''),
   });
 
   content = '';
   edit = false;
+  addCustomTag = (term: string) => {
+    return term;
+  };
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -68,6 +73,8 @@ export class DiaryEntryComponent implements OnInit {
       updated: new Date().getTime(),
     };
 
+    console.log('entry', entry);
+
     if (!entry.body) {
       return;
     }
@@ -92,6 +99,8 @@ export class DiaryEntryComponent implements OnInit {
     this.formGroup.controls.body.setValue(entry?.body || '');
     this.formGroup.controls.text.setValue(entry?.text || '');
     this.formGroup.controls.title.setValue(entry?.title || '');
+    this.formGroup.controls.tags.setValue(entry?.tags || []);
+    this.formGroup.controls.category.setValue(entry?.category || '');
   }
 
   switchEdit(edit: boolean) {

@@ -4,7 +4,8 @@
 
   <p class="mb-1 text-nowrap animate__animated animate__fadeIn animate__faster">{{ entry.created | date }}</p>
 
-  <form [formGroup]="formGroup" (submit)="send()" *ngIf="edit" class="animate__animated animate__fadeIn animate__faster">
+  <form [formGroup]="formGroup" (submit)="send()" *ngIf="edit"
+        class="animate__animated animate__fadeIn animate__faster">
     <input class="form-control w-100 mb-1" type="text" placeholder="Write title" formControlName="title">
     <quill-editor class="w-100 height-250"
                   [(ngModel)]="content"
@@ -12,12 +13,28 @@
                   (onContentChanged)="onEditorChange($event)"
                   (keyup.enter)="send()"
     ></quill-editor>
+    <div class="d-flex align-items-center gap-2">
+      <label>Tags</label>
+      <ng-select class="w-100" [addTag]="addCustomTag" [multiple]="true" formControlName="tags"></ng-select>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <label>Category</label>
+      <ng-select class="w-100" [addTag]="addCustomTag" formControlName="category"></ng-select>
+    </div>
     <button class="btn btn-primary w-100">{{entry ? 'Update' : 'Create'}}</button>
   </form>
 
   <div *ngIf="!edit" (click)="switchEdit(true)" class="animate__animated animate__fadeIn animate__faster">
     <h3>{{entry.title}}</h3>
     <quill-view-html [content]="entry.body || ''" theme="snow"></quill-view-html>
+    <div class="d-flex align-items-center gap-2">
+      <label>Tags</label>
+      <ng-select class="w-100" [multiple]="true" [(ngModel)]="entry.tags" [readonly]="true"></ng-select>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <label>Category</label>
+      <ng-select class="w-100" [(ngModel)]="entry.category" [readonly]="true"></ng-select>
+    </div>
   </div>
 
 </section>

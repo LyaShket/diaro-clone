@@ -10,6 +10,12 @@
         <div>
           <h6 *ngIf="entry.title">{{ entry.title }}</h6>
           <p class="mb-0">{{ entry.text }}</p>
+          <div *ngIf="entry?.tags?.length">
+            <span *ngFor="let tag of entry.tags" class="badge bg-secondary me-1">{{ tag }}</span>
+          </div>
+          <div *ngIf="entry?.category">
+            <span class="badge bg-success">{{ entry.category }}</span>
+          </div>
         </div>
       </div>
     </li>

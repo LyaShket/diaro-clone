@@ -3,6 +3,8 @@ export interface IEntry {
   title?: string
   body?: string
   text?: string
+  tags?: []
+  category?: string
   created?: number
   updated?: number
 }

@@ -9,6 +9,7 @@ import {QuillConfigModule, QuillModule} from "ngx-quill";
 import {RouterModule, Routes} from "@angular/router";
 import { HomeComponent } from './pages/home/home.component';
 import { DiaryEntryComponent } from './pages/diary-entry/diary-entry.component';
+import {NgSelectModule} from "@ng-select/ng-select";
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { DiaryEntryComponent } from './pages/diary-entry/diary-entry.component';
     ReactiveFormsModule,
     HttpClientModule,
     QuillModule.forRoot(),
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent],
