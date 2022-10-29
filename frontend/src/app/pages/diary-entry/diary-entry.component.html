@@ -7,7 +7,7 @@
   <form [formGroup]="formGroup" (submit)="send()" *ngIf="edit"
         class="animate__animated animate__fadeIn animate__faster">
     <input class="form-control w-100 mb-1" type="text" placeholder="Write title" formControlName="title">
-    <quill-editor class="w-100 height-250"
+    <quill-editor class="w-100 height-250 p-0"
                   [(ngModel)]="content"
                   [ngModelOptions]="{standalone: true}"
                   (onContentChanged)="onEditorChange($event)"
@@ -21,19 +21,29 @@
       <label>Category</label>
       <ng-select class="w-100" [addTag]="addCustomTag" formControlName="category"></ng-select>
     </div>
+    <div class="d-flex align-items-center gap-2">
+      <label>Mood</label>
+      <ng-select class="w-100" [items]="moodList" formControlName="mood"></ng-select>
+    </div>
     <button class="btn btn-primary w-100">{{entry ? 'Update' : 'Create'}}</button>
   </form>
 
   <div *ngIf="!edit" (click)="switchEdit(true)" class="animate__animated animate__fadeIn animate__faster">
-    <h3>{{entry.title}}</h3>
+    <h2 class="mb-0">{{entry.title}}</h2>
     <quill-view-html [content]="entry.body || ''" theme="snow"></quill-view-html>
-    <div class="d-flex align-items-center gap-2">
-      <label>Tags</label>
-      <ng-select class="w-100" [multiple]="true" [(ngModel)]="entry.tags" [readonly]="true"></ng-select>
+    <div class="d-flex my-2">
+      <label class="me-2">Tags</label>
+      <span class="badge bg-success fw-normal me-1" *ngIf="entry?.category">{{ entry.category }}</span>
     </div>
-    <div class="d-flex align-items-center gap-2">
-      <label>Category</label>
-      <ng-select class="w-100" [(ngModel)]="entry.category" [readonly]="true"></ng-select>
+    <div class="d-flex mb-2 align-items-center">
+      <label class="me-2">Category</label>
+      <div>
+        <span class="badge bg-secondary me-1 fw-normal" *ngFor="let tag of entry.tags">{{ tag }}</span>
+      </div>
+    </div>
+    <div class="d-flex">
+      <label class="me-2">Mood</label>
+      <span class="badge bg-danger fw-normal" *ngIf="entry?.mood">{{ entry.category }}</span>
     </div>
   </div>
 

@@ -5,6 +5,7 @@ export interface IEntry {
   text?: string
   tags?: []
   category?: string
+  mood?: string
   created?: number
   updated?: number
 }

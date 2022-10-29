@@ -13,6 +13,7 @@
           <div *ngIf="entry?.tags?.length">
             <span class="badge bg-success fw-normal me-1" *ngIf="entry?.category">{{ entry.category }}</span>
             <span class="badge bg-secondary me-1 fw-normal" *ngFor="let tag of entry.tags">{{ tag }}</span>
+            <span class="badge bg-danger fw-normal" *ngIf="entry?.mood">{{ entry.category }}</span>
           </div>
         </div>
       </div>

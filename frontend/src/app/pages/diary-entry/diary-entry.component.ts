@@ -21,6 +21,7 @@ export class DiaryEntryComponent implements OnInit {
     text: new FormControl('', [Validators.required]),
     tags: new FormControl([]),
     category: new FormControl(''),
+    mood: new FormControl(''),
   });
 
   content = '';
@@ -28,6 +29,7 @@ export class DiaryEntryComponent implements OnInit {
   addCustomTag = (term: string) => {
     return term;
   };
+  moodList = ['Awesome', 'Happy', 'Neutral', 'Bad', 'Awful'];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -101,6 +103,7 @@ export class DiaryEntryComponent implements OnInit {
     this.formGroup.controls.title.setValue(entry?.title || '');
     this.formGroup.controls.tags.setValue(entry?.tags || []);
     this.formGroup.controls.category.setValue(entry?.category || '');
+    this.formGroup.controls.mood.setValue(entry?.mood || '');
   }
 
   switchEdit(edit: boolean) {
