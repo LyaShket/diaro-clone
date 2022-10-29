@@ -4,29 +4,8 @@
   min-height: 100vh;
 }
 
-header {
-  height: 50px;
-  border-bottom: 1px solid black;
-  text-align: center;
-}
-
 main {
   width: 100%;
   overflow-y: auto;
-  height: calc(100vh - 30px - 50px);
-}
-
-aside {
-  width: 250px;
-  border-right: 1px solid black;
-  flex-shrink: 0;
-  overflow-y: auto;
-  height: calc(100vh - 30px - 50px);
-}
-
-footer {
-  margin-top: auto;
-  border-top: 1px solid black;
-  height: 30px;
-  text-align: center;
+  height: calc(100vh - 24px - 64px);
 }
