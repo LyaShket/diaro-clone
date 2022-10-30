@@ -3,22 +3,28 @@ import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
 @Schema()
 export class DiaryEntry {
   @Prop()
-  title: string;
+  id: string;
 
   @Prop()
-  description: string;
+  title: string;
 
   @Prop()
   author: string;
 
   @Prop()
-  labels: string[];
+  body: string;
 
   @Prop()
-  category: string[];
+  text: string;
 
   @Prop()
-  mood: number;
+  tags: string[];
+
+  @Prop()
+  category: string;
+
+  @Prop()
+  mood: string;
 
   @Prop()
   created: number;

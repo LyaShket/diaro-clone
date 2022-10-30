@@ -1,29 +1,28 @@
 import {Body, Controller, Get, Param, Post} from '@nestjs/common';
+import {DiaryEntryService} from "./diary-entry.service";
+import {DiaryEntry} from "../../schemas/diary-entry.schema";
 
 @Controller('diary-entry')
 export class DiaryEntryController {
 
-  entries = [];
+  constructor(
+    private readonly diaryEntryService: DiaryEntryService
+  ) {
+  }
 
   @Post()
-  create(@Body() entry: any) {
-    const entryIndex = this.entries.findIndex(i => i?.id === entry?.id);
-    if (entryIndex === -1) {
-      this.entries.unshift(entry);
-      return;
-    }
-
-    this.entries[entryIndex] = entry;
+  createUpdate(@Body() entry: DiaryEntry) {
+    return this.diaryEntryService.createUpdate(entry);
   }
 
   @Get()
   getAll() {
-    return this.entries;
+    return this.diaryEntryService.getAll();
   }
 
   @Get(':id')
   get(@Param('id') id: string) {
-    return this.entries.find(i => i?.id === id);
+    return this.diaryEntryService.get(id);
   }
 
 }
