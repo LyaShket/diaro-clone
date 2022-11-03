@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   }
 
   getAllEntries() {
-    this.diaryEntryService.getAll().then(res => {
+    this.diaryEntryService.getAll().subscribe(res => {
       if (!res || !res?.length) {
         return;
       }

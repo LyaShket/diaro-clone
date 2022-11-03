@@ -12,14 +12,14 @@ export class DiaryEntryService {
   ) { }
 
   create(entry: any) {
-    return this.http.post('http://localhost:3000/diary-entry', entry).toPromise();
+    return this.http.post('http://localhost:3000/diary-entry', entry);
   }
 
   getAll() {
-    return this.http.get<IEntry[]>('http://localhost:3000/diary-entry').toPromise();
+    return this.http.get<IEntry[]>('http://localhost:3000/diary-entry');
   }
 
   get(id: string) {
-    return this.http.get<IEntry>('http://localhost:3000/diary-entry/' + id).toPromise();
+    return this.http.get<IEntry>('http://localhost:3000/diary-entry/' + id);
   }
 }

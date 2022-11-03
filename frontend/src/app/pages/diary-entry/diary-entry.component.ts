@@ -12,7 +12,7 @@ import {ContentChange} from "ngx-quill";
   templateUrl: './diary-entry.component.html',
   styleUrls: ['./diary-entry.component.scss']
 })
-export class DiaryEntryComponent implements OnInit {
+export class DiaryEntryComponent implements OnInit, OnDestroy {
   entry: IEntry = {};
   formGroup = new FormGroup({
     id: new FormControl('', [Validators.required]),
@@ -30,6 +30,8 @@ export class DiaryEntryComponent implements OnInit {
     return term;
   };
   moodList = ['Awesome', 'Happy', 'Neutral', 'Bad', 'Awful'];
+
+  sub: Subscription | undefined;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -50,7 +52,7 @@ export class DiaryEntryComponent implements OnInit {
   }
 
   getEntry(id: string) {
-    this.diaryEntryService.get(id).then(res => {
+    this.sub = this.diaryEntryService.get(id).subscribe(res => {
       if (!res) {
         return;
       }
@@ -115,6 +117,10 @@ export class DiaryEntryComponent implements OnInit {
     }
 
     this.cdr.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 
 }
