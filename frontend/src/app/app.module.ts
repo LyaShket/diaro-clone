@@ -17,6 +17,8 @@ import {FooterComponent} from './components/footer/footer.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import {LoginModalComponent} from './shared/modals/login-modal/login-modal.component';
+import {SignupModalComponent} from './shared/modals/signup-modal/signup-modal.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import {MatButtonModule} from '@angular/material/button';
     DiaryEntryComponent,
     HeaderComponent,
     SidebarComponent,
-    FooterComponent
+    FooterComponent,
+    LoginModalComponent,
+    SignupModalComponent
   ],
   imports: [
     BrowserModule,
