@@ -10,6 +10,7 @@ import {DiaryCategoryService} from "../../shared/services/diary-category.service
 import {DiaryTagService} from "../../shared/services/diary-tag.service";
 import {take} from "rxjs/operators";
 import {ITag} from "../../interfaces/tag";
+import {ICategory} from "../../interfaces/category";
 
 @Component({
   selector: 'app-diary-entry',
@@ -23,8 +24,8 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
     title: new FormControl('', []),
     body: new FormControl('', [Validators.required]),
     text: new FormControl('', [Validators.required]),
-    tags: new FormControl([]),
-    category: new FormControl(''),
+    tags: new FormControl(<ITag[]>[]),
+    category: new FormControl(<ICategory>{}),
     mood: new FormControl(''),
   });
 
@@ -32,6 +33,7 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
   edit = false;
 
   tags: ITag[] = [];
+  categories: ICategory[] = [];
   moodList = ['Awesome', 'Happy', 'Neutral', 'Bad', 'Awful'];
 
   sub: Subscription | undefined;
@@ -55,6 +57,7 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
     }
 
     this.getTags();
+    this.getCategories();
 
     this.cdr.detectChanges();
   }
@@ -78,6 +81,17 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
       }
 
       this.tags = res;
+      this.cdr.detectChanges();
+    });
+  }
+
+  getCategories() {
+    this.diaryCategoryService.getAll().pipe(take(1)).subscribe(res => {
+      if (!res) {
+        return;
+      }
+
+      this.categories = res;
       this.cdr.detectChanges();
     });
   }
@@ -106,7 +120,7 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
     this.content = '';
     this.entry = entry;
 
-    this.diaryEntryService.create(entry);
+    this.diaryEntryService.create(entry).pipe(take(1)).subscribe();
 
     this.edit = false;
     this.cdr.detectChanges();
@@ -122,8 +136,8 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
     this.formGroup.controls.body.setValue(entry?.body || '');
     this.formGroup.controls.text.setValue(entry?.text || '');
     this.formGroup.controls.title.setValue(entry?.title || '');
-    this.formGroup.controls.tags.setValue(entry?.tags as never[] || []);
-    this.formGroup.controls.category.setValue(entry?.category || '');
+    this.formGroup.controls.tags.setValue(entry?.tags || []);
+    this.formGroup.controls.category.setValue(entry?.category || null);
     this.formGroup.controls.mood.setValue(entry?.mood || '');
   }
 
@@ -148,8 +162,12 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
   }
 
   addNewCategory(term: string) {
-    this.diaryCategoryService.create(term).pipe(take(1)).subscribe();
-    return term;
+    const category: ICategory = {
+      id: uniqid(),
+      name: term
+    };
+    this.diaryCategoryService.create(category).pipe(take(1)).subscribe();
+    return category;
   }
 
   ngOnDestroy(): void {

@@ -12,6 +12,7 @@ export class DiaryEntryController {
 
   @Post()
   createUpdate(@Body() entry: DiaryEntry) {
+    console.log(entry);
     return this.diaryEntryService.createUpdate(entry);
   }
 

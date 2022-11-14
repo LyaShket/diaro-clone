@@ -11,7 +11,7 @@ export class DiaryEntryService {
     private http: HttpClient
   ) { }
 
-  create(entry: any) {
+  create(entry: IEntry) {
     return this.http.post('http://localhost:3000/diary-entry', entry);
   }
 

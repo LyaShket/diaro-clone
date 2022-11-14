@@ -1,4 +1,5 @@
 import {ITag} from "./tag";
+import {ICategory} from "./category";
 
 export interface IEntry {
   id?: string
@@ -7,7 +8,7 @@ export interface IEntry {
   body?: string
   text?: string
   tags?: ITag[]
-  category?: string
+  category?: ICategory
   mood?: string
   created?: number
   updated?: number

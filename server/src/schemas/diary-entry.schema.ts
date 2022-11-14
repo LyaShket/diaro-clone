@@ -1,5 +1,6 @@
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
 import {DiaryTag} from "./diary-tag.schema";
+import {ICategory} from "../../../frontend/src/app/interfaces/category";
 
 @Schema()
 export class DiaryEntry {
@@ -21,8 +22,8 @@ export class DiaryEntry {
   @Prop()
   tags: DiaryTag[];
 
-  @Prop()
-  category: string;
+  @Prop({ type: Object })
+  category: ICategory;
 
   @Prop()
   mood: string;
