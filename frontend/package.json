@@ -24,6 +24,7 @@
     "@ng-select/ng-select": "^9.0.2",
     "animate.css": "^4.1.1",
     "bootstrap": "^5.2.2",
+    "ngx-content-loading": "^0.2.1",
     "ngx-quill": "^19.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

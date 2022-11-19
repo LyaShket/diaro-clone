@@ -14,6 +14,7 @@ import {firstValueFrom} from "rxjs";
 export class HomeComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
   entries: IEntry[] = [];
+  loading = true;
 
   constructor(
     private diaryEntryService: DiaryEntryService,
@@ -23,13 +24,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getAllEntries();
-
     this.route.queryParamMap
       .pipe(takeUntil(this.destroyed$))
       .subscribe((res: any) => {
         const categoryQuery = res?.params?.['category'];
         if (!categoryQuery) {
+          this.getAllEntries();
           return;
         }
 
@@ -42,22 +42,28 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getAllEntries() {
+    this.loading = true;
     this.diaryEntryService.getAll().subscribe(res => {
       if (!res || res.length === undefined) {
         return;
       }
+
+      this.loading = false;
       this.entries = res;
       this.cdr.detectChanges();
     });
   }
 
   searchEntries(categories: string[]) {
+    this.loading = true;
     this.diaryEntryService.search(categories).subscribe(res => {
       console.log(res);
       if (!res || res.length === undefined) {
         console.log('return');
         return;
       }
+
+      this.loading = false;
       this.entries = res;
       this.cdr.detectChanges();
     });

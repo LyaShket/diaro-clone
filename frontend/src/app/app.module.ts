@@ -19,6 +19,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {LoginModalComponent} from './shared/modals/login-modal/login-modal.component';
 import {SignupModalComponent} from './shared/modals/signup-modal/signup-modal.component';
+import {NgxContentLoadingModule} from "ngx-content-loading";
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import {SignupModalComponent} from './shared/modals/signup-modal/signup-modal.co
     ReactiveFormsModule,
     HttpClientModule,
     QuillModule.forRoot(),
+    NgxContentLoadingModule,
     NgSelectModule,
     BrowserAnimationsModule,
     MatToolbarModule,
