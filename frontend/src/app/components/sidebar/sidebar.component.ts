@@ -4,6 +4,8 @@ import {DiaryCategoryService} from "../../shared/services/diary-category.service
 import {take} from "rxjs/operators";
 import {DiaryEntryService} from "../../shared/services/diary-entry.service";
 import {Router} from "@angular/router";
+import {ITag} from "../../interfaces/tag";
+import {DiaryTagService} from "../../shared/services/diary-tag.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -12,11 +14,14 @@ import {Router} from "@angular/router";
 })
 export class SidebarComponent implements OnInit {
   categories: ICategory[] = [];
+  tags: ITag[] = [];
+  moodList: string[] = ['Awesome', 'Happy', 'Neutral', 'Bad', 'Awful'];
 
   searchCategories: string[] = [];
 
   constructor(
     private readonly diaryCategoryService: DiaryCategoryService,
+    private readonly diaryTagService: DiaryTagService,
     private readonly router: Router,
     private readonly cdr: ChangeDetectorRef,
   ) {
@@ -29,6 +34,15 @@ export class SidebarComponent implements OnInit {
       }
 
       this.categories = res;
+      this.cdr.detectChanges();
+    });
+
+    this.diaryTagService.getAll().pipe(take(1)).subscribe(res => {
+      if (!res) {
+        return;
+      }
+
+      this.tags = res;
       this.cdr.detectChanges();
     });
   }
@@ -49,5 +63,13 @@ export class SidebarComponent implements OnInit {
       ['/search'],
       {queryParams: {category: this.searchCategories.join(',')}}
       );
+  }
+
+  clickTag(name: string) {
+
+  }
+
+  clickMood(item: string) {
+
   }
 }

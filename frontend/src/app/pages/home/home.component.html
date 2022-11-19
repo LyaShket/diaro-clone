@@ -3,7 +3,7 @@
   <button class="btn btn-primary mb-2" routerLink="/entry/new">create new entry</button>
 
   <ul class="list-group" *ngIf="loading">
-    <li class="list-group-item list-group-item-dark" *ngFor="let _ of [].constructor(20)">
+    <li class="list-group-item" *ngFor="let _ of [].constructor(20)">
       <ngx-content-loading
         [speed]="'1500ms'"
         [height]="50"
@@ -20,7 +20,7 @@
   </ul>
 
   <ul class="list-group" *ngIf="!loading">
-    <li class="list-group-item list-group-item-dark cursor-pointer"
+    <li class="list-group-item cursor-pointer list-group-item-action"
         *ngFor="let entry of entries" [routerLink]="['/entry/' + entry.id ]">
       <div class="d-flex gap-3 align-items-center">
         <p class="mb-0 text-nowrap">{{ entry.created | date }}</p>

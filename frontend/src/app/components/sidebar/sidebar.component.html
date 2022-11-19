@@ -1,21 +1,56 @@
 <aside>
-  <div class="bg-dark p-3 mb-2">User info</div>
-  <div class="bg-dark p-3 mb-2">Date</div>
+  <div class="user-info mb-2">
+    <img src="https://i.pinimg.com/originals/e8/e0/6d/e8e06d24ad79ca2f93ef6968d0b12342.jpg" class="w-100" height="240" alt="Avatar">
+    <div class="panel d-flex justify-content-between px-3 py-2">
+      <span>Total entries: 0</span>
+      <span>Today: 0</span>
+    </div>
+  </div>
   <div class="bg-dark bg-opacity-25 p-3 mb-2">
-    <h4>Search</h4>
-    <div class="input-group mb-3">
-      <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
+    <label class="w-100">
+      From
+      <input class="form-control form-control-sm mb-2" type="date">
+    </label>
+    <label class="w-100">
+      To
+      <input class="form-control form-control-sm" type="date">
+    </label>
+  </div>
+  <div class="bg-dark bg-opacity-25 p-3 mb-2">
+    <div class="input-group">
+      <input class="form-control form-control-sm w-75" type="text" placeholder="Search" aria-label="Search">
       <span class="input-group-text">🔍</span>
     </div>
   </div>
   <div class="bg-dark bg-opacity-25 p-3 mb-2">
-    <h4>Filter by categories</h4>
-    <ul class="list-group">
+    <h4>Categories</h4>
+    <ul class="list-group" *ngIf="categories.length > 0; else nothingToShow">
       <li class="list-group-item d-flex align-items-center" *ngFor="let item of categories" (click)="checkbox.click()">
         <input class="form-check-input me-2 mt-0" type="checkbox" #checkbox (click)="clickCategory(item.name)">
         <label class="form-check-label">{{item.name}}</label>
       </li>
     </ul>
   </div>
-  <div class="bg-dark p-3">Filter by tags</div>
+  <div class="bg-dark bg-opacity-25 p-3 mb-2">
+    <h4>Tags</h4>
+    <ul class="list-group" *ngIf="tags.length > 0; else nothingToShow">
+      <li class="list-group-item d-flex align-items-center" *ngFor="let item of tags" (click)="checkbox.click()">
+        <input class="form-check-input me-2 mt-0" type="checkbox" #checkbox (click)="clickTag(item.name)">
+        <label class="form-check-label">{{item.name}}</label>
+      </li>
+    </ul>
+  </div>
+  <div class="bg-dark bg-opacity-25 p-3">
+    <h4>Mood</h4>
+    <ul class="list-group">
+      <li class="list-group-item d-flex align-items-center" *ngFor="let item of moodList" (click)="checkbox.click()">
+        <input class="form-check-input me-2 mt-0" type="checkbox" #checkbox (click)="clickMood(item)">
+        <label class="form-check-label">{{item}}</label>
+      </li>
+    </ul>
+  </div>
 </aside>
+
+<ng-template #nothingToShow>
+  <i>Nothing to show</i>
+</ng-template>

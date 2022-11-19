@@ -6,3 +6,13 @@ aside {
   background: #3f51b5;
   color: white;
 }
+
+.user-info {
+  position: relative;
+  .panel {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.56);
+    bottom: 0;
+    width: 100%;
+  }
+}
