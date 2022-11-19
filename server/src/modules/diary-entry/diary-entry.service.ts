@@ -22,4 +22,12 @@ export class DiaryEntryService {
   get(id: string) {
     return this.diaryEntryModel.findOne({id});
   }
+
+  search(categories: string[]) {
+    return this.diaryEntryModel.find({
+      ['category.name']: {
+        $in: categories
+      }
+    });
+  }
 }

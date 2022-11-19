@@ -5,6 +5,7 @@ import {DiaryEntryComponent} from "./pages/diary-entry/diary-entry.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'search', component: HomeComponent },
   { path: 'entry/:id', component: DiaryEntryComponent },
 ];
 

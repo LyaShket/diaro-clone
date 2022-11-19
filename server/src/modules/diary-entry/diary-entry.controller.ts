@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, Query} from '@nestjs/common';
 import {DiaryEntryService} from "./diary-entry.service";
 import {DiaryEntry} from "../../schemas/diary-entry.schema";
 
@@ -19,6 +19,12 @@ export class DiaryEntryController {
   @Get()
   getAll() {
     return this.diaryEntryService.getAll();
+  }
+
+  @Get('search')
+  search(@Query('category') categoryQuery: string) {
+    const categories = categoryQuery.split(',');
+    return this.diaryEntryService.search(categories);
   }
 
   @Get(':id')

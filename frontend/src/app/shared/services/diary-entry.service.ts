@@ -19,6 +19,10 @@ export class DiaryEntryService {
     return this.http.get<IEntry[]>('http://localhost:3000/diary-entry');
   }
 
+  search(categories: string[]) {
+    return this.http.get<IEntry[]>(`http://localhost:3000/diary-entry/search?category=${categories.join(',')}`);
+  }
+
   get(id: string) {
     return this.http.get<IEntry>('http://localhost:3000/diary-entry/' + id);
   }

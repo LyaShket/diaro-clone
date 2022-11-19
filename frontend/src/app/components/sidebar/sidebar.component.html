@@ -2,6 +2,14 @@
   <div class="bg-dark p-3 mb-2">User info</div>
   <div class="bg-dark p-3 mb-2">Date</div>
   <div class="bg-dark p-3 mb-2">Search</div>
-  <div class="bg-dark p-3 mb-2">Filter by categories</div>
+  <div class="bg-dark bg-opacity-25 p-3 mb-2">
+    <h4>Filter by categories</h4>
+    <ul class="list-group">
+      <li class="list-group-item d-flex align-items-center" *ngFor="let item of categories" (click)="checkbox.click()">
+        <input class="form-check-input me-2 mt-0" type="checkbox" #checkbox (click)="clickCategory(item.name)">
+        <label class="form-check-label">{{item.name}}</label>
+      </li>
+    </ul>
+  </div>
   <div class="bg-dark p-3">Filter by tags</div>
 </aside>
