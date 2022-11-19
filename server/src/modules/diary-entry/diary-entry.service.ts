@@ -28,6 +28,6 @@ export class DiaryEntryService {
       ['category.name']: {
         $in: categories
       }
-    });
+    }).sort({'created': 'desc'});
   }
 }
