@@ -2,9 +2,10 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {DiaryEntryService} from "../../shared/services/diary-entry.service";
 import {IEntry} from "../../interfaces/entry";
 import {ActivatedRoute, ActivationEnd, ActivationStart, EventType, Router} from "@angular/router";
-import {map, Subject, takeUntil} from "rxjs";
-import {filter, first, withLatestFrom} from "rxjs/operators";
+import {map, Subject, takeUntil, of} from "rxjs";
+import {buffer, filter, finalize, first, tap, withLatestFrom} from "rxjs/operators";
 import {firstValueFrom} from "rxjs";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,7 @@ import {firstValueFrom} from "rxjs";
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
-  entries: IEntry[] = [];
+  entries$: Observable<IEntry[]> = new Subject();
   loading = true;
 
   constructor(
@@ -43,30 +44,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getAllEntries() {
     this.loading = true;
-    this.diaryEntryService.getAll().subscribe(res => {
-      if (!res || res.length === undefined) {
-        return;
-      }
-
-      this.loading = false;
-      this.entries = res;
-      this.cdr.detectChanges();
-    });
+    this.entries$ = this.diaryEntryService.getAll().pipe(finalize(() => this.loading = false));
   }
 
   searchEntries(categories: string[]) {
     this.loading = true;
-    this.diaryEntryService.search(categories).subscribe(res => {
-      console.log(res);
-      if (!res || res.length === undefined) {
-        console.log('return');
-        return;
-      }
-
-      this.loading = false;
-      this.entries = res;
-      this.cdr.detectChanges();
-    });
+    this.entries$ = this.diaryEntryService.search(categories).pipe(finalize(() => this.loading = false));
   }
 
 }
