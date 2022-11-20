@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {DiaryEntry} from "../../schemas/diary-entry.schema";
-import {Model} from "mongoose";
+import {FilterQuery, Model} from "mongoose";
 import {InjectModel} from "@nestjs/mongoose";
 
 @Injectable()
@@ -23,11 +23,27 @@ export class DiaryEntryService {
     return this.diaryEntryModel.findOne({id});
   }
 
-  search(categories: string[]) {
-    return this.diaryEntryModel.find({
-      ['category.name']: {
-        $in: categories
-      }
-    }).sort({'created': 'desc'});
+  search(categories: string[], tags: string[]) {
+    const filter: FilterQuery<DiaryEntry> = {
+      $and: [],
+    };
+
+    if (categories.length > 0) {
+      filter.$and.push({
+        ['category.name']: {
+          $in: categories
+        },
+      })
+    }
+
+    if (tags.length > 0) {
+      filter.$and.push({
+        ['tags.name']: {
+          $in: tags
+        },
+      },)
+    }
+
+    return this.diaryEntryModel.find(filter).sort({'created': 'desc'});
   }
 }

@@ -6,6 +6,7 @@ import {DiaryEntryService} from "../../shared/services/diary-entry.service";
 import {Router} from "@angular/router";
 import {ITag} from "../../interfaces/tag";
 import {DiaryTagService} from "../../shared/services/diary-tag.service";
+import {ISearchEntriesQuery} from "../../shared/interfaces/search-entries-query";
 
 @Component({
   selector: 'app-sidebar',
@@ -18,6 +19,7 @@ export class SidebarComponent implements OnInit {
   moodList: string[] = ['Awesome', 'Happy', 'Neutral', 'Bad', 'Awful'];
 
   searchCategories: string[] = [];
+  searchTags: string[] = [];
 
   constructor(
     private readonly diaryCategoryService: DiaryCategoryService,
@@ -47,6 +49,23 @@ export class SidebarComponent implements OnInit {
     });
   }
 
+  navigateSearch() {
+    if (this.searchCategories.length === 0 && this.searchTags.length === 0) {
+      this.router.navigate(['/']);
+      return;
+    }
+
+    const queryParams: ISearchEntriesQuery = {};
+    if (this.searchCategories.length > 0) {
+      queryParams.category = this.searchCategories.join(',');
+    }
+    if (this.searchTags.length > 0) {
+      queryParams.tag = this.searchTags.join(',');
+    }
+
+    this.router.navigate(['/search'], {queryParams});
+  }
+
   clickCategory(name: string) {
     if (this.searchCategories.indexOf(name) > -1) {
       this.searchCategories = this.searchCategories.filter(i => i !== name);
@@ -54,19 +73,17 @@ export class SidebarComponent implements OnInit {
       this.searchCategories.push(name);
     }
 
-    if (this.searchCategories.length === 0) {
-      this.router.navigate(['/']);
-      return;
-    }
-
-    this.router.navigate(
-      ['/search'],
-      {queryParams: {category: this.searchCategories.join(',')}}
-      );
+    this.navigateSearch();
   }
 
   clickTag(name: string) {
+    if (this.searchTags.indexOf(name) > -1) {
+      this.searchTags = this.searchTags.filter(i => i !== name);
+    } else {
+      this.searchTags.push(name);
+    }
 
+    this.navigateSearch();
   }
 
   clickMood(item: string) {

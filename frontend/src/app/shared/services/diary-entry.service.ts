@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {IEntry} from "../../interfaces/entry";
+import {ISearchEntriesQuery} from "../interfaces/search-entries-query";
+import {queryToHttpParams} from "../../utils/converters";
+import {IQuery} from "../interfaces/query";
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +22,9 @@ export class DiaryEntryService {
     return this.http.get<IEntry[]>('http://localhost:3000/diary-entry');
   }
 
-  search(categories: string[]) {
-    return this.http.get<IEntry[]>(`http://localhost:3000/diary-entry/search?category=${categories.join(',')}`);
+  search(query: ISearchEntriesQuery) {
+    const params = queryToHttpParams(query);
+    return this.http.get<IEntry[]>(`http://localhost:3000/diary-entry/search`, { params });
   }
 
   get(id: string) {

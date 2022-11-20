@@ -22,9 +22,10 @@ export class DiaryEntryController {
   }
 
   @Get('search')
-  search(@Query('category') categoryQuery: string) {
-    const categories = categoryQuery.split(',');
-    return this.diaryEntryService.search(categories);
+  search(@Query() query: any) {
+    const categories = query.category ? query.category.split(',') : [];
+    const tags = query.tag ? query.tag.split(',') : [];
+    return this.diaryEntryService.search(categories, tags);
   }
 
   @Get(':id')

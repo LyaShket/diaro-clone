@@ -6,6 +6,7 @@ import {map, Subject, takeUntil, of} from "rxjs";
 import {buffer, filter, finalize, first, tap, withLatestFrom} from "rxjs/operators";
 import {firstValueFrom} from "rxjs";
 import {Observable} from "rxjs";
+import {ISearchEntriesQuery} from "../../shared/interfaces/search-entries-query";
 
 @Component({
   selector: 'app-home',
@@ -15,6 +16,9 @@ import {Observable} from "rxjs";
 export class HomeComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
   entries$: Observable<IEntry[]> = new Subject();
+
+  trackById = (index: number, item: any) => item.id;
+
   loading = true;
 
   constructor(
@@ -28,13 +32,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.route.queryParamMap
       .pipe(takeUntil(this.destroyed$))
       .subscribe((res: any) => {
-        const categoryQuery = res?.params?.['category'];
-        if (!categoryQuery) {
+        const categoryQuery = res?.params?.category;
+        const tagQuery = res?.params?.tag;
+        if (!categoryQuery && !tagQuery) {
           this.getAllEntries();
           return;
         }
 
-        this.searchEntries(categoryQuery.split(','));
+        this.searchEntries(res.params);
       });
   }
 
@@ -47,9 +52,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.entries$ = this.diaryEntryService.getAll().pipe(finalize(() => this.loading = false));
   }
 
-  searchEntries(categories: string[]) {
+  searchEntries(query: ISearchEntriesQuery) {
     this.loading = true;
-    this.entries$ = this.diaryEntryService.search(categories).pipe(finalize(() => this.loading = false));
+    this.entries$ = this.diaryEntryService.search(query).pipe(finalize(() => this.loading = false));
   }
 
 }
