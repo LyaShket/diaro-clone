@@ -27,6 +27,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #404040;
+  border-radius: 4px;
 }
 
 /* Handle on hover */
