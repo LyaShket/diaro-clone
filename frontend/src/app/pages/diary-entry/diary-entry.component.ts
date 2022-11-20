@@ -8,7 +8,7 @@ import {IEntry} from "../../interfaces/entry";
 import {ContentChange} from "ngx-quill";
 import {DiaryCategoryService} from "../../shared/services/diary-category.service";
 import {DiaryTagService} from "../../shared/services/diary-tag.service";
-import {take} from "rxjs/operators";
+import {first, take} from "rxjs/operators";
 import {ITag} from "../../interfaces/tag";
 import {ICategory} from "../../interfaces/category";
 
@@ -37,6 +37,7 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
   moodList = ['Awesome', 'Happy', 'Neutral', 'Bad', 'Awful'];
 
   sub: Subscription | undefined;
+  loading = true;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -63,11 +64,12 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
   }
 
   getEntry(id: string) {
-    this.sub = this.diaryEntryService.get(id).subscribe(res => {
+    this.sub = this.diaryEntryService.get(id).pipe(first()).subscribe(res => {
       if (!res) {
         return;
       }
 
+      this.loading = false;
       this.entry = res;
       this.buildForm(this.entry);
       this.cdr.detectChanges();
@@ -75,7 +77,7 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
   }
 
   getTags() {
-    this.diaryTagService.getAll().pipe(take(1)).subscribe(res => {
+    this.diaryTagService.getAll().pipe(first()).subscribe(res => {
       if (!res) {
         return;
       }
@@ -86,7 +88,7 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
   }
 
   getCategories() {
-    this.diaryCategoryService.getAll().pipe(take(1)).subscribe(res => {
+    this.diaryCategoryService.getAll().pipe(first()).subscribe(res => {
       if (!res) {
         return;
       }
@@ -120,7 +122,7 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
     this.content = '';
     this.entry = entry;
 
-    this.diaryEntryService.create(entry).pipe(take(1)).subscribe();
+    this.diaryEntryService.create(entry).pipe(first()).subscribe();
 
     this.edit = false;
     this.cdr.detectChanges();
@@ -157,7 +159,7 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
       id: uniqid(),
       name: term
     };
-    this.diaryTagService.create(tag).pipe(take(1)).subscribe();
+    this.diaryTagService.create(tag).pipe(first()).subscribe();
     return tag;
   }
 
@@ -166,7 +168,7 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
       id: uniqid(),
       name: term
     };
-    this.diaryCategoryService.create(category).pipe(take(1)).subscribe();
+    this.diaryCategoryService.create(category).pipe(first()).subscribe();
     return category;
   }
 
