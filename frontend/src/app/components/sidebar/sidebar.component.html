@@ -1,12 +1,12 @@
-<aside>
-  <div class="user-info mb-2">
+<aside id="tour-sidebar">
+  <div class="user-info mb-2" id="tour-sidebar-general">
     <img src="https://i.pinimg.com/originals/e8/e0/6d/e8e06d24ad79ca2f93ef6968d0b12342.jpg" class="w-100" height="240" alt="Avatar">
     <div class="panel d-flex justify-content-between px-3 py-2">
       <span>Total entries: 0</span>
       <span>Today: 0</span>
     </div>
   </div>
-  <div class="bg-dark bg-opacity-25 p-3 mb-2">
+  <div class="bg-dark bg-opacity-25 p-3 mb-2" id="tour-sidebar-calendar">
     <label class="w-100">
       From
       <input class="form-control form-control-sm mb-2" type="date">
@@ -16,13 +16,13 @@
       <input class="form-control form-control-sm" type="date">
     </label>
   </div>
-  <div class="bg-dark bg-opacity-25 p-3 mb-2">
+  <div class="bg-dark bg-opacity-25 p-3 mb-2" id="tour-sidebar-search">
     <div class="input-group">
       <input class="form-control form-control-sm w-75" type="text" placeholder="Search" aria-label="Search">
       <span class="input-group-text">🔍</span>
     </div>
   </div>
-  <div class="bg-dark bg-opacity-25 p-3 mb-2">
+  <div class="bg-dark bg-opacity-25 p-3 mb-2" id="tour-sidebar-categories">
     <h4>Categories</h4>
     <ul class="list-group" *ngIf="categories.length > 0; else nothingToShow">
       <li class="list-group-item d-flex align-items-center" *ngFor="let item of categories" (click)="checkbox.click()">

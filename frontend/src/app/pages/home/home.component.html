@@ -1,6 +1,6 @@
 <section class="p-4">
 
-  <button class="btn btn-primary mb-2" routerLink="/entry/new">create new entry</button>
+  <button class="btn btn-primary mb-2" id="tour-create-entry-btn" routerLink="/entry/new">create new entry</button>
 
   <ul class="list-group" *ngIf="loading">
     <li class="list-group-item" *ngFor="let _ of [].constructor(20)">
@@ -19,7 +19,7 @@
     </li>
   </ul>
 
-  <ul class="list-group">
+  <ul id="tour-entry-list" class="list-group">
     <li class="list-group-item cursor-pointer list-group-item-action"
         *ngFor="let item of entries$ | async; trackBy:trackById" [routerLink]="['/entry/' + item.id ]">
       <div class="d-flex gap-3 align-items-center">

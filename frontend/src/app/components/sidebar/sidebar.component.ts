@@ -7,6 +7,8 @@ import {Router} from "@angular/router";
 import {ITag} from "../../interfaces/tag";
 import {DiaryTagService} from "../../shared/services/diary-tag.service";
 import {ISearchEntriesQuery} from "../../shared/interfaces/search-entries-query";
+import {GuidedTour, GuidedTourService, Orientation} from "ngx-guided-tour";
+import {homeTour} from "../../shared/constants/tour/home";
 
 @Component({
   selector: 'app-sidebar',
@@ -89,4 +91,5 @@ export class SidebarComponent implements OnInit {
   clickMood(item: string) {
 
   }
+
 }

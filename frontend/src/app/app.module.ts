@@ -20,6 +20,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {LoginModalComponent} from './shared/modals/login-modal/login-modal.component';
 import {SignupModalComponent} from './shared/modals/signup-modal/signup-modal.component';
 import {NgxContentLoadingModule} from "ngx-content-loading";
+import {GuidedTourModule, GuidedTourService} from "ngx-guided-tour";
 
 @NgModule({
   declarations: [
@@ -45,9 +46,12 @@ import {NgxContentLoadingModule} from "ngx-content-loading";
     MatToolbarModule,
     MatIconModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    GuidedTourModule
   ],
-  providers: [],
+  providers: [
+    GuidedTourService
+  ],
   bootstrap: [AppComponent],
   exports: [],
 })

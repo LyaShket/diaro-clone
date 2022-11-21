@@ -8,6 +8,7 @@ import {firstValueFrom} from "rxjs";
 import {Observable} from "rxjs";
 import {ISearchEntriesQuery} from "../../shared/interfaces/search-entries-query";
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -24,7 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private diaryEntryService: DiaryEntryService,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
   }
 
