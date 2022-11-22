@@ -21,6 +21,9 @@ import {LoginModalComponent} from './shared/modals/login-modal/login-modal.compo
 import {SignupModalComponent} from './shared/modals/signup-modal/signup-modal.component';
 import {NgxContentLoadingModule} from "ngx-content-loading";
 import {GuidedTourModule, GuidedTourService} from "ngx-guided-tour";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -47,7 +50,10 @@ import {GuidedTourModule, GuidedTourService} from "ngx-guided-tour";
     MatIconModule,
     MatIconModule,
     MatButtonModule,
-    GuidedTourModule
+    GuidedTourModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatFormFieldModule
   ],
   providers: [
     GuidedTourService

@@ -53,6 +53,7 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
     if (!routeId || routeId === 'new') {
       this.buildForm({});
       this.edit = true;
+      this.loading = false;
     } else {
       this.getEntry(routeId);
     }
