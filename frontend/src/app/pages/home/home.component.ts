@@ -35,7 +35,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe((res: any) => {
         const categoryQuery = res?.params?.category;
         const tagQuery = res?.params?.tag;
-        if (!categoryQuery && !tagQuery) {
+        const moodQuery = res?.params?.mood;
+        if (!categoryQuery && !tagQuery && !moodQuery) {
           this.getAllEntries();
           return;
         }

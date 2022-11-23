@@ -25,7 +25,8 @@ export class DiaryEntryController {
   search(@Query() query: any) {
     const categories = query.category ? query.category.split(',') : [];
     const tags = query.tag ? query.tag.split(',') : [];
-    return this.diaryEntryService.search(categories, tags);
+    const moods = query.mood ? query.mood.split(',') : [];
+    return this.diaryEntryService.search(categories, tags, moods);
   }
 
   @Get(':id')

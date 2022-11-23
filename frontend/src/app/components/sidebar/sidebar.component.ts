@@ -19,6 +19,7 @@ export class SidebarComponent implements OnInit {
 
   searchCategories: string[] = [];
   searchTags: string[] = [];
+  searchMoods: string[] = [];
 
   constructor(
     private readonly diaryCategoryService: DiaryCategoryService,
@@ -49,7 +50,7 @@ export class SidebarComponent implements OnInit {
   }
 
   navigateSearch() {
-    if (this.searchCategories.length === 0 && this.searchTags.length === 0) {
+    if (!this.searchCategories.length && !this.searchTags.length && !this.searchMoods.length) {
       this.router.navigate(['/']);
       return;
     }
@@ -60,6 +61,9 @@ export class SidebarComponent implements OnInit {
     }
     if (this.searchTags.length > 0) {
       queryParams.tag = this.searchTags.join(',');
+    }
+    if (this.searchMoods.length > 0) {
+      queryParams.mood = this.searchMoods.join(',');
     }
 
     this.router.navigate(['/search'], {queryParams});
@@ -85,8 +89,14 @@ export class SidebarComponent implements OnInit {
     this.navigateSearch();
   }
 
-  clickMood(item: string) {
+  clickMood(mood: string) {
+    if (this.searchMoods.indexOf(mood) > -1) {
+      this.searchMoods = this.searchMoods.filter(i => i !== mood);
+    } else {
+      this.searchMoods.push(mood);
+    }
 
+    this.navigateSearch();
   }
 
   onChangeDate(value: any) {

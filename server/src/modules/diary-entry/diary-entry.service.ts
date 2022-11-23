@@ -23,7 +23,7 @@ export class DiaryEntryService {
     return this.diaryEntryModel.findOne({id});
   }
 
-  search(categories: string[], tags: string[]) {
+  search(categories: string[], tags: string[], moods: string[]) {
     const filter: FilterQuery<DiaryEntry> = {
       $and: [],
     };
@@ -35,11 +35,17 @@ export class DiaryEntryService {
         },
       })
     }
-
     if (tags.length > 0) {
       filter.$and.push({
         ['tags.name']: {
           $in: tags
+        },
+      },)
+    }
+    if (moods.length > 0) {
+      filter.$and.push({
+        mood: {
+          $in: moods
         },
       },)
     }
