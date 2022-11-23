@@ -19,7 +19,7 @@
     </li>
   </ul>
 
-  <ul id="tour-entry-list" class="list-group">
+  <ul id="tour-entry-list" class="list-group" *ngIf="(entries$ | async)?.length; else noEntriesText">
     <li class="list-group-item cursor-pointer list-group-item-action"
         *ngFor="let item of entries$ | async; trackBy:trackById" [routerLink]="['/entry/' + item.id ]">
       <div class="d-flex gap-3 align-items-center">
@@ -38,3 +38,9 @@
   </ul>
 
 </section>
+
+<ng-template #noEntriesText>
+  <p>
+    No entries here... 😞
+  </p>
+</ng-template>
