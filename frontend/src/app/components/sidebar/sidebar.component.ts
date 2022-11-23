@@ -20,6 +20,8 @@ export class SidebarComponent implements OnInit {
   searchCategories: string[] = [];
   searchTags: string[] = [];
   searchMoods: string[] = [];
+  searchTimeFrom: string = '';
+  searchTimeTo: string = '';
 
   constructor(
     private readonly diaryCategoryService: DiaryCategoryService,
@@ -50,7 +52,7 @@ export class SidebarComponent implements OnInit {
   }
 
   navigateSearch() {
-    if (!this.searchCategories.length && !this.searchTags.length && !this.searchMoods.length) {
+    if (!this.searchCategories.length && !this.searchTags.length && !this.searchMoods.length && !this.searchTimeFrom && !this.searchTimeTo) {
       this.router.navigate(['/']);
       return;
     }
@@ -64,6 +66,12 @@ export class SidebarComponent implements OnInit {
     }
     if (this.searchMoods.length > 0) {
       queryParams.mood = this.searchMoods.join(',');
+    }
+    if (this.searchTimeFrom) {
+      queryParams.timeFrom = new Date(this.searchTimeFrom).getTime().toString();
+    }
+    if (this.searchTimeTo) {
+      queryParams.timeTo = new Date(this.searchTimeTo).getTime().toString();
     }
 
     this.router.navigate(['/search'], {queryParams});
@@ -99,7 +107,4 @@ export class SidebarComponent implements OnInit {
     this.navigateSearch();
   }
 
-  onChangeDate(value: any) {
-    console.log(value);
-  }
 }

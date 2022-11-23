@@ -1,7 +1,8 @@
-import {Injectable} from '@nestjs/common';
-import {DiaryEntry} from "../../schemas/diary-entry.schema";
-import {FilterQuery, Model} from "mongoose";
-import {InjectModel} from "@nestjs/mongoose";
+import { Injectable } from '@nestjs/common';
+import { DiaryEntry } from '../../schemas/diary-entry.schema';
+import { FilterQuery, Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { DAY_IN_MILLISECONDS } from './diary-entry.constants';
 
 @Injectable()
 export class DiaryEntryService {
@@ -12,20 +13,27 @@ export class DiaryEntryService {
   }
 
   createUpdate(entry: DiaryEntry) {
-    return this.diaryEntryModel.findOneAndUpdate({id: entry.id}, entry, {upsert: true, new: true});
+    return this.diaryEntryModel.findOneAndUpdate({ id: entry.id }, entry, { upsert: true, new: true });
   }
 
   getAll() {
-    return this.diaryEntryModel.find().sort({'created': 'desc'});
+    return this.diaryEntryModel.find().sort({ 'created': 'desc' });
   }
 
   get(id: string) {
-    return this.diaryEntryModel.findOne({id});
+    return this.diaryEntryModel.findOne({ id });
   }
 
-  search(categories: string[], tags: string[], moods: string[]) {
+  search(categories: string[], tags: string[], moods: string[], timeFrom: number, timeTo: number) {
     const filter: FilterQuery<DiaryEntry> = {
-      $and: [],
+      $and: [
+        {
+          created: {
+            $gt: timeFrom,
+            $lt: timeTo + DAY_IN_MILLISECONDS,
+          }
+        }
+      ],
     };
 
     if (categories.length > 0) {
@@ -50,6 +58,6 @@ export class DiaryEntryService {
       },)
     }
 
-    return this.diaryEntryModel.find(filter).sort({'created': 'desc'});
+    return this.diaryEntryModel.find(filter).sort({ 'created': 'desc' });
   }
 }

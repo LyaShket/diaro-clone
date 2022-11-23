@@ -36,7 +36,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         const categoryQuery = res?.params?.category;
         const tagQuery = res?.params?.tag;
         const moodQuery = res?.params?.mood;
-        if (!categoryQuery && !tagQuery && !moodQuery) {
+        const timeFromQuery = res?.params?.timeFrom;
+        const timeToQuery = res?.params?.timeTo;
+        if (!categoryQuery && !tagQuery && !moodQuery && !timeFromQuery && !timeToQuery) {
           this.getAllEntries();
           return;
         }
