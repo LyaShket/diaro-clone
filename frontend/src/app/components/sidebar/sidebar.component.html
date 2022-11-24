@@ -21,7 +21,7 @@
   </div>
   <div class="bg-dark bg-opacity-25 p-3 mb-2" id="tour-sidebar-search">
     <div class="input-group">
-      <input class="form-control form-control-sm w-75" type="text" placeholder="Search" aria-label="Search">
+      <input class="form-control form-control-sm w-75" [(ngModel)]="searchText" (change)="navigateSearch()" type="text" placeholder="Search" aria-label="Search">
       <span class="input-group-text">🔍</span>
     </div>
   </div>

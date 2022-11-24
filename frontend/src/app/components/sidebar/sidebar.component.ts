@@ -22,6 +22,7 @@ export class SidebarComponent implements OnInit {
   searchMoods: string[] = [];
   searchTimeFrom: string = '';
   searchTimeTo: string = '';
+  searchText: string = '';
 
   constructor(
     private readonly diaryCategoryService: DiaryCategoryService,
@@ -52,7 +53,7 @@ export class SidebarComponent implements OnInit {
   }
 
   navigateSearch() {
-    if (!this.searchCategories.length && !this.searchTags.length && !this.searchMoods.length && !this.searchTimeFrom && !this.searchTimeTo) {
+    if (!this.searchCategories.length && !this.searchTags.length && !this.searchMoods.length && !this.searchTimeFrom && !this.searchTimeTo && !this.searchText) {
       this.router.navigate(['/']);
       return;
     }
@@ -72,6 +73,9 @@ export class SidebarComponent implements OnInit {
     }
     if (this.searchTimeTo) {
       queryParams.timeTo = new Date(this.searchTimeTo).getTime().toString();
+    }
+    if (this.searchText) {
+      queryParams.text = this.searchText;
     }
 
     this.router.navigate(['/search'], {queryParams});

@@ -4,4 +4,5 @@ export interface ISearchEntriesQuery {
   mood?: string
   timeFrom?: string
   timeTo?: string
+  text?: string
 }

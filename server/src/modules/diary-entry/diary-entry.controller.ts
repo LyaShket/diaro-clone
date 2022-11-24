@@ -28,7 +28,8 @@ export class DiaryEntryController {
     const moods = query.mood ? query.mood.split(',') : [];
     const timeFrom = query.timeFrom ? +query.timeFrom : 0;
     const timeTo = query.timeTo ? +query.timeTo : Infinity;
-    return this.diaryEntryService.search(categories, tags, moods, timeFrom, timeTo);
+    const text = query.text || '';
+    return this.diaryEntryService.search(categories, tags, moods, timeFrom, timeTo, text);
   }
 
   @Get(':id')
