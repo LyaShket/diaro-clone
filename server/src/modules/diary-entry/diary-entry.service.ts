@@ -1,8 +1,8 @@
-import {Injectable} from '@nestjs/common';
-import {DiaryEntry} from '../../schemas/diary-entry.schema';
-import {FilterQuery, Model} from 'mongoose';
-import {InjectModel} from '@nestjs/mongoose';
-import {DAY_IN_MILLISECONDS} from './diary-entry.constants';
+import { Injectable } from '@nestjs/common';
+import { DiaryEntry } from '../../schemas/diary-entry.schema';
+import { FilterQuery, Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { DAY_IN_MILLISECONDS } from './diary-entry.constants';
 
 @Injectable()
 export class DiaryEntryService {
@@ -13,15 +13,15 @@ export class DiaryEntryService {
   }
 
   createUpdate(entry: DiaryEntry) {
-    return this.diaryEntryModel.findOneAndUpdate({id: entry.id}, entry, {upsert: true, new: true});
+    return this.diaryEntryModel.findOneAndUpdate({ id: entry.id }, entry, { upsert: true, new: true });
   }
 
   getAll() {
-    return this.diaryEntryModel.find().sort({'created': 'desc'});
+    return this.diaryEntryModel.find().sort({ 'created': 'desc' });
   }
 
   get(id: string) {
-    return this.diaryEntryModel.findOne({id});
+    return this.diaryEntryModel.findOne({ id });
   }
 
   search(categories: string[], tags: string[], moods: string[], timeFrom: number, timeTo: number, text: string) {
@@ -60,12 +60,12 @@ export class DiaryEntryService {
     if (text.length > 0) {
       filter.$and.push({
         $or: [
-          {title: {$regex: text, $options: 'i'}},
-          {text: {$regex: text, $options: 'i'}},
+          { title: { $regex: text, $options: 'i' } },
+          { text: { $regex: text, $options: 'i' } },
         ]
       },)
     }
 
-    return this.diaryEntryModel.find(filter).sort({'created': 'desc'});
+    return this.diaryEntryModel.find(filter).sort({ 'created': 'desc' });
   }
 }
