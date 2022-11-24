@@ -12,19 +12,22 @@ export class AppDateAdapter extends NativeDateAdapter {
       return `${day}-${month}-${year}`;
     }
 
+    if (displayFormat === 'label') {
+      return date.toDateString();
+    }
+
     return date.toJSON();
   }
 }
 
 export const APP_DATE_FORMATS: MatDateFormats = {
   parse: {
-    dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
+    dateInput: 'label',
   },
   display: {
     dateInput: 'input',
-    monthYearLabel: { year: 'numeric', month: 'numeric' },
-    dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric'
-    },
-    monthYearA11yLabel: { year: 'numeric', month: 'long' },
+    monthYearLabel: 'label',
+    dateA11yLabel: 'label',
+    monthYearA11yLabel: 'label',
   }
 };

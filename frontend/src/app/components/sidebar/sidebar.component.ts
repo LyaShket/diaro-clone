@@ -118,7 +118,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       queryParams.mood = this.searchMoods.join(',');
     }
     if (this.searchTimeFrom) {
-      console.log(this.searchTimeFrom);
       queryParams.timeFrom = new Date(this.searchTimeFrom).getTime().toString();
     }
     if (this.searchTimeTo) {
