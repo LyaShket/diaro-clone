@@ -1,18 +1,12 @@
 <header>
-  <mat-toolbar color="primary">
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span>Diaryist</span>
-    <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>favorite</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
-    </button>
-    <button mat-button (click)="login()">Log In</button>
-    <button mat-button (click)="signup()">Sign Up</button>
-    <button mat-button (click)="startTour()">Start tour</button>
+  <mat-toolbar color="primary" class="d-flex justify-content-between">
+    <div class="d-flex align-items-center">
+      <a [routerLink]="['/']" class="text-white text-decoration-none me-2">Diaryist</a>
+    </div>
+    <div>
+      <button mat-button (click)="startTour()">Start tour</button>
+      <button mat-button (click)="login()">Log In</button>
+      <button mat-button (click)="signup()">Sign Up</button>
+    </div>
   </mat-toolbar>
 </header>
