@@ -2,84 +2,20 @@
 
   <button class="btn btn-primary mb-2" routerLink="/">go back</button>
 
-  <ngx-content-loading
-    [speed]="'1500ms'"
-    [height]="200"
-    [width]="1000"
-    *ngIf="loading"
-  >
-    <svg:g ngx-rect width="55" height="10" y="5" x="0" rx="5" ry="5"></svg:g>
-    <svg:g ngx-rect width="200" height="13" y="20" x="0" rx="5" ry="5"></svg:g>
-    <svg:g ngx-rect width="936" height="10" y="41" x="10" rx="5" ry="5"></svg:g>
-    <svg:g ngx-rect width="928" height="10" y="54" x="10" rx="5" ry="5"></svg:g>
-    <svg:g ngx-rect width="942" height="10" y="67" x="10" rx="5" ry="5"></svg:g>
-    <svg:g ngx-rect width="420" height="10" y="80" x="10" rx="5" ry="5"></svg:g>
-    <svg:g ngx-rect width="35" height="10" y="98" x="0" rx="5" ry="5"></svg:g>
-    <svg:g ngx-rect width="45" height="10" y="98" x="38" rx="5" ry="5"></svg:g>
-    <svg:g ngx-rect width="35" height="10" y="98" x="86" rx="5" ry="5"></svg:g>
-    <svg:g ngx-rect width="35" height="10" y="111" x="0" rx="5" ry="5"></svg:g>
-    <svg:g ngx-rect width="45" height="10" y="111" x="38" rx="5" ry="5"></svg:g>
-    <svg:g ngx-rect width="35" height="10" y="111" x="86" rx="5" ry="5"></svg:g>
-    <svg:g ngx-rect width="35" height="10" y="124" x="0" rx="5" ry="5"></svg:g>
-    <svg:g ngx-rect width="45" height="10" y="124" x="38" rx="5" ry="5"></svg:g>
-    <svg:g ngx-rect width="35" height="10" y="124" x="86" rx="5" ry="5"></svg:g>
-  </ngx-content-loading>
+  <app-entry-preview *ngIf="loading"></app-entry-preview>
 
   <ng-container *ngIf="!loading">
     <p class="mb-1 text-nowrap">{{ entry.created | date }}</p>
 
-    <form [formGroup]="formGroup" (submit)="send()" *ngIf="edit">
-      <input class="form-control w-100 mb-1" type="text" placeholder="Write title" formControlName="title">
-      <quill-editor class="w-100 height-250 p-0"
-                    [(ngModel)]="content"
-                    [ngModelOptions]="{standalone: true}"
-                    (onContentChanged)="onEditorChange($event)"
-                    (keyup.enter)="send()"
-      ></quill-editor>
-      <div class="d-flex align-items-center gap-2">
-        <label>Tags</label>
-        <ng-select class="w-100"
-                   formControlName="tags"
-                   bindLabel="name"
-                   [items]="tags"
-                   [addTag]="addNewTag.bind(this)"
-                   [multiple]="true"
-        ></ng-select>
-      </div>
-      <div class="d-flex align-items-center gap-2">
-        <label>Category</label>
-        <ng-select class="w-100"
-                   formControlName="category"
-                   bindLabel="name"
-                   [items]="categories"
-                   [addTag]="addNewCategory.bind(this)"
-        ></ng-select>
-      </div>
-      <div class="d-flex align-items-center gap-2">
-        <label>Mood</label>
-        <ng-select class="w-100" [items]="moodList" formControlName="mood"></ng-select>
-      </div>
-      <button class="btn btn-primary w-100">{{entry ? 'Update' : 'Create'}}</button>
-    </form>
+    <app-entry-form *ngIf="edit"
+                    [entry]="entry"
+                    (entryChange)="onEntryChange($event)"
+    ></app-entry-form>
 
-    <div *ngIf="!edit" (click)="switchEdit(true)">
-      <h2 class="mb-0">{{entry.title}}</h2>
-      <quill-view-html [content]="entry.body || ''" theme="snow"></quill-view-html>
-      <div class="d-flex mb-2 align-items-center">
-        <label class="me-2">Tags</label>
-        <div>
-          <span class="badge bg-secondary me-1 fw-normal" *ngFor="let tag of entry.tags">{{ tag.name }}</span>
-        </div>
-      </div>
-      <div class="d-flex my-2">
-        <label class="me-2">Category</label>
-        <span class="badge bg-success fw-normal me-1" *ngIf="entry?.category">{{ entry.category?.name }}</span>
-      </div>
-      <div class="d-flex">
-        <label class="me-2">Mood</label>
-        <span class="badge bg-danger fw-normal" *ngIf="entry?.mood">{{ entry.mood }}</span>
-      </div>
-    </div>
+    <app-entry-view *ngIf="!edit"
+                    [entry]="entry"
+                    (click)="switchEdit(true)"
+    ></app-entry-view>
   </ng-container>
 
 </section>

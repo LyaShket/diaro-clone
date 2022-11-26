@@ -1,0 +1,16 @@
+<h2 class="mb-0">{{entry?.title}}</h2>
+<quill-view-html [content]="entry?.body || ''" theme="snow"></quill-view-html>
+<div class="d-flex mb-2 align-items-center">
+  <label class="me-2">Tags</label>
+  <div>
+    <span class="badge bg-secondary me-1 fw-normal" *ngFor="let tag of entry?.tags">{{ tag.name }}</span>
+  </div>
+</div>
+<div class="d-flex my-2">
+  <label class="me-2">Category</label>
+  <span class="badge bg-success fw-normal me-1" *ngIf="entry?.category">{{ entry?.category?.name }}</span>
+</div>
+<div class="d-flex">
+  <label class="me-2">Mood</label>
+  <span class="badge bg-danger fw-normal" *ngIf="entry?.mood">{{ entry?.mood }}</span>
+</div>

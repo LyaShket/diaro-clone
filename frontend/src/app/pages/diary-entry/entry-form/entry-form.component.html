@@ -1,0 +1,33 @@
+<form [formGroup]="formGroup" (submit)="send()">
+  <input class="form-control w-100 mb-1" type="text" placeholder="Write title" formControlName="title">
+  <quill-editor class="w-100 height-250 p-0"
+                [(ngModel)]="content"
+                [ngModelOptions]="{standalone: true}"
+                (onContentChanged)="onEditorChange($event)"
+                (keyup.enter)="send()"
+  ></quill-editor>
+  <div class="d-flex align-items-center gap-2">
+    <label>Tags</label>
+    <ng-select class="w-100"
+               formControlName="tags"
+               bindLabel="name"
+               [items]="tags"
+               [addTag]="addNewTag.bind(this)"
+               [multiple]="true"
+    ></ng-select>
+  </div>
+  <div class="d-flex align-items-center gap-2">
+    <label>Category</label>
+    <ng-select class="w-100"
+               formControlName="category"
+               bindLabel="name"
+               [items]="categories"
+               [addTag]="addNewCategory.bind(this)"
+    ></ng-select>
+  </div>
+  <div class="d-flex align-items-center gap-2">
+    <label>Mood</label>
+    <ng-select class="w-100" [items]="moodList" formControlName="mood"></ng-select>
+  </div>
+  <button class="btn btn-primary w-100">{{entry ? 'Update' : 'Create'}}</button>
+</form>

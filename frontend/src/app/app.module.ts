@@ -24,6 +24,9 @@ import { GuidedTourModule, GuidedTourService } from "ngx-guided-tour";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatNativeDateModule } from "@angular/material/core";
+import { EntryPreviewComponent } from './pages/diary-entry/entry-preview/entry-preview.component';
+import { EntryFormComponent } from './pages/diary-entry/entry-form/entry-form.component';
+import { EntryViewComponent } from './pages/diary-entry/entry-view/entry-view.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { MatNativeDateModule } from "@angular/material/core";
     SidebarComponent,
     FooterComponent,
     LoginModalComponent,
-    SignupModalComponent
+    SignupModalComponent,
+    EntryPreviewComponent,
+    EntryFormComponent,
+    EntryViewComponent
   ],
   imports: [
     BrowserModule,
