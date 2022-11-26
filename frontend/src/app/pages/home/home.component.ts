@@ -1,10 +1,9 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DiaryEntryService} from "../../shared/services/diary-entry.service";
 import {IEntry} from "../../interfaces/entry";
-import {ActivatedRoute, ActivationEnd, ActivationStart, EventType, Router} from "@angular/router";
-import {map, Subject, takeUntil, of} from "rxjs";
-import {buffer, filter, finalize, first, tap, withLatestFrom} from "rxjs/operators";
-import {firstValueFrom} from "rxjs";
+import {ActivatedRoute} from "@angular/router";
+import {Subject, takeUntil, of} from "rxjs";
+import {finalize} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {ISearchEntriesQuery} from "../../shared/interfaces/search-entries-query";
 
@@ -19,6 +18,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   entries$: Observable<IEntry[]> = new Subject();
 
   loading = true;
+  showFilteredList = false;
 
   constructor(
     private diaryEntryService: DiaryEntryService,
@@ -37,10 +37,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         const timeToQuery = res?.params?.timeTo;
         const text = res?.params?.text;
         if (!categoryQuery && !tagQuery && !moodQuery && !timeFromQuery && !timeToQuery && !text) {
+          this.showFilteredList = false;
           this.getAllEntries();
           return;
         }
 
+        this.showFilteredList = true;
         this.searchEntries(res.params);
       });
   }

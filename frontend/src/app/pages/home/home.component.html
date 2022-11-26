@@ -1,12 +1,13 @@
 <section class="p-4">
 
-  <button class="btn btn-primary mb-2" id="tour-create-entry-btn" routerLink="/entry/new">create new entry</button>
+  <button class="btn btn-primary mb-2" id="tour-create-entry-btn" [routerLink]="['/entry/new']" *ngIf="!showFilteredList">
+    create new entry
+  </button>
+  <button class="btn btn-outline-primary mb-2" [routerLink]="['/']" *ngIf="showFilteredList">clear filters</button>
 
   <app-entry-list-preview *ngIf="loading"></app-entry-list-preview>
 
-  <app-entry-list *ngIf="(entries$ | async)?.length; else noEntriesText"
-                  [entries$]="entries$"
-  ></app-entry-list>
+  <app-entry-list *ngIf="(entries$ | async)?.length; else noEntriesText" [entries$]="entries$"></app-entry-list>
 
 </section>
 
