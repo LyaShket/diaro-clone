@@ -27,6 +27,8 @@ import { MatNativeDateModule } from "@angular/material/core";
 import { EntryPreviewComponent } from './pages/diary-entry/entry-preview/entry-preview.component';
 import { EntryFormComponent } from './pages/diary-entry/entry-form/entry-form.component';
 import { EntryViewComponent } from './pages/diary-entry/entry-view/entry-view.component';
+import { EntryListComponent } from './pages/home/entry-list/entry-list.component';
+import { EntryListPreviewComponent } from './pages/home/entry-list-preview/entry-list-preview.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { EntryViewComponent } from './pages/diary-entry/entry-view/entry-view.co
     SignupModalComponent,
     EntryPreviewComponent,
     EntryFormComponent,
-    EntryViewComponent
+    EntryViewComponent,
+    EntryListComponent,
+    EntryListPreviewComponent
   ],
   imports: [
     BrowserModule,

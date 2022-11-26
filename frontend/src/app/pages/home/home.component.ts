@@ -18,14 +18,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
   entries$: Observable<IEntry[]> = new Subject();
 
-  trackById = (index: number, item: any) => item.id;
-
   loading = true;
 
   constructor(
     private diaryEntryService: DiaryEntryService,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
   ) {
   }
 

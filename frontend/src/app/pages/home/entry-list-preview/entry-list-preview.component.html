@@ -1,0 +1,16 @@
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let _ of [].constructor(20)">
+    <ngx-content-loading
+      [speed]="'1500ms'"
+      [height]="50"
+      [width]="1000"
+    >
+      <svg:g ngx-rect width="55" height="13" y="18" x="0" rx="5" ry="5"></svg:g>
+      <svg:g ngx-rect width="200" height="13" y="5" x="64" rx="5" ry="5"></svg:g>
+      <svg:g ngx-rect width="936" height="10" y="26" x="64" rx="5" ry="5"></svg:g>
+      <svg:g ngx-rect width="35" height="10" y="39" x="64" rx="5" ry="5"></svg:g>
+      <svg:g ngx-rect width="45" height="10" y="39" x="102" rx="5" ry="5"></svg:g>
+      <svg:g ngx-rect width="35" height="10" y="39" x="150" rx="5" ry="5"></svg:g>
+    </ngx-content-loading>
+  </li>
+</ul>

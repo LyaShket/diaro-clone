@@ -1,0 +1,17 @@
+<ul id="tour-entry-list" class="list-group">
+  <li class="list-group-item cursor-pointer list-group-item-action"
+      *ngFor="let item of entries$ | async; trackBy:trackById" [routerLink]="['/entry/' + item.id ]">
+    <div class="d-flex gap-3 align-items-center">
+      <p class="mb-0 text-nowrap">{{ item.created | date }}</p>
+      <div>
+        <h2 *ngIf="item.title" class="mb-1">{{ item.title }}</h2>
+        <p class="mb-0">{{ item.text }}</p>
+        <div *ngIf="item?.tags?.length">
+          <span class="badge bg-success fw-normal me-1" *ngIf="item?.category">{{ item.category?.name }}</span>
+          <span class="badge bg-secondary me-1 fw-normal" *ngFor="let tag of item.tags">{{ tag.name }}</span>
+          <span class="badge bg-danger fw-normal" *ngIf="item?.mood">{{ item.mood }}</span>
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>
