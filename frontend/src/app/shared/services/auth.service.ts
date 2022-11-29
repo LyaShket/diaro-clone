@@ -46,4 +46,8 @@ export class AuthService {
         map(res => res.access_token)
       );
   }
+
+  profile() {
+    return this.http.get('http://localhost:3000/auth/profile');
+  }
 }

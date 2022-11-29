@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../services/auth.service";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
@@ -8,7 +8,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
   templateUrl: './signup-modal.component.html',
   styleUrls: ['./signup-modal.component.scss']
 })
-export class SignupModalComponent implements OnInit {
+export class SignupModalComponent {
   formGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
@@ -19,9 +19,9 @@ export class SignupModalComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly activeModal: NgbActiveModal,
   ) {
-  }
-
-  ngOnInit(): void {
+    this.authService.profile().subscribe(res => {
+      console.log('profile', res);
+    });
   }
 
   submit() {

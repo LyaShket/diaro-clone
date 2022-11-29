@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { QuillConfigModule, QuillModule } from "ngx-quill";
 import { RouterModule, Routes } from "@angular/router";
 import { HomeComponent } from './pages/home/home.component';
@@ -30,6 +30,7 @@ import { EntryViewComponent } from './pages/diary-entry/entry-view/entry-view.co
 import { EntryListComponent } from './pages/home/entry-list/entry-list.component';
 import { EntryListPreviewComponent } from './pages/home/entry-list-preview/entry-list-preview.component';
 import { ToastrModule } from 'ngx-toastr';
+import { AuthInterceptor } from "./shared/interceptors/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -68,7 +69,12 @@ import { ToastrModule } from 'ngx-toastr';
     ToastrModule.forRoot()
   ],
   providers: [
-    GuidedTourService
+    GuidedTourService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
   exports: [],
