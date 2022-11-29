@@ -16,7 +16,7 @@ export class LoginModalComponent implements OnInit {
   formGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required])
-  })
+  });
 
   constructor(
     private readonly authService: AuthService,
@@ -29,10 +29,15 @@ export class LoginModalComponent implements OnInit {
   }
 
   submit() {
-    this.authService.login(<string>this.formGroup.value.username, <string>this.formGroup.value.password)
+    if (this.formGroup.invalid) {
+      return;
+    }
+
+    const { username, password } = this.formGroup.value;
+
+    this.authService.login(username, password)
       .subscribe(access_token => {
         localStorage.setItem('access_token', access_token);
-        console.log('res', access_token);
         this.activeModal.close();
       });
   }

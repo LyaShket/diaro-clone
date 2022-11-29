@@ -1,16 +1,16 @@
-<form class="p-3">
+<form class="p-3" [formGroup]="formGroup" (submit)="submit()">
   <h2>Sign Up</h2>
   <div class="mb-2">
     <label>Username</label>
-    <input type="text" class="form-control" placeholder="Write your username">
+    <input type="text" class="form-control" placeholder="Write your username" formControlName="username">
   </div>
   <div class="mb-2">
     <label>Password</label>
-    <input type="password" class="form-control" placeholder="Write your password">
+    <input type="password" class="form-control" placeholder="Write your password" formControlName="password">
   </div>
   <div class="mb-2">
     <label>Repeat password</label>
-    <input type="password" class="form-control" placeholder="Write your password again">
+    <input type="password" class="form-control" placeholder="Write your password again" formControlName="passwordRepeat">
   </div>
   <div>
     <button class="btn btn-primary w-100">Sign Up</button>

@@ -32,6 +32,18 @@ export class AuthService {
   }
 
   register(username: string, password: string) {
-    return this.http.post<{ access_token: string }>('http://localhost:3000/auth/register', { username, password });
+    return this.http.post<{ access_token: string }>('http://localhost:3000/auth/register', { username, password })
+      .pipe(
+        first(),
+        catchError(res => {
+          if (res.status === HttpStatusCode.Conflict) {
+            this.toastr.error('Username is already taken', 'Register error');
+          }
+          return of(null);
+        }),
+        filter(i => !!i),
+        tap(() => this.toastr.success('Register success')),
+        map(res => res.access_token)
+      );
   }
 }

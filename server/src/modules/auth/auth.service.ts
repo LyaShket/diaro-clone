@@ -29,7 +29,7 @@ export class AuthService {
   async register(registerDto: RegisterDto) {
     const existingUser = await this.usersService.findOne(registerDto.username);
     if (existingUser) {
-      return new ConflictException();
+      throw new ConflictException();
     }
 
     const createdUser = await this.usersService.create(registerDto);
