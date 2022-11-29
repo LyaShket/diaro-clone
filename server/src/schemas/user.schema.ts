@@ -6,6 +6,9 @@ export class User {
   username: string;
 
   @Prop()
+  password: string;
+
+  @Prop()
   avatar: string;
 
   @Prop()
