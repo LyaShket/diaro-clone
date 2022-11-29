@@ -29,6 +29,7 @@ import { EntryFormComponent } from './pages/diary-entry/entry-form/entry-form.co
 import { EntryViewComponent } from './pages/diary-entry/entry-view/entry-view.component';
 import { EntryListComponent } from './pages/home/entry-list/entry-list.component';
 import { EntryListPreviewComponent } from './pages/home/entry-list-preview/entry-list-preview.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { EntryListPreviewComponent } from './pages/home/entry-list-preview/entry
     GuidedTourModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     GuidedTourService
