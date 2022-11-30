@@ -33,7 +33,6 @@ export class AuthService {
         this.profile().subscribe();
         this.toastr.success('Login success');
       }),
-      tap(this.profile.bind(this))
     );
   }
 
