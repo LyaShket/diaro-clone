@@ -12,27 +12,28 @@ export class DiaryEntryService {
   ) {
   }
 
-  createUpdate(entry: DiaryEntry) {
-    return this.diaryEntryModel.findOneAndUpdate({ id: entry.id }, entry, { upsert: true, new: true });
+  createUpdate(userId: string, entry: DiaryEntry) {
+    return this.diaryEntryModel.findOneAndUpdate({ userId, id: entry.id }, { ...entry, userId }, { upsert: true, new: true });
   }
 
-  getAll() {
-    return this.diaryEntryModel.find().sort({ 'created': 'desc' });
+  getAll(userId: string) {
+    return this.diaryEntryModel.find({ userId }).sort({ 'created': 'desc' });
   }
 
-  get(id: string) {
-    return this.diaryEntryModel.findOne({ id });
+  get(userId: string, id: string) {
+    return this.diaryEntryModel.findOne({ userId, id });
   }
 
-  search(categories: string[], tags: string[], moods: string[], timeFrom: number, timeTo: number, text: string) {
+  search(userId: string, categories: string[], tags: string[], moods: string[], timeFrom: number, timeTo: number, text: string) {
     const filter: FilterQuery<DiaryEntry> = {
       $and: [
+        { userId },
         {
           created: {
             $gt: timeFrom,
             $lt: timeTo + DAY_IN_MILLISECONDS,
           }
-        }
+        },
       ],
     };
 

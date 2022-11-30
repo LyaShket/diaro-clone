@@ -1,6 +1,7 @@
-import {Body, Controller, Get, Param, Post, Query} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Request, UseGuards } from '@nestjs/common';
 import {DiaryEntryService} from "./diary-entry.service";
 import {DiaryEntry} from "../../schemas/diary-entry.schema";
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('diary-entry')
 export class DiaryEntryController {
@@ -10,31 +11,34 @@ export class DiaryEntryController {
   ) {
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  createUpdate(@Body() entry: DiaryEntry) {
-    console.log(entry);
-    return this.diaryEntryService.createUpdate(entry);
+  createUpdate(@Request() req, @Body() entry: DiaryEntry) {
+    return this.diaryEntryService.createUpdate(req.user.id, entry);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
-  getAll() {
-    return this.diaryEntryService.getAll();
+  getAll(@Request() req) {
+    return this.diaryEntryService.getAll(req.user.id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('search')
-  search(@Query() query: any) {
+  search(@Request() req, @Query() query: any) {
     const categories = query.category ? query.category.split(',') : [];
     const tags = query.tag ? query.tag.split(',') : [];
     const moods = query.mood ? query.mood.split(',') : [];
     const timeFrom = query.timeFrom ? +query.timeFrom : 0;
     const timeTo = query.timeTo ? +query.timeTo : Infinity;
     const text = query.text || '';
-    return this.diaryEntryService.search(categories, tags, moods, timeFrom, timeTo, text);
+    return this.diaryEntryService.search(req.user.id, categories, tags, moods, timeFrom, timeTo, text);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  get(@Param('id') id: string) {
-    return this.diaryEntryService.get(id);
+  get(@Request() req, @Param('id') id: string) {
+    return this.diaryEntryService.get(req.user.id, id);
   }
 
 }

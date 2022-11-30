@@ -5,6 +5,9 @@ import {DiaryCategory} from "./diary-category.schema";
 @Schema()
 export class DiaryEntry {
   @Prop()
+  userId: string;
+
+  @Prop()
   id: string;
 
   @Prop()
