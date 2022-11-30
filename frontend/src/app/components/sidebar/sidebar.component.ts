@@ -1,14 +1,14 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { ICategory } from "../../interfaces/category";
-import { DiaryCategoryService } from "../../shared/services/diary-category.service";
-import { filter, first, take, takeLast, takeUntil } from "rxjs/operators";
-import { ActivatedRoute, Router } from "@angular/router";
-import { ITag } from "../../interfaces/tag";
-import { DiaryTagService } from "../../shared/services/diary-tag.service";
-import { ISearchEntriesQuery } from "../../shared/interfaces/search-entries-query";
+import { ICategory } from '../../interfaces/category';
+import { DiaryCategoryService } from '../../shared/services/diary-category.service';
+import { filter, first, take, takeLast, takeUntil } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ITag } from '../../interfaces/tag';
+import { DiaryTagService } from '../../shared/services/diary-tag.service';
+import { ISearchEntriesQuery } from '../../shared/interfaces/search-entries-query';
 import { Observable, Subject } from 'rxjs';
-import { DateAdapter, MAT_DATE_FORMATS, MatDateFormats, NativeDateAdapter } from "@angular/material/core";
-import { APP_DATE_FORMATS, AppDateAdapter } from "./app-date-adapter";
+import { DateAdapter, MAT_DATE_FORMATS, MatDateFormats, NativeDateAdapter } from '@angular/material/core';
+import { APP_DATE_FORMATS, AppDateAdapter } from './app-date-adapter';
 import { AuthService } from '../../shared/services/auth.service';
 import { IUser } from '../../shared/interfaces/user';
 import { DiaryEntryService } from '../../shared/services/diary-entry.service';
@@ -51,14 +51,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.diaryEntryService.clearFilters$.subscribe(() => {
-      this.searchCategories = [];
-      this.searchTags = [];
-      this.searchMoods = [];
-      this.searchTimeFrom = '';
-      this.searchTimeTo = '';
-      this.searchText = '';
-    });
+    this.diaryEntryService.clearFilters$.pipe(takeUntil(this.destroyed$))
+      .subscribe(() => {
+        this.searchCategories = [];
+        this.searchTags = [];
+        this.searchMoods = [];
+        this.searchTimeFrom = '';
+        this.searchTimeTo = '';
+        this.searchText = '';
+      });
 
     this.diaryCategoryService.getAll().pipe(take(1)).subscribe(res => {
       if (!res) {
