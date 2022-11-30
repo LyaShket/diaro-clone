@@ -4,11 +4,13 @@ import {IEntry} from "../../interfaces/entry";
 import {ISearchEntriesQuery} from "../interfaces/search-entries-query";
 import {queryToHttpParams} from "../../utils/converters";
 import {IQuery} from "../interfaces/query";
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DiaryEntryService {
+  clearFilters$ = new Subject();
 
   constructor(
     private http: HttpClient

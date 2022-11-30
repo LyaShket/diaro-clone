@@ -11,6 +11,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MatDateFormats, NativeDateAdapter } from
 import { APP_DATE_FORMATS, AppDateAdapter } from "./app-date-adapter";
 import { AuthService } from '../../shared/services/auth.service';
 import { IUser } from '../../shared/interfaces/user';
+import { DiaryEntryService } from '../../shared/services/diary-entry.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -40,6 +41,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   constructor(
     private readonly diaryCategoryService: DiaryCategoryService,
     private readonly diaryTagService: DiaryTagService,
+    private readonly diaryEntryService: DiaryEntryService,
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly cdr: ChangeDetectorRef,
@@ -49,6 +51,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.diaryEntryService.clearFilters$.subscribe(() => {
+      this.searchCategories = [];
+      this.searchTags = [];
+      this.searchMoods = [];
+      this.searchTimeFrom = '';
+      this.searchTimeTo = '';
+      this.searchText = '';
+    });
+
     this.diaryCategoryService.getAll().pipe(take(1)).subscribe(res => {
       if (!res) {
         return;

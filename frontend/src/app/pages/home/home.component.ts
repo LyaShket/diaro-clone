@@ -61,4 +61,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.entries$ = this.diaryEntryService.search(query).pipe(finalize(() => this.loading = false));
   }
 
+  clearFilters() {
+    this.diaryEntryService.clearFilters$.next(null);
+  }
 }
