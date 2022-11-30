@@ -27,11 +27,7 @@ export class LoginModalComponent {
 
     const { username, password } = this.formGroup.value;
 
-    this.authService.login(username, password)
-      .subscribe(access_token => {
-        localStorage.setItem('access_token', access_token);
-        this.activeModal.close();
-      });
+    this.authService.login(username, password).subscribe(this.activeModal.close.bind(this));
   }
 
 }

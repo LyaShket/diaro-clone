@@ -4,8 +4,8 @@
          class="w-100 object-fit-cover" height="240"
          alt="Avatar">
     <div class="panel d-flex justify-content-between px-3 py-2">
-      <span>Total entries: 0</span>
-      <span>Today: 0</span>
+      <span>{{(user$ | async)?.username}}</span>
+      <span>Today entries: 0</span>
     </div>
   </div>
   <div class="bg-dark bg-opacity-25 p-3 mb-2" id="tour-sidebar-calendar">

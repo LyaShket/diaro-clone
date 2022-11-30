@@ -6,9 +6,11 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ITag } from "../../interfaces/tag";
 import { DiaryTagService } from "../../shared/services/diary-tag.service";
 import { ISearchEntriesQuery } from "../../shared/interfaces/search-entries-query";
-import { Subject } from "rxjs";
+import { Observable, Subject } from 'rxjs';
 import { DateAdapter, MAT_DATE_FORMATS, MatDateFormats, NativeDateAdapter } from "@angular/material/core";
 import { APP_DATE_FORMATS, AppDateAdapter } from "./app-date-adapter";
+import { AuthService } from '../../shared/services/auth.service';
+import { IUser } from '../../shared/interfaces/user';
 
 @Component({
   selector: 'app-sidebar',
@@ -32,13 +34,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
   searchTimeTo: string = '';
   searchText: string = '';
 
+  user$: Observable<IUser>;
+
   constructor(
     private readonly diaryCategoryService: DiaryCategoryService,
     private readonly diaryTagService: DiaryTagService,
+    private readonly authService: AuthService,
     private readonly router: Router,
     private readonly cdr: ChangeDetectorRef,
     private readonly route: ActivatedRoute,
   ) {
+    this.user$ = this.authService.user$;
   }
 
   ngOnInit(): void {

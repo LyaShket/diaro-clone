@@ -19,9 +19,6 @@ export class SignupModalComponent {
     private readonly authService: AuthService,
     private readonly activeModal: NgbActiveModal,
   ) {
-    this.authService.profile().subscribe(res => {
-      console.log('profile', res);
-    });
   }
 
   submit() {
@@ -34,11 +31,7 @@ export class SignupModalComponent {
       return;
     }
 
-    this.authService.register(username, password)
-      .subscribe(access_token => {
-        localStorage.setItem('access_token', access_token);
-        this.activeModal.close();
-      });
+    this.authService.register(username, password).subscribe(this.activeModal.close.bind(this));
   }
 
 }
