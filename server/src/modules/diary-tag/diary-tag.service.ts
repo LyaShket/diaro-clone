@@ -1,7 +1,7 @@
-import {Injectable} from '@nestjs/common';
-import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
-import {DiaryTag} from "../../schemas/diary-tag.schema";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { DiaryTag } from '../../schemas/diary-tag.schema';
 
 @Injectable()
 export class DiaryTagService {
@@ -11,11 +11,13 @@ export class DiaryTagService {
   ) {
   }
 
-  createUpdate(tag: DiaryTag) {
-    return this.diaryTagModel.findOneAndUpdate({id: tag.id}, tag, {upsert: true, new: true});
+  createUpdate(userId: string, tag: DiaryTag) {
+    return this.diaryTagModel.findOneAndUpdate(
+      { userId, id: tag.id }, { ...tag, userId }, { upsert: true, new: true }
+    );
   }
 
-  getAll() {
-    return this.diaryTagModel.find().sort({'created': 'desc'});
+  getAll(userId: string) {
+    return this.diaryTagModel.find({ userId }).sort({ 'created': 'desc' });
   }
 }

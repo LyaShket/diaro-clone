@@ -1,8 +1,8 @@
-import {Injectable} from '@nestjs/common';
-import {InjectModel} from "@nestjs/mongoose";
-import {DiaryTag} from "../../schemas/diary-tag.schema";
-import {Model} from "mongoose";
-import {DiaryCategory} from "../../schemas/diary-category.schema";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { DiaryTag } from '../../schemas/diary-tag.schema';
+import { Model } from 'mongoose';
+import { DiaryCategory } from '../../schemas/diary-category.schema';
 
 @Injectable()
 export class DiaryCategoryService {
@@ -13,12 +13,14 @@ export class DiaryCategoryService {
   ) {
   }
 
-  createUpdate(category: DiaryCategory) {
-    return this.diaryCategoryModel.findOneAndUpdate({id: category.id}, category, {upsert: true, new: true});
+  createUpdate(userId: string, category: DiaryCategory) {
+    return this.diaryCategoryModel.findOneAndUpdate(
+      { userId, id: category.id }, { ...category, userId }, { upsert: true, new: true }
+    );
   }
 
-  getAll() {
-    return this.diaryCategoryModel.find().sort({'created': 'desc'});
+  getAll(userId: string) {
+    return this.diaryCategoryModel.find({ userId }).sort({ 'created': 'desc' });
   }
 
 }

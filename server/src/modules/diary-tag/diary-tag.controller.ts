@@ -1,6 +1,7 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
 import {DiaryTagService} from "./diary-tag.service";
 import {DiaryTag} from "../../schemas/diary-tag.schema";
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('diary-tag')
 export class DiaryTagController {
@@ -10,14 +11,16 @@ export class DiaryTagController {
   ) {
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  createUpdate(@Body() tag: DiaryTag) {
-    return this.diaryTagService.createUpdate(tag);
+  createUpdate(@Request() req, @Body() tag: DiaryTag) {
+    return this.diaryTagService.createUpdate(req.user.id, tag);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
-  getAll() {
-    return this.diaryTagService.getAll();
+  getAll(@Request() req) {
+    return this.diaryTagService.getAll(req.user.id);
   }
 
 }
