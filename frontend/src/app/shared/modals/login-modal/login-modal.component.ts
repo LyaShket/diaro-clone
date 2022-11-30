@@ -27,7 +27,10 @@ export class LoginModalComponent {
 
     const { username, password } = this.formGroup.value;
 
-    this.authService.login(username, password).subscribe(this.activeModal.close.bind(this));
+    this.authService.login(username, password).subscribe(() => {
+      this.activeModal.close();
+      location.reload();
+    });
   }
 
 }

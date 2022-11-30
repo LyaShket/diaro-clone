@@ -31,7 +31,10 @@ export class SignupModalComponent {
       return;
     }
 
-    this.authService.register(username, password).subscribe(this.activeModal.close.bind(this));
+    this.authService.register(username, password).subscribe(() => {
+      this.activeModal.close();
+      location.reload();
+    });
   }
 
 }
