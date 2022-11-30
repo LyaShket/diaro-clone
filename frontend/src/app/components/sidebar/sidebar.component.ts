@@ -22,7 +22,6 @@ import { IUser } from '../../shared/interfaces/user';
   ]
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  private destroyed$ = new Subject();
   categories: ICategory[] = [];
   tags: ITag[] = [];
   moodList: string[] = ['Awesome', 'Happy', 'Neutral', 'Bad', 'Awful'];
@@ -35,6 +34,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   searchText: string = '';
 
   user$: Observable<IUser>;
+
+  private destroyed$ = new Subject();
 
   constructor(
     private readonly diaryCategoryService: DiaryCategoryService,

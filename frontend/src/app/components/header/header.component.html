@@ -5,8 +5,15 @@
     </div>
     <div>
       <button mat-button (click)="startTour()">Start tour</button>
-      <button mat-button (click)="login()">Log In</button>
-      <button mat-button (click)="signup()">Sign Up</button>
+
+      <ng-container *ngIf="isAuthorized; else unauthorizedButtons">
+        <button mat-button (click)="logout()">Log Out</button>
+      </ng-container>
+      <ng-template #unauthorizedButtons>
+        <button mat-button (click)="login()">Log In</button>
+        <button mat-button (click)="signup()">Sign Up</button>
+      </ng-template>
+
     </div>
   </mat-toolbar>
 </header>
