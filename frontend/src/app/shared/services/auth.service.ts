@@ -9,8 +9,6 @@ import { IUser } from '../interfaces/user';
   providedIn: 'root'
 })
 export class AuthService {
-  user$ = new Subject<IUser>();
-
   constructor(
     private http: HttpClient,
     private readonly toastr: ToastrService,
@@ -18,55 +16,15 @@ export class AuthService {
     this.profile().subscribe();
   }
 
-  login(username: string, password: string): Observable<{ access_token: string }> {
-    return this.http.post<{ access_token: string }>('http://localhost:3000/auth/login', { username, password }).pipe(
-      first(),
-      catchError(res => {
-        if (res.status === HttpStatusCode.Unauthorized) {
-          this.toastr.error('Incorrect username or password', 'Login error');
-        }
-        return of(null);
-      }),
-      filter(i => !!i),
-      tap((res) => {
-        localStorage.setItem('access_token', res.access_token);
-        this.profile().subscribe();
-        this.toastr.success('Login success');
-      }),
-    );
+  login(payload: { username: string, password: string }): Observable<{ access_token: string }> {
+    return this.http.post<{ access_token: string }>('http://localhost:3000/auth/login', payload).pipe(first());
   }
 
-  register(username: string, password: string) {
-    return this.http.post<{ access_token: string }>('http://localhost:3000/auth/register', { username, password }).pipe(
-      first(),
-      catchError(res => {
-        if (res.status === HttpStatusCode.Conflict) {
-          this.toastr.error('Username is already taken', 'Register error');
-        }
-        return of(null);
-      }),
-      filter(i => !!i),
-      tap((res) => {
-        localStorage.setItem('access_token', res.access_token);
-        this.profile().subscribe();
-        this.toastr.success('Register success');
-      }),
-    );
+  register(payload: { username: string, password: string }) {
+    return this.http.post<{ access_token: string }>('http://localhost:3000/auth/register', payload).pipe(first());
   }
 
   profile(): Observable<IUser> {
-    return this.http.get<IUser>('http://localhost:3000/auth/profile').pipe(
-      first(),
-      tap(res => {
-        if (!res) {
-          return;
-        }
-        this.user$.next(res);
-      }));
-  }
-
-  logout() {
-    this.user$.next(null);
-    localStorage.removeItem('access_token');
+    return this.http.get<IUser>('http://localhost:3000/auth/profile').pipe(first());
   }
 }

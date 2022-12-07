@@ -1,14 +1,10 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { IEntry } from '../../../interfaces/entry';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ITag } from '../../../interfaces/tag';
 import { ICategory } from '../../../interfaces/category';
-import { first } from 'rxjs/operators';
 import { ContentChange } from 'ngx-quill';
 import uniqid from 'uniqid';
-import { DiaryEntryService } from '../../../shared/services/diary-entry.service';
-import { DiaryTagService } from '../../../shared/services/diary-tag.service';
-import { DiaryCategoryService } from '../../../shared/services/diary-category.service';
 
 @Component({
   selector: 'app-entry-form',
@@ -17,10 +13,13 @@ import { DiaryCategoryService } from '../../../shared/services/diary-category.se
 })
 export class EntryFormComponent implements OnInit {
   @Input() entry?: IEntry;
-  @Output() entryChange: EventEmitter<IEntry> = new EventEmitter<IEntry>();
+  @Input() tags?: ITag[];
+  @Input() categories?: ICategory[];
 
-  tags: ITag[] = [];
-  categories: ICategory[] = [];
+  @Output() entryChange: EventEmitter<IEntry> = new EventEmitter<IEntry>();
+  @Output() addCategory: EventEmitter<ICategory> = new EventEmitter<ICategory>();
+  @Output() addTag: EventEmitter<ITag> = new EventEmitter<ITag>();
+
   moodList = ['Awesome', 'Happy', 'Neutral', 'Bad', 'Awful'];
 
   content = '';
@@ -35,17 +34,9 @@ export class EntryFormComponent implements OnInit {
     mood: new FormControl(''),
   });
 
-  constructor(
-    private readonly diaryEntryService: DiaryEntryService,
-    private readonly diaryTagService: DiaryTagService,
-    private readonly diaryCategoryService: DiaryCategoryService,
-    private readonly cdr: ChangeDetectorRef,
-  ) { }
+  constructor() {}
 
   ngOnInit(): void {
-    this.getTags();
-    this.getCategories();
-
     if (!this.entry) {
       return;
     }
@@ -74,10 +65,6 @@ export class EntryFormComponent implements OnInit {
 
     this.formGroup.reset();
     this.entryChange.emit(entry);
-
-    this.diaryEntryService.create(entry).pipe(first()).subscribe();
-
-    this.cdr.detectChanges();
   }
 
   onEditorChange(value: ContentChange) {
@@ -100,7 +87,7 @@ export class EntryFormComponent implements OnInit {
       id: uniqid(),
       name: term
     };
-    this.diaryTagService.create(tag).pipe(first()).subscribe();
+    this.addTag.emit(tag);
     return tag;
   }
 
@@ -109,30 +96,8 @@ export class EntryFormComponent implements OnInit {
       id: uniqid(),
       name: term
     };
-    this.diaryCategoryService.create(category).pipe(first()).subscribe();
+    this.addCategory.emit(category);
     return category;
-  }
-
-  getTags() {
-    this.diaryTagService.getAll().pipe(first()).subscribe(res => {
-      if (!res) {
-        return;
-      }
-
-      this.tags = res;
-      this.cdr.detectChanges();
-    });
-  }
-
-  getCategories() {
-    this.diaryCategoryService.getAll().pipe(first()).subscribe(res => {
-      if (!res) {
-        return;
-      }
-
-      this.categories = res;
-      this.cdr.detectChanges();
-    });
   }
 
 }

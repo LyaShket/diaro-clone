@@ -1,11 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DiaryEntryService} from "../../shared/services/diary-entry.service";
-import {IEntry} from "../../interfaces/entry";
-import {ActivatedRoute} from "@angular/router";
-import {Subject, takeUntil, of} from "rxjs";
-import {finalize} from "rxjs/operators";
-import {Observable} from "rxjs";
-import {ISearchEntriesQuery} from "../../shared/interfaces/search-entries-query";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DiaryEntryService } from '../../shared/services/diary-entry.service';
+import { IEntry } from '../../interfaces/entry';
+import { ActivatedRoute } from '@angular/router';
+import { Subject, takeUntil, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Select, Store } from '@ngxs/store';
+import { SearchEntries } from '../../store/actions/entry.actions';
+import { EntryState } from '../../store/states/entry.state';
 
 
 @Component({
@@ -14,15 +15,18 @@ import {ISearchEntriesQuery} from "../../shared/interfaces/search-entries-query"
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private destroyed$ = new Subject();
-  entries$: Observable<IEntry[]> = new Subject();
+  @Select(EntryState.getEntries) entries$: Observable<IEntry[]>;
+  @Select(EntryState.getLoading) loading$: Observable<boolean>;
+  @Select(EntryState.getLoaded) loaded$: Observable<boolean>;
 
-  loading = true;
   showFilteredList = false;
+
+  private destroyed$ = new Subject();
 
   constructor(
     private diaryEntryService: DiaryEntryService,
     private route: ActivatedRoute,
+    private store: Store
   ) {
   }
 
@@ -38,27 +42,17 @@ export class HomeComponent implements OnInit, OnDestroy {
         const text = res?.params?.text;
         if (!categoryQuery && !tagQuery && !moodQuery && !timeFromQuery && !timeToQuery && !text) {
           this.showFilteredList = false;
-          this.getAllEntries();
+          this.store.dispatch(new SearchEntries());
           return;
         }
 
         this.showFilteredList = true;
-        this.searchEntries(res.params);
+        this.store.dispatch(new SearchEntries(res.params));
       });
   }
 
   ngOnDestroy(): void {
     this.destroyed$.next(null);
-  }
-
-  getAllEntries() {
-    this.loading = true;
-    this.entries$ = this.diaryEntryService.getAll().pipe(finalize(() => this.loading = false));
-  }
-
-  searchEntries(query: ISearchEntriesQuery) {
-    this.loading = true;
-    this.entries$ = this.diaryEntryService.search(query).pipe(finalize(() => this.loading = false));
   }
 
   clearFilters() {

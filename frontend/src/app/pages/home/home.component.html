@@ -5,7 +5,7 @@
   </button>
   <button class="btn btn-outline-primary mb-2" [routerLink]="['/']" *ngIf="showFilteredList" (click)="clearFilters()">clear filters</button>
 
-  <app-entry-list-preview *ngIf="loading"></app-entry-list-preview>
+  <app-entry-list-preview *ngIf="loading$ | async"></app-entry-list-preview>
 
   <app-entry-list *ngIf="(entries$ | async)?.length; else noEntriesText" [entries$]="entries$"></app-entry-list>
 

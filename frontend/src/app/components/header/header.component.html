@@ -6,7 +6,7 @@
     <div>
       <button mat-button (click)="startTour()">Start tour</button>
 
-      <ng-container *ngIf="isAuthorized; else unauthorizedButtons">
+      <ng-container *ngIf="user$ | async; else unauthorizedButtons">
         <button mat-button (click)="logout()">Log Out</button>
       </ng-container>
       <ng-template #unauthorizedButtons>

@@ -5,11 +5,4 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './entry-preview.component.html',
   styleUrls: ['./entry-preview.component.scss']
 })
-export class EntryPreviewComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class EntryPreviewComponent {}

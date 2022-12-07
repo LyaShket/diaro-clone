@@ -31,6 +31,13 @@ import { EntryListComponent } from './pages/home/entry-list/entry-list.component
 import { EntryListPreviewComponent } from './pages/home/entry-list-preview/entry-list-preview.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthInterceptor } from "./shared/interceptors/auth.interceptor";
+import { NgxsModule } from '@ngxs/store';
+import { EntryState } from './store/states/entry.state';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { CategoryState } from './store/states/category.state';
+import { TagState } from './store/states/tag.state';
+import { SearchState } from './store/states/search.state';
+import { AuthState } from './store/states/auth.state';
 
 @NgModule({
   declarations: [
@@ -66,7 +73,11 @@ import { AuthInterceptor } from "./shared/interceptors/auth.interceptor";
     MatNativeDateModule,
     MatDatepickerModule,
     MatFormFieldModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgxsModule.forRoot([EntryState, CategoryState, TagState, SearchState, AuthState], {
+      developmentMode: true
+    }),
+    NgxsReduxDevtoolsPluginModule.forRoot()
   ],
   providers: [
     GuidedTourService,

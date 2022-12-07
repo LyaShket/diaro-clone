@@ -6,15 +6,21 @@ import {homeTour} from "../../shared/constants/tour/home";
 import {GuidedTourService} from "ngx-guided-tour";
 import {Router} from "@angular/router";
 import { AuthService } from '../../shared/services/auth.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { Select, Store } from '@ngxs/store';
+import { Logout } from '../../store/actions/auth.actions';
+import { TagState } from '../../store/states/tag.state';
+import { ITag } from '../../interfaces/tag';
+import { AuthState } from '../../store/states/auth.state';
+import { IUser } from '../../shared/interfaces/user';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
-  isAuthorized = false;
+export class HeaderComponent implements OnDestroy {
+  @Select(AuthState.getUser) user$: Observable<IUser>;
 
   private destroyed$ = new Subject();
 
@@ -23,15 +29,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private readonly guidedTourService: GuidedTourService,
     private readonly router: Router,
     private readonly authService: AuthService,
+    private readonly store: Store,
   ) {
-  }
-
-  ngOnInit(): void {
-    this.authService.user$.pipe(
-      takeUntil(this.destroyed$),
-    ).subscribe(res => {
-      this.isAuthorized = !!res;
-    });
   }
 
   ngOnDestroy() {
@@ -53,7 +52,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.authService.logout();
-    location.reload();
+    this.store.dispatch(new Logout());
   }
 }

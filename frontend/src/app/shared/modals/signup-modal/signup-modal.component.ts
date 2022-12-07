@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { AuthService } from "../../services/auth.service";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Login, Register } from '../../../store/actions/auth.actions';
+import { Store } from '@ngxs/store';
+import { first } from 'rxjs/operators';
+import { LoadCategories } from '../../../store/actions/category.actions';
+import { LoadTags } from '../../../store/actions/tag.actions';
+import { SearchEntries } from '../../../store/actions/entry.actions';
 
 @Component({
   selector: 'app-signup-modal',
@@ -18,6 +24,7 @@ export class SignupModalComponent {
   constructor(
     private readonly authService: AuthService,
     private readonly activeModal: NgbActiveModal,
+    private readonly store: Store,
   ) {
   }
 
@@ -26,15 +33,17 @@ export class SignupModalComponent {
       return;
     }
 
-    const { username, password, passwordRepeat } = this.formGroup.value;
-    if (password !== passwordRepeat) {
+    if (this.formGroup.value.password !== this.formGroup.value.passwordRepeat) {
       return;
     }
 
-    this.authService.register(username, password).subscribe(() => {
-      this.activeModal.close();
-      location.reload();
-    });
+    this.store.dispatch(new Register(<any>this.formGroup.value)).pipe(first())
+      .subscribe(() => {
+        this.store.dispatch(new LoadCategories());
+        this.store.dispatch(new LoadTags());
+        this.store.dispatch(new SearchEntries());
+        this.activeModal.close();
+      });
   }
 
 }

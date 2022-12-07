@@ -1,11 +1,20 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {DiaryEntryService} from "../../shared/services/diary-entry.service";
 import {ActivatedRoute} from "@angular/router";
-import {Subscription} from "rxjs";
+import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
 import {IEntry} from "../../interfaces/entry";
 import {DiaryCategoryService} from "../../shared/services/diary-category.service";
 import {DiaryTagService} from "../../shared/services/diary-tag.service";
 import {first, take} from "rxjs/operators";
+import { Select, Store } from '@ngxs/store';
+import { EntryState } from '../../store/states/entry.state';
+import { SetActiveEntry, SetEdit, LoadActiveEntry, UpdateEntry } from '../../store/actions/entry.actions';
+import { TagState } from '../../store/states/tag.state';
+import { ITag } from '../../interfaces/tag';
+import { CategoryState } from '../../store/states/category.state';
+import { ICategory } from '../../interfaces/category';
+import { AddCategory, LoadCategories } from '../../store/actions/category.actions';
+import { AddTag, LoadTags } from '../../store/actions/tag.actions';
 
 @Component({
   selector: 'app-diary-entry',
@@ -13,58 +22,56 @@ import {first, take} from "rxjs/operators";
   styleUrls: ['./diary-entry.component.scss']
 })
 export class DiaryEntryComponent implements OnInit, OnDestroy {
-  entry: IEntry = {};
+  @Select(EntryState.getActiveEntry) entry$: Observable<IEntry>;
+  @Select(EntryState.getLoaded) loaded$: Observable<boolean>;
+  @Select(EntryState.getLoading) loading$: Observable<boolean>;
+  @Select(EntryState.getEdit) edit$: Observable<boolean>;
 
-  sub: Subscription | undefined;
-
-  loading = true;
-  edit = false;
+  @Select(TagState.getTags) tags$: Observable<ITag[]>;
+  @Select(CategoryState.getCategories) categories$: Observable<ICategory[]>;
 
   constructor(
-    private cdr: ChangeDetectorRef,
     private diaryEntryService: DiaryEntryService,
     private diaryTagService: DiaryTagService,
     private diaryCategoryService: DiaryCategoryService,
     private route: ActivatedRoute,
+    private store: Store,
   ) {
   }
 
   ngOnInit(): void {
     const routeId = this.route.snapshot.paramMap.get('id');
     if (!routeId || routeId === 'new') {
-      this.edit = true;
-      this.loading = false;
-      this.entry = {};
+      this.store.dispatch(new SetActiveEntry({}));
+      this.store.dispatch(new SetEdit(true));
     } else {
-      this.getEntry(routeId);
+      this.store.dispatch(new LoadActiveEntry(routeId));
     }
 
-    this.cdr.detectChanges();
-  }
-
-  getEntry(id: string) {
-    this.sub = this.diaryEntryService.get(id).pipe(first()).subscribe(res => {
-      if (!res) {
-        return;
-      }
-
-      this.loading = false;
-      this.entry = res;
-      this.cdr.detectChanges();
-    })
+    this.store.dispatch(new LoadCategories());
+    this.store.dispatch(new LoadTags());
   }
 
   switchEdit(edit: boolean) {
-    this.edit = edit;
-    this.cdr.detectChanges();
+    this.store.dispatch(new SetEdit(edit));
   }
 
   ngOnDestroy(): void {
-    this.sub?.unsubscribe();
+    this.store.dispatch(new SetActiveEntry({}));
+    this.store.dispatch(new SetEdit(false));
   }
 
   onEntryChange(entry: IEntry) {
-    this.entry = entry;
-    this.edit = false;
+    this.store.dispatch(new SetActiveEntry(entry));
+    this.store.dispatch(new SetEdit(false));
+    this.store.dispatch(new UpdateEntry(entry))
+  }
+
+  onAddCategory(category: ICategory) {
+    this.store.dispatch(new AddCategory(category));
+  }
+
+  onAddTag(tag: ITag) {
+    this.store.dispatch(new AddTag(tag));
   }
 }

@@ -2,6 +2,12 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngxs/store';
+import { Login } from '../../../store/actions/auth.actions';
+import { first } from 'rxjs/operators';
+import { LoadCategories } from '../../../store/actions/category.actions';
+import { LoadTags } from '../../../store/actions/tag.actions';
+import { SearchEntries } from '../../../store/actions/entry.actions';
 
 @Component({
   selector: 'app-login-modal',
@@ -17,6 +23,7 @@ export class LoginModalComponent {
   constructor(
     private readonly authService: AuthService,
     private readonly activeModal: NgbActiveModal,
+    private readonly store: Store,
   ) {
   }
 
@@ -25,12 +32,13 @@ export class LoginModalComponent {
       return;
     }
 
-    const { username, password } = this.formGroup.value;
-
-    this.authService.login(username, password).subscribe(() => {
-      this.activeModal.close();
-      location.reload();
-    });
+    this.store.dispatch(new Login(<any>this.formGroup.value)).pipe(first())
+      .subscribe(() => {
+        this.store.dispatch(new LoadCategories());
+        this.store.dispatch(new LoadTags());
+        this.store.dispatch(new SearchEntries());
+        this.activeModal.close();
+      });
   }
 
 }

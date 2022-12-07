@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IEntry } from '../../../interfaces/entry';
 
 @Component({
@@ -6,12 +6,6 @@ import { IEntry } from '../../../interfaces/entry';
   templateUrl: './entry-view.component.html',
   styleUrls: ['./entry-view.component.scss']
 })
-export class EntryViewComponent implements OnInit {
+export class EntryViewComponent {
   @Input() entry?: IEntry;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

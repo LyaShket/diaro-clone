@@ -2,18 +2,22 @@
 
   <button class="btn btn-primary mb-2" routerLink="/">go back</button>
 
-  <app-entry-preview *ngIf="loading"></app-entry-preview>
+  <app-entry-preview *ngIf="loading$ | async"></app-entry-preview>
 
-  <ng-container *ngIf="!loading">
-    <p class="mb-1 text-nowrap">{{ entry.created | date }}</p>
+  <ng-container *ngIf="loaded$ | async">
+    <p class="mb-1 text-nowrap">{{ (entry$ | async).created | date }}</p>
 
-    <app-entry-form *ngIf="edit"
-                    [entry]="entry"
+    <app-entry-form *ngIf="edit$ | async"
+                    [entry]="entry$ | async"
+                    [tags]="tags$ | async"
+                    [categories]="categories$ | async"
                     (entryChange)="onEntryChange($event)"
+                    (addCategory)="onAddCategory($event)"
+                    (addTag)="onAddTag($event)"
     ></app-entry-form>
 
-    <app-entry-view *ngIf="!edit"
-                    [entry]="entry"
+    <app-entry-view *ngIf="!(edit$ | async)"
+                    [entry]="entry$ | async"
                     (click)="switchEdit(true)"
     ></app-entry-view>
   </ng-container>

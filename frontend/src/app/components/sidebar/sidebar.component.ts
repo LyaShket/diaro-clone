@@ -12,6 +12,21 @@ import { APP_DATE_FORMATS, AppDateAdapter } from './app-date-adapter';
 import { AuthService } from '../../shared/services/auth.service';
 import { IUser } from '../../shared/interfaces/user';
 import { DiaryEntryService } from '../../shared/services/diary-entry.service';
+import { Select, Store } from '@ngxs/store';
+import { TagState } from '../../store/states/tag.state';
+import { CategoryState } from '../../store/states/category.state';
+import { LoadCategories } from '../../store/actions/category.actions';
+import { LoadTags } from '../../store/actions/tag.actions';
+import { SearchState } from '../../store/states/search.state';
+import {
+  InitValuesFromUrlParams,
+  NavigateSearch,
+  SelectCategory,
+  SelectMood,
+  SelectTag, SetText, SetTimeFrom, SetTimeTo
+} from '../../store/actions/search.actions';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { AuthState } from '../../store/states/auth.state';
 
 @Component({
   selector: 'app-sidebar',
@@ -23,18 +38,21 @@ import { DiaryEntryService } from '../../shared/services/diary-entry.service';
   ]
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  categories: ICategory[] = [];
-  tags: ITag[] = [];
+  @Select(AuthState.getUser) user$: Observable<IUser>;
+
+  @Select(TagState.getTags) tags$: Observable<ITag[]>;
+  @Select(CategoryState.getCategories) categories$: Observable<ICategory[]>;
+
+  @Select(SearchState.getCategories) searchCategories$: Observable<string[]>;
+  @Select(SearchState.getTags) searchTags$: Observable<string[]>;
+  @Select(SearchState.getMoods) searchMoods$: Observable<string[]>;
+  @Select(SearchState.getTimeFrom) searchTimeFrom$: Observable<string>;
+  @Select(SearchState.getTimeTo) searchTimeTo$: Observable<string>;
+  @Select(SearchState.getText) searchText$: Observable<string>;
+
+  text: string;
+
   moodList: string[] = ['Awesome', 'Happy', 'Neutral', 'Bad', 'Awful'];
-
-  searchCategories: string[] = [];
-  searchTags: string[] = [];
-  searchMoods: string[] = [];
-  searchTimeFrom: string = '';
-  searchTimeTo: string = '';
-  searchText: string = '';
-
-  user$: Observable<IUser>;
 
   private destroyed$ = new Subject();
 
@@ -46,39 +64,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly cdr: ChangeDetectorRef,
     private readonly route: ActivatedRoute,
+    private readonly store: Store,
   ) {
-    this.user$ = this.authService.user$;
   }
 
   ngOnInit(): void {
-    this.diaryEntryService.clearFilters$.pipe(takeUntil(this.destroyed$))
-      .subscribe(() => {
-        this.searchCategories = [];
-        this.searchTags = [];
-        this.searchMoods = [];
-        this.searchTimeFrom = '';
-        this.searchTimeTo = '';
-        this.searchText = '';
-      });
-
-    this.diaryCategoryService.getAll().pipe(take(1)).subscribe(res => {
-      if (!res) {
-        return;
-      }
-
-      this.categories = res;
-      this.cdr.detectChanges();
-    });
-
-    this.diaryTagService.getAll().pipe(take(1)).subscribe(res => {
-      if (!res) {
-        return;
-      }
-
-      this.tags = res;
-      this.cdr.detectChanges();
-    });
-
     this.route.queryParamMap
       .pipe(
         takeUntil(this.destroyed$),
@@ -86,101 +76,45 @@ export class SidebarComponent implements OnInit, OnDestroy {
         first()
       )
       .subscribe((res: any) => {
-        const categoryQuery = res?.params?.category;
-        if (categoryQuery) {
-          this.searchCategories = categoryQuery.split(',');
-        }
-
-        const tagQuery = res?.params?.tag;
-        if (tagQuery) {
-          this.searchTags = tagQuery.split(',');
-        }
-
-        const moodQuery = res?.params?.mood;
-        if (moodQuery) {
-          this.searchMoods = moodQuery.split(',');
-        }
-
-        const timeFromQuery = res?.params?.timeFrom;
-        if (timeFromQuery) {
-          this.searchTimeFrom = new Date(+timeFromQuery).toJSON();
-        }
-
-        const timeToQuery = res?.params?.timeTo;
-        if (timeToQuery) {
-          this.searchTimeTo = new Date(+timeToQuery).toJSON();
-        }
-
-        const text = res?.params?.text;
-        if (text) {
-          this.searchText = text;
-        }
-
-        this.navigateSearch();
+        this.store.dispatch(new InitValuesFromUrlParams(res?.params));
+        this.store.dispatch(new NavigateSearch());
       });
-  }
 
-  navigateSearch() {
-    if (!this.searchCategories.length && !this.searchTags.length && !this.searchMoods.length && !this.searchTimeFrom && !this.searchTimeTo && !this.searchText) {
-      this.router.navigate(['/']);
-      return;
-    }
-
-    const queryParams: ISearchEntriesQuery = {};
-    if (this.searchCategories.length > 0) {
-      queryParams.category = this.searchCategories.join(',');
-    }
-    if (this.searchTags.length > 0) {
-      queryParams.tag = this.searchTags.join(',');
-    }
-    if (this.searchMoods.length > 0) {
-      queryParams.mood = this.searchMoods.join(',');
-    }
-    if (this.searchTimeFrom) {
-      queryParams.timeFrom = new Date(this.searchTimeFrom).getTime().toString();
-    }
-    if (this.searchTimeTo) {
-      queryParams.timeTo = new Date(this.searchTimeTo).getTime().toString();
-    }
-    if (this.searchText) {
-      queryParams.text = this.searchText;
-    }
-
-    this.router.navigate(['/search'], { queryParams });
+    this.store.dispatch(new LoadCategories());
+    this.store.dispatch(new LoadTags());
   }
 
   clickCategory(name: string) {
-    if (this.searchCategories.indexOf(name) > -1) {
-      this.searchCategories = this.searchCategories.filter(i => i !== name);
-    } else {
-      this.searchCategories.push(name);
-    }
-
-    this.navigateSearch();
+    this.store.dispatch(new SelectCategory(name));
+    this.store.dispatch(new NavigateSearch());
   }
 
   clickTag(name: string) {
-    if (this.searchTags.indexOf(name) > -1) {
-      this.searchTags = this.searchTags.filter(i => i !== name);
-    } else {
-      this.searchTags.push(name);
-    }
-
-    this.navigateSearch();
+    this.store.dispatch(new SelectTag(name));
+    this.store.dispatch(new NavigateSearch());
   }
 
-  clickMood(mood: string) {
-    if (this.searchMoods.indexOf(mood) > -1) {
-      this.searchMoods = this.searchMoods.filter(i => i !== mood);
-    } else {
-      this.searchMoods.push(mood);
-    }
+  clickMood(name: string) {
+    this.store.dispatch(new SelectMood(name));
+    this.store.dispatch(new NavigateSearch());
+  }
 
-    this.navigateSearch();
+  setTimeFrom(event: MatDatepickerInputEvent<string>) {
+    this.store.dispatch(new SetTimeFrom(event.value));
+    this.store.dispatch(new NavigateSearch());
+  }
+
+  setTimeTo(event: MatDatepickerInputEvent<string>) {
+    this.store.dispatch(new SetTimeTo(event.value));
+    this.store.dispatch(new NavigateSearch());
+  }
+
+  setText() {
+    this.store.dispatch(new SetText(this.text));
+    this.store.dispatch(new NavigateSearch());
   }
 
   ngOnDestroy(): void {
     this.destroyed$.next(null);
   }
-
 }

@@ -12,8 +12,8 @@
     <mat-form-field class="w-100" appearance="fill">
       <mat-label>Enter a date range</mat-label>
       <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate placeholder="Start date" [(ngModel)]="searchTimeFrom" (dateChange)="navigateSearch()">
-        <input matEndDate placeholder="End date" [(ngModel)]="searchTimeTo" (dateChange)="navigateSearch()">
+        <input matStartDate placeholder="Start date" (dateChange)="setTimeFrom($event)">
+        <input matEndDate placeholder="End date" (dateChange)="setTimeTo($event)">
       </mat-date-range-input>
       <mat-hint>DD-MM-YYYY – DD-MM-YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -22,27 +22,27 @@
   </div>
   <div class="bg-dark bg-opacity-25 p-3 mb-2" id="tour-sidebar-search">
     <div class="input-group">
-      <input class="form-control form-control-sm w-75" [(ngModel)]="searchText" (change)="navigateSearch()" type="text"
+      <input class="form-control form-control-sm w-75" [(ngModel)]="text" (change)="setText()" type="text"
              placeholder="Search" aria-label="Search">
       <span class="input-group-text">🔍</span>
     </div>
   </div>
   <div class="bg-dark bg-opacity-25 p-3 mb-2" id="tour-sidebar-categories">
     <h4>Categories</h4>
-    <ul class="list-group" *ngIf="categories.length > 0; else nothingToShow">
-      <li class="list-group-item d-flex align-items-center" *ngFor="let item of categories" (click)="checkbox.click()">
+    <ul class="list-group" *ngIf="(categories$ | async)?.length; else nothingToShow">
+      <li class="list-group-item d-flex align-items-center" *ngFor="let item of categories$ | async" (click)="checkbox.click()">
         <input class="form-check-input me-2 mt-0" type="checkbox" #checkbox (click)="clickCategory(item.name)"
-               [checked]="searchCategories.indexOf(item.name) > -1">
+               [checked]="(searchCategories$ | async).indexOf(item.name) > -1">
         <label class="form-check-label">{{item.name}}</label>
       </li>
     </ul>
   </div>
   <div class="bg-dark bg-opacity-25 p-3 mb-2">
     <h4>Tags</h4>
-    <ul class="list-group" *ngIf="tags.length > 0; else nothingToShow">
-      <li class="list-group-item d-flex align-items-center" *ngFor="let item of tags" (click)="checkbox.click()">
+    <ul class="list-group" *ngIf="(tags$ | async)?.length; else nothingToShow">
+      <li class="list-group-item d-flex align-items-center" *ngFor="let item of tags$ | async" (click)="checkbox.click()">
         <input class="form-check-input me-2 mt-0" type="checkbox" #checkbox (click)="clickTag(item.name)"
-               [checked]="searchTags.indexOf(item.name) > -1">
+               [checked]="(searchTags$ | async).indexOf(item.name) > -1">
         <label class="form-check-label">{{item.name}}</label>
       </li>
     </ul>
@@ -52,7 +52,7 @@
     <ul class="list-group">
       <li class="list-group-item d-flex align-items-center" *ngFor="let item of moodList" (click)="checkbox.click()">
         <input class="form-check-input me-2 mt-0" type="checkbox" #checkbox (click)="clickMood(item)"
-               [checked]="searchMoods.indexOf(item) > -1">
+               [checked]="(searchMoods$ | async).indexOf(item) > -1">
         <label class="form-check-label">{{item}}</label>
       </li>
     </ul>
