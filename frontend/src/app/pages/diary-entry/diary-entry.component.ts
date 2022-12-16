@@ -15,6 +15,7 @@ import { CategoryState } from '../../store/states/category.state';
 import { ICategory } from '../../interfaces/category';
 import { AddCategory, LoadCategories } from '../../store/actions/category.actions';
 import { AddTag, LoadTags } from '../../store/actions/tag.actions';
+import { SearchState } from '../../store/states/search.state';
 
 @Component({
   selector: 'app-diary-entry',
@@ -23,8 +24,7 @@ import { AddTag, LoadTags } from '../../store/actions/tag.actions';
 })
 export class DiaryEntryComponent implements OnInit, OnDestroy {
   @Select(EntryState.getActiveEntry) entry$: Observable<IEntry>;
-  @Select(EntryState.getLoaded) loaded$: Observable<boolean>;
-  @Select(EntryState.getLoading) loading$: Observable<boolean>;
+  @Select(SearchState.getLoading) loading$: Observable<boolean>;
   @Select(EntryState.getEdit) edit$: Observable<boolean>;
 
   @Select(TagState.getTags) tags$: Observable<ITag[]>;

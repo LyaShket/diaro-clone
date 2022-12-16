@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit } from '@angular/core';
 import { IEntry } from '../../../interfaces/entry';
 
 @Component({
@@ -8,7 +7,7 @@ import { IEntry } from '../../../interfaces/entry';
   styleUrls: ['./entry-list.component.scss']
 })
 export class EntryListComponent implements OnInit {
-  @Input() entries$?: Observable<IEntry[]>;
+  @Input() entries?: IEntry[];
 
   trackById = (index: number, item: any) => item.id;
 

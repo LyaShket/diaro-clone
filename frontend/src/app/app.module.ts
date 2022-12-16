@@ -74,7 +74,7 @@ import { AuthState } from './store/states/auth.state';
     MatDatepickerModule,
     MatFormFieldModule,
     ToastrModule.forRoot(),
-    NgxsModule.forRoot([EntryState, CategoryState, TagState, SearchState, AuthState], {
+    NgxsModule.forRoot([EntryState, SearchState, CategoryState, TagState, AuthState], {
       developmentMode: true
     }),
     NgxsReduxDevtoolsPluginModule.forRoot()

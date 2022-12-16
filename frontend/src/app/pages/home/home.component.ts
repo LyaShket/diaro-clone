@@ -1,12 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { DiaryEntryService } from '../../shared/services/diary-entry.service';
 import { IEntry } from '../../interfaces/entry';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil, of } from 'rxjs';
 import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
-import { SearchEntries } from '../../store/actions/entry.actions';
 import { EntryState } from '../../store/states/entry.state';
+import { ClearSearch, SearchEntries } from '../../store/actions/search.actions';
+import { SearchState } from '../../store/states/search.state';
 
 
 @Component({
@@ -16,8 +17,7 @@ import { EntryState } from '../../store/states/entry.state';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   @Select(EntryState.getEntries) entries$: Observable<IEntry[]>;
-  @Select(EntryState.getLoading) loading$: Observable<boolean>;
-  @Select(EntryState.getLoaded) loaded$: Observable<boolean>;
+  @Select(SearchState.getLoading) loading$: Observable<boolean>;
 
   showFilteredList = false;
 
@@ -26,9 +26,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private diaryEntryService: DiaryEntryService,
     private route: ActivatedRoute,
-    private store: Store
-  ) {
-  }
+    private store: Store,
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParamMap
@@ -56,6 +55,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   clearFilters() {
-    this.diaryEntryService.clearFilters$.next(null);
+    this.store.dispatch(new ClearSearch());
   }
 }

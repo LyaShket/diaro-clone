@@ -1,4 +1,5 @@
 import { ISearchEntriesQuery } from '../../shared/interfaces/search-entries-query';
+import { IEntry } from '../../interfaces/entry';
 
 export class SelectCategory {
   static readonly type = '[Search] Select Category';
@@ -37,4 +38,23 @@ export class InitValuesFromUrlParams {
 
 export class NavigateSearch {
   static readonly type = '[Search] Navigate Search';
+}
+
+export class SearchEntries {
+  static readonly type = '[Search] Search Entries';
+  constructor(public query: ISearchEntriesQuery = {}) {}
+}
+
+export class SearchComplete {
+  static readonly type = '[Search] Search Complete';
+  constructor(public entries: IEntry[]) {}
+}
+
+export class SearchError {
+  static readonly type = '[Search] Search Error';
+  constructor(public error: any) {}
+}
+
+export class ClearSearch {
+  static readonly type = '[Search] Clear Search';
 }

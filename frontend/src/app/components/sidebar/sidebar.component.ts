@@ -86,32 +86,26 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   clickCategory(name: string) {
     this.store.dispatch(new SelectCategory(name));
-    this.store.dispatch(new NavigateSearch());
   }
 
   clickTag(name: string) {
     this.store.dispatch(new SelectTag(name));
-    this.store.dispatch(new NavigateSearch());
   }
 
   clickMood(name: string) {
     this.store.dispatch(new SelectMood(name));
-    this.store.dispatch(new NavigateSearch());
   }
 
   setTimeFrom(event: MatDatepickerInputEvent<string>) {
     this.store.dispatch(new SetTimeFrom(event.value));
-    this.store.dispatch(new NavigateSearch());
   }
 
   setTimeTo(event: MatDatepickerInputEvent<string>) {
     this.store.dispatch(new SetTimeTo(event.value));
-    this.store.dispatch(new NavigateSearch());
   }
 
   setText() {
     this.store.dispatch(new SetText(this.text));
-    this.store.dispatch(new NavigateSearch());
   }
 
   ngOnDestroy(): void {

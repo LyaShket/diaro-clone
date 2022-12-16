@@ -1,16 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import {
-  AddEntry, SearchComplete, SearchEntries, SearchError,
-  SetActiveEntry,
-  SetEdit,
-  SetEntries,
-  LoadActiveEntry, LoadActiveEntryComplete, LoadActiveEntryError,
-  UpdateEntry
-} from '../actions/entry.actions';
-import { IEntry } from '../../interfaces/entry';
-import { DiaryEntryService } from '../../shared/services/diary-entry.service';
-import { finalize, of, tap } from 'rxjs';
+import { of } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
 import { AuthService } from '../../shared/services/auth.service';
 import { IUser } from '../../shared/interfaces/user';

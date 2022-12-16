@@ -3,19 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { IEntry } from '../../interfaces/entry';
 import { ISearchEntriesQuery } from '../interfaces/search-entries-query';
 import { queryToHttpParams } from '../../utils/converters';
-import { Subject } from 'rxjs';
-import { Store } from '@ngxs/store';
 import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DiaryEntryService {
-  clearFilters$ = new Subject();
-
   constructor(
     private http: HttpClient,
-    private store: Store
   ) {
   }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import {
-  AddEntry, SearchComplete, SearchEntries, SearchError,
+  AddEntry,
   SetActiveEntry,
   SetEdit,
   SetEntries,
@@ -12,18 +12,16 @@ import { IEntry } from '../../interfaces/entry';
 import { DiaryEntryService } from '../../shared/services/diary-entry.service';
 import { of, tap } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { SearchState, SearchStateModel } from './search.state';
+import { SearchComplete } from '../actions/search.actions';
 
 export interface EntryStateModel {
-  loaded: boolean,
-  loading: boolean,
   entries: IEntry[],
   activeEntry: IEntry,
   edit: boolean,
 }
 
 export const entryStateDefaults: EntryStateModel = {
-  loaded: false,
-  loading: true,
   entries: [],
   activeEntry: {},
   edit: false,
@@ -31,7 +29,8 @@ export const entryStateDefaults: EntryStateModel = {
 
 @State<EntryStateModel>({
   name: 'entry',
-  defaults: entryStateDefaults
+  defaults: entryStateDefaults,
+  children: [SearchState]
 })
 @Injectable()
 export class EntryState {
@@ -41,16 +40,6 @@ export class EntryState {
   @Selector()
   static getEntries(state: EntryStateModel) {
     return state.entries;
-  }
-
-  @Selector()
-  static getLoaded(state: EntryStateModel) {
-    return state.loaded;
-  }
-
-  @Selector()
-  static getLoading(state: EntryStateModel) {
-    return state.loading;
   }
 
   @Selector()
@@ -109,46 +98,13 @@ export class EntryState {
     patchState({ edit: action.state });
   }
 
-  @Action(SearchEntries)
-  searchEntries(
-    { dispatch, patchState }: StateContext<EntryStateModel>,
-    action: SearchEntries
-  ) {
-    patchState({
-      loading: true,
-      loaded: false
-    });
-
-    return this.diaryEntryService.search(action.query).pipe(
-      map(entries => dispatch(new SearchComplete(entries))),
-      catchError(err => {
-        dispatch(new SearchError(err));
-
-        return of(new SearchError(err));
-      })
-    );
-  }
-
   @Action(SearchComplete)
   searchComplete(
     { patchState }: StateContext<EntryStateModel>,
     action: SearchComplete
   ) {
     patchState({
-      loaded: true,
-      loading: false,
       entries: action.entries
-    });
-  }
-
-  @Action(SearchError)
-  searchError(
-    { patchState }: StateContext<EntryStateModel>,
-    action: SearchError
-  ) {
-    patchState({
-      loaded: true,
-      loading: false,
     });
   }
 
@@ -158,8 +114,6 @@ export class EntryState {
     action: LoadActiveEntry
   ) {
     patchState({
-      loaded: false,
-      loading: true,
       edit: false,
     });
 
@@ -179,8 +133,6 @@ export class EntryState {
     action: LoadActiveEntryComplete
   ) {
     patchState({
-      loaded: true,
-      loading: false,
       edit: false,
       activeEntry: action.entry,
     });
@@ -192,8 +144,6 @@ export class EntryState {
     action: LoadActiveEntryError
   ) {
     patchState({
-      loaded: true,
-      loading: false,
       edit: false,
     });
   }

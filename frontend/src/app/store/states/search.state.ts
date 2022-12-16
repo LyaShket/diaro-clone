@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { DiaryEntryService } from '../../shared/services/diary-entry.service';
 import {
-  InitValuesFromUrlParams, NavigateSearch,
+  ClearSearch,
+  InitValuesFromUrlParams, NavigateSearch, SearchComplete, SearchEntries, SearchError,
   SelectCategory,
   SelectMood,
   SelectTag,
@@ -14,17 +15,20 @@ import {
 } from '../actions/search.actions';
 import { Router } from '@angular/router';
 import { ISearchEntriesQuery } from '../../shared/interfaces/search-entries-query';
+import { EntryStateModel } from './entry.state';
 
 export interface SearchStateModel {
-  categories: string[],
-  tags: string[],
-  moods: string[],
-  timeFrom: string,
-  timeTo: string,
-  text: string,
+  loading: boolean
+  categories: string[]
+  tags: string[]
+  moods: string[]
+  timeFrom: string
+  timeTo: string
+  text: string
 }
 
 export const searchStateDefaults: SearchStateModel = {
+  loading: true,
   categories: [],
   tags: [],
   moods: [],
@@ -40,9 +44,16 @@ export const searchStateDefaults: SearchStateModel = {
 @Injectable()
 export class SearchState {
   constructor(
-    private diaryEntryService: DiaryEntryService,
-    private readonly router: Router
-  ) {}
+    private readonly diaryEntryService: DiaryEntryService,
+    private readonly router: Router,
+    private readonly ngZone: NgZone,
+  ) {
+  }
+
+  @Selector()
+  static getLoading(state: SearchStateModel) {
+    return state.loading;
+  }
 
   @Selector()
   static getCategories(state: SearchStateModel) {
@@ -76,7 +87,7 @@ export class SearchState {
 
   @Action(SelectCategory)
   selectCategory(
-    { getState, patchState }: StateContext<SearchStateModel>,
+    { getState, patchState, dispatch }: StateContext<SearchStateModel>,
     action: SelectCategory
   ) {
     const state = getState();
@@ -85,11 +96,12 @@ export class SearchState {
     } else {
       patchState({ categories: [...state.categories, action.category] });
     }
+    dispatch(new NavigateSearch());
   }
 
   @Action(SelectTag)
   selectTag(
-    { getState, patchState }: StateContext<SearchStateModel>,
+    { getState, patchState, dispatch }: StateContext<SearchStateModel>,
     action: SelectTag
   ) {
     const state = getState();
@@ -98,11 +110,12 @@ export class SearchState {
     } else {
       patchState({ tags: [...state.tags, action.tag] });
     }
+    dispatch(new NavigateSearch());
   }
 
   @Action(SelectMood)
   selectMood(
-    { getState, patchState }: StateContext<SearchStateModel>,
+    { getState, patchState, dispatch }: StateContext<SearchStateModel>,
     action: SelectMood
   ) {
     const state = getState();
@@ -111,30 +124,34 @@ export class SearchState {
     } else {
       patchState({ moods: [...state.moods, action.mood] });
     }
+    dispatch(new NavigateSearch());
   }
 
   @Action(SetTimeFrom)
   setTimeFrom(
-    { patchState }: StateContext<SearchStateModel>,
+    { patchState, dispatch }: StateContext<SearchStateModel>,
     action: SetTimeFrom
   ) {
     patchState({ timeFrom: action.timeFrom });
+    dispatch(new NavigateSearch());
   }
 
   @Action(SetTimeTo)
   setTimeTo(
-    { patchState }: StateContext<SearchStateModel>,
+    { patchState, dispatch }: StateContext<SearchStateModel>,
     action: SetTimeTo
   ) {
     patchState({ timeTo: action.timeTo });
+    dispatch(new NavigateSearch());
   }
 
   @Action(SetText)
   setText(
-    { patchState }: StateContext<SearchStateModel>,
+    { patchState, dispatch }: StateContext<SearchStateModel>,
     action: SetText
   ) {
     patchState({ text: action.text });
+    dispatch(new NavigateSearch());
   }
 
   @Action(InitValuesFromUrlParams)
@@ -165,7 +182,9 @@ export class SearchState {
     const state = getState();
 
     if (!state.categories.length && !state.tags.length && !state.moods.length && !state.timeFrom && !state.timeTo && !state.text) {
-      this.router.navigate(['/']);
+      this.ngZone.run(() => {
+        this.router.navigate(['/']);
+      });
       return;
     }
 
@@ -189,6 +208,60 @@ export class SearchState {
       queryParams.text = state.text;
     }
 
-    this.router.navigate(['/search'], { queryParams });
+    this.ngZone.run(() => {
+      this.router.navigate(['/search'], { queryParams });
+    });
+  }
+
+  @Action(SearchEntries)
+  searchEntries(
+    { dispatch, patchState }: StateContext<SearchStateModel>,
+    action: SearchEntries
+  ) {
+    patchState({
+      loading: false
+    });
+
+    return this.diaryEntryService.search(action.query).pipe(
+      map(entries => dispatch(new SearchComplete(entries))),
+      catchError(err => {
+        dispatch(new SearchError(err));
+
+        return of(new SearchError(err));
+      })
+    );
+  }
+
+  @Action(SearchComplete)
+  searchComplete({ patchState }: StateContext<SearchStateModel>) {
+    patchState({
+      loading: false,
+    });
+  }
+
+  @Action(SearchError)
+  searchError(
+    { patchState }: StateContext<SearchStateModel>,
+    action: SearchError
+  ) {
+    patchState({
+      loading: false,
+    });
+  }
+
+  @Action(ClearSearch)
+  clearSearch(
+    { patchState, dispatch }: StateContext<SearchStateModel>
+  ) {
+    patchState({
+      categories: [],
+      tags: [],
+      moods: [],
+      timeFrom: '',
+      timeTo: '',
+      text: '',
+    });
+
+    dispatch(new NavigateSearch());
   }
 }

@@ -26,21 +26,6 @@ export class SetEdit {
   constructor(public state: boolean) {}
 }
 
-export class SearchEntries {
-  static readonly type = '[Entry] Search Entries';
-  constructor(public query: ISearchEntriesQuery = {}) {}
-}
-
-export class SearchComplete {
-  static readonly type = '[Entry] Search Complete';
-  constructor(public entries: IEntry[]) {}
-}
-
-export class SearchError {
-  static readonly type = '[Entry] Search Error';
-  constructor(public error: any) {}
-}
-
 export class LoadActiveEntry {
   static readonly type = '[Entry] Load Active Entry';
   constructor(public id?: string) {}

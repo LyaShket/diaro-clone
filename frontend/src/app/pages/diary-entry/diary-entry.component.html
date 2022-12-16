@@ -2,9 +2,9 @@
 
   <button class="btn btn-primary mb-2" routerLink="/">go back</button>
 
-  <app-entry-preview *ngIf="loading$ | async"></app-entry-preview>
+  <app-entry-preview *ngIf="loading$ | async; else content"></app-entry-preview>
 
-  <ng-container *ngIf="loaded$ | async">
+  <ng-template #content>
     <p class="mb-1 text-nowrap">{{ (entry$ | async).created | date }}</p>
 
     <app-entry-form *ngIf="edit$ | async"
@@ -20,6 +20,6 @@
                     [entry]="entry$ | async"
                     (click)="switchEdit(true)"
     ></app-entry-view>
-  </ng-container>
+  </ng-template>
 
 </section>
