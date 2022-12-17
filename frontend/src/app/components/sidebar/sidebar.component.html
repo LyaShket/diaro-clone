@@ -12,8 +12,8 @@
     <mat-form-field class="w-100" appearance="fill">
       <mat-label>Enter a date range</mat-label>
       <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate placeholder="Start date" (dateChange)="setTimeFrom($event)">
-        <input matEndDate placeholder="End date" (dateChange)="setTimeTo($event)">
+        <input matStartDate placeholder="Start date" (dateChange)="setTimeFrom($event)" [value]="searchTimeFrom$ | async">
+        <input matEndDate placeholder="End date" (dateChange)="setTimeTo($event)" [value]="searchTimeTo$ | async">
       </mat-date-range-input>
       <mat-hint>DD-MM-YYYY – DD-MM-YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -22,7 +22,7 @@
   </div>
   <div class="bg-dark bg-opacity-25 p-3 mb-2" id="tour-sidebar-search">
     <div class="input-group">
-      <input class="form-control form-control-sm w-75" [(ngModel)]="text" (change)="setText()" type="text"
+      <input class="form-control form-control-sm w-75" [value]="searchText$ | async" [(ngModel)]="text" (change)="setText()" type="text"
              placeholder="Search" aria-label="Search">
       <span class="input-group-text">🔍</span>
     </div>
