@@ -219,7 +219,7 @@ export class SearchState {
     action: SearchEntries
   ) {
     patchState({
-      loading: false
+      loading: true
     });
 
     return this.diaryEntryService.search(action.query).pipe(

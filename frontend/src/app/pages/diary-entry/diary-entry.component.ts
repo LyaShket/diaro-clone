@@ -24,7 +24,7 @@ import { SearchState } from '../../store/states/search.state';
 })
 export class DiaryEntryComponent implements OnInit, OnDestroy {
   @Select(EntryState.getActiveEntry) entry$: Observable<IEntry>;
-  @Select(SearchState.getLoading) loading$: Observable<boolean>;
+  @Select(EntryState.getLoading) loading$: Observable<boolean>;
   @Select(EntryState.getEdit) edit$: Observable<boolean>;
 
   @Select(TagState.getTags) tags$: Observable<ITag[]>;

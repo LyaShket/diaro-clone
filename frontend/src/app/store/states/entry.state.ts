@@ -16,12 +16,14 @@ import { SearchState, SearchStateModel } from './search.state';
 import { SearchComplete } from '../actions/search.actions';
 
 export interface EntryStateModel {
-  entries: IEntry[],
-  activeEntry: IEntry,
-  edit: boolean,
+  loading: boolean
+  entries: IEntry[]
+  activeEntry: IEntry
+  edit: boolean
 }
 
 export const entryStateDefaults: EntryStateModel = {
+  loading: true,
   entries: [],
   activeEntry: {},
   edit: false,
@@ -45,6 +47,11 @@ export class EntryState {
   @Selector()
   static getEdit(state: EntryStateModel) {
     return state.edit;
+  }
+
+  @Selector()
+  static getLoading(state: EntryStateModel) {
+    return state.loading;
   }
 
   @Selector()
@@ -104,7 +111,8 @@ export class EntryState {
     action: SearchComplete
   ) {
     patchState({
-      entries: action.entries
+      entries: action.entries,
+      loading: false
     });
   }
 
@@ -115,6 +123,7 @@ export class EntryState {
   ) {
     patchState({
       edit: false,
+      loading: true
     });
 
     return this.diaryEntryService.get(action.id).pipe(
@@ -134,6 +143,7 @@ export class EntryState {
   ) {
     patchState({
       edit: false,
+      loading: false,
       activeEntry: action.entry,
     });
   }
@@ -145,6 +155,7 @@ export class EntryState {
   ) {
     patchState({
       edit: false,
+      loading: false
     });
   }
 
