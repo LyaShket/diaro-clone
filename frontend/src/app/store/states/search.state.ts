@@ -6,19 +6,12 @@ import { DiaryEntryService } from '../../shared/services/diary-entry.service';
 import {
   ClearSearch,
   InitValuesFromUrlParams, NavigateSearch, SearchComplete, SearchEntries, SearchError,
-  SelectCategory,
-  SelectMood,
-  SelectTag,
-  SetText,
-  SetTimeFrom,
-  SetTimeTo
+  UpdateForm
 } from '../actions/search.actions';
 import { Router } from '@angular/router';
 import { ISearchEntriesQuery } from '../../shared/interfaces/search-entries-query';
-import { EntryStateModel } from './entry.state';
 
-export interface SearchStateModel {
-  loading: boolean
+export interface ISearchForm {
   categories: string[]
   tags: string[]
   moods: string[]
@@ -27,14 +20,21 @@ export interface SearchStateModel {
   text: string
 }
 
+export interface SearchStateModel {
+  loading: boolean
+  form: ISearchForm
+}
+
 export const searchStateDefaults: SearchStateModel = {
   loading: true,
-  categories: [],
-  tags: [],
-  moods: [],
-  timeFrom: '',
-  timeTo: '',
-  text: '',
+  form: {
+    categories: [],
+    tags: [],
+    moods: [],
+    timeFrom: '',
+    timeTo: '',
+    text: '',
+  }
 };
 
 @State<SearchStateModel>({
@@ -56,102 +56,16 @@ export class SearchState {
   }
 
   @Selector()
-  static getCategories(state: SearchStateModel) {
-    return state.categories;
+  static getForm(state: SearchStateModel): ISearchForm {
+    return state.form;
   }
 
-  @Selector()
-  static getTags(state: SearchStateModel) {
-    return state.tags;
-  }
-
-  @Selector()
-  static getMoods(state: SearchStateModel) {
-    return state.moods;
-  }
-
-  @Selector()
-  static getTimeFrom(state: SearchStateModel) {
-    return state.timeFrom;
-  }
-
-  @Selector()
-  static getTimeTo(state: SearchStateModel) {
-    return state.timeTo;
-  }
-
-  @Selector()
-  static getText(state: SearchStateModel) {
-    return state.text;
-  }
-
-  @Action(SelectCategory)
-  selectCategory(
-    { getState, patchState, dispatch }: StateContext<SearchStateModel>,
-    action: SelectCategory
+  @Action(UpdateForm)
+  updateForm(
+    { patchState }: StateContext<SearchStateModel>,
+    action: UpdateForm
   ) {
-    const state = getState();
-    if (state.categories.indexOf(action.category) > -1) {
-      patchState({ categories: state.categories.filter(i => i !== action.category) });
-    } else {
-      patchState({ categories: [...state.categories, action.category] });
-    }
-    dispatch(new NavigateSearch());
-  }
-
-  @Action(SelectTag)
-  selectTag(
-    { getState, patchState, dispatch }: StateContext<SearchStateModel>,
-    action: SelectTag
-  ) {
-    const state = getState();
-    if (state.tags.indexOf(action.tag) > -1) {
-      patchState({ tags: state.tags.filter(i => i !== action.tag) });
-    } else {
-      patchState({ tags: [...state.tags, action.tag] });
-    }
-    dispatch(new NavigateSearch());
-  }
-
-  @Action(SelectMood)
-  selectMood(
-    { getState, patchState, dispatch }: StateContext<SearchStateModel>,
-    action: SelectMood
-  ) {
-    const state = getState();
-    if (state.moods.indexOf(action.mood) > -1) {
-      patchState({ moods: state.moods.filter(i => i !== action.mood) });
-    } else {
-      patchState({ moods: [...state.moods, action.mood] });
-    }
-    dispatch(new NavigateSearch());
-  }
-
-  @Action(SetTimeFrom)
-  setTimeFrom(
-    { patchState, dispatch }: StateContext<SearchStateModel>,
-    action: SetTimeFrom
-  ) {
-    patchState({ timeFrom: action.timeFrom });
-    dispatch(new NavigateSearch());
-  }
-
-  @Action(SetTimeTo)
-  setTimeTo(
-    { patchState, dispatch }: StateContext<SearchStateModel>,
-    action: SetTimeTo
-  ) {
-    patchState({ timeTo: action.timeTo });
-    dispatch(new NavigateSearch());
-  }
-
-  @Action(SetText)
-  setText(
-    { patchState, dispatch }: StateContext<SearchStateModel>,
-    action: SetText
-  ) {
-    patchState({ text: action.text });
-    dispatch(new NavigateSearch());
+    patchState({ form: action.form })
   }
 
   @Action(InitValuesFromUrlParams)
@@ -159,29 +73,26 @@ export class SearchState {
     { patchState }: StateContext<SearchStateModel>,
     action: InitValuesFromUrlParams
   ) {
-    patchState({
-      categories: action.params?.category?.split(',') || [],
-      tags: action.params?.tag?.split(',') || [],
-      moods: action.params?.mood?.split(',') || [],
-      text: action.params?.text || '',
-    });
-
     const timeFrom = action.params?.timeFrom;
-    if (timeFrom) {
-      patchState({ timeFrom: new Date(+timeFrom).toJSON() });
-    }
-
     const timeTo = action.params?.timeTo;
-    if (timeTo) {
-      patchState({ timeTo: new Date(+timeTo).toJSON() });
-    }
+
+    patchState({
+      form: {
+        categories: action.params?.category?.split(',') || [],
+        tags: action.params?.tag?.split(',') || [],
+        moods: action.params?.mood?.split(',') || [],
+        text: action.params?.text || '',
+        timeFrom: timeFrom ? new Date(+timeFrom).toJSON() : '',
+        timeTo: timeTo ? new Date(+timeTo).toJSON() : '',
+      }
+    });
   }
 
   @Action(NavigateSearch)
   navigateSearch({ getState }: StateContext<SearchStateModel>) {
-    const state = getState();
+    const form = getState().form;
 
-    if (!state.categories.length && !state.tags.length && !state.moods.length && !state.timeFrom && !state.timeTo && !state.text) {
+    if (!form.categories.length && !form.tags.length && !form.moods.length && !form.timeFrom && !form.timeTo && !form.text) {
       this.ngZone.run(() => {
         this.router.navigate(['/']);
       });
@@ -189,23 +100,23 @@ export class SearchState {
     }
 
     const queryParams: ISearchEntriesQuery = {};
-    if (state.categories.length > 0) {
-      queryParams.category = state.categories.join(',');
+    if (form.categories.length > 0) {
+      queryParams.category = form.categories.join(',');
     }
-    if (state.tags.length > 0) {
-      queryParams.tag = state.tags.join(',');
+    if (form.tags.length > 0) {
+      queryParams.tag = form.tags.join(',');
     }
-    if (state.moods.length > 0) {
-      queryParams.mood = state.moods.join(',');
+    if (form.moods.length > 0) {
+      queryParams.mood = form.moods.join(',');
     }
-    if (state.timeFrom) {
-      queryParams.timeFrom = new Date(state.timeFrom).getTime().toString();
+    if (form.timeFrom) {
+      queryParams.timeFrom = new Date(form.timeFrom).getTime().toString();
     }
-    if (state.timeTo) {
-      queryParams.timeTo = new Date(state.timeTo).getTime().toString();
+    if (form.timeTo) {
+      queryParams.timeTo = new Date(form.timeTo).getTime().toString();
     }
-    if (state.text) {
-      queryParams.text = state.text;
+    if (form.text) {
+      queryParams.text = form.text;
     }
 
     this.ngZone.run(() => {
@@ -254,12 +165,14 @@ export class SearchState {
     { patchState, dispatch }: StateContext<SearchStateModel>
   ) {
     patchState({
-      categories: [],
-      tags: [],
-      moods: [],
-      timeFrom: '',
-      timeTo: '',
-      text: '',
+      form: {
+        categories: [],
+        tags: [],
+        moods: [],
+        timeFrom: '',
+        timeTo: '',
+        text: '',
+      }
     });
 
     dispatch(new NavigateSearch());

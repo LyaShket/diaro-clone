@@ -17,15 +17,12 @@ import { TagState } from '../../store/states/tag.state';
 import { CategoryState } from '../../store/states/category.state';
 import { LoadCategories } from '../../store/actions/category.actions';
 import { LoadTags } from '../../store/actions/tag.actions';
-import { SearchState } from '../../store/states/search.state';
+import { ISearchForm, SearchState } from '../../store/states/search.state';
 import {
   InitValuesFromUrlParams,
   NavigateSearch,
-  SelectCategory,
-  SelectMood,
-  SelectTag, SetText, SetTimeFrom, SetTimeTo
+  UpdateForm
 } from '../../store/actions/search.actions';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { AuthState } from '../../store/states/auth.state';
 
 @Component({
@@ -43,16 +40,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   @Select(TagState.getTags) tags$: Observable<ITag[]>;
   @Select(CategoryState.getCategories) categories$: Observable<ICategory[]>;
 
-  @Select(SearchState.getCategories) searchCategories$: Observable<string[]>;
-  @Select(SearchState.getTags) searchTags$: Observable<string[]>;
-  @Select(SearchState.getMoods) searchMoods$: Observable<string[]>;
-  @Select(SearchState.getTimeFrom) searchTimeFrom$: Observable<string>;
-  @Select(SearchState.getTimeTo) searchTimeTo$: Observable<string>;
-  @Select(SearchState.getText) searchText$: Observable<string>;
-
-  text: string;
-
-  moodList: string[] = ['Awesome', 'Happy', 'Neutral', 'Bad', 'Awful'];
+  @Select(SearchState.getForm) formValues$: Observable<ISearchForm>;
 
   private destroyed$ = new Subject();
 
@@ -84,28 +72,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.store.dispatch(new LoadTags());
   }
 
-  clickCategory(name: string) {
-    this.store.dispatch(new SelectCategory(name));
-  }
-
-  clickTag(name: string) {
-    this.store.dispatch(new SelectTag(name));
-  }
-
-  clickMood(name: string) {
-    this.store.dispatch(new SelectMood(name));
-  }
-
-  setTimeFrom(event: MatDatepickerInputEvent<string>) {
-    this.store.dispatch(new SetTimeFrom(event.value));
-  }
-
-  setTimeTo(event: MatDatepickerInputEvent<string>) {
-    this.store.dispatch(new SetTimeTo(event.value));
-  }
-
-  setText() {
-    this.store.dispatch(new SetText(this.text));
+  updateForm(form: ISearchForm) {
+    this.store.dispatch(new UpdateForm(form));
   }
 
   ngOnDestroy(): void {

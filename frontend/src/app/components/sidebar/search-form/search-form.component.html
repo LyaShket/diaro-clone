@@ -1,0 +1,57 @@
+<form [formGroup]="form" (submit)="submit()">
+  <div class="bg-dark bg-opacity-25 p-3 mb-2" id="tour-sidebar-calendar">
+    <mat-form-field class="w-100" appearance="fill">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" formControlName="timeFrom" (dateChange)="submit()">
+        <input matEndDate placeholder="End date" formControlName="timeTo" (dateChange)="submit()">
+      </mat-date-range-input>
+      <mat-hint>DD-MM-YYYY – DD-MM-YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+  </div>
+  <div class="bg-dark bg-opacity-25 p-3 mb-2" id="tour-sidebar-search">
+    <div class="input-group">
+      <input class="form-control form-control-sm w-75" type="text"
+             placeholder="Search" aria-label="Search" formControlName="text" (change)="submit()">
+      <span class="input-group-text">🔍</span>
+    </div>
+  </div>
+  <div class="bg-dark bg-opacity-25 p-3 mb-2" id="tour-sidebar-categories">
+    <h4>Categories</h4>
+    <ul class="list-group" *ngIf="categories.length; else nothingToShow">
+      <li class="list-group-item d-flex align-items-center" *ngFor="let item of categories"
+          (click)="checkbox.click()">
+        <input class="form-check-input me-2 mt-0" type="checkbox" #checkbox (click)="clickCategory(item.name)"
+               [checked]="form.get('categories').value.indexOf(item.name) > -1">
+        <label class="form-check-label">{{item.name}}</label>
+      </li>
+    </ul>
+  </div>
+  <div class="bg-dark bg-opacity-25 p-3 mb-2">
+    <h4>Tags</h4>
+    <ul class="list-group" *ngIf="tags.length; else nothingToShow">
+      <li class="list-group-item d-flex align-items-center" *ngFor="let item of tags"
+          (click)="checkbox.click()">
+        <input class="form-check-input me-2 mt-0" type="checkbox" #checkbox (click)="clickTag(item.name)"
+               [checked]="form.get('tags').value.indexOf(item.name) > -1">
+        <label class="form-check-label">{{item.name}}</label>
+      </li>
+    </ul>
+  </div>
+  <div class="bg-dark bg-opacity-25 p-3">
+    <h4>Mood</h4>
+    <ul class="list-group">
+      <li class="list-group-item d-flex align-items-center" *ngFor="let item of moodList" (click)="checkbox.click()">
+        <input class="form-check-input me-2 mt-0" type="checkbox" #checkbox (click)="clickMood(item)"
+               [checked]="form.get('moods').value.indexOf(item) > -1">
+        <label class="form-check-label">{{item}}</label>
+      </li>
+    </ul>
+  </div>
+</form>
+
+<ng-template #nothingToShow>
+  <i>Nothing to show</i>
+</ng-template>

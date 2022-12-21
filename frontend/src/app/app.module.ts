@@ -38,6 +38,8 @@ import { CategoryState } from './store/states/category.state';
 import { TagState } from './store/states/tag.state';
 import { SearchState } from './store/states/search.state';
 import { AuthState } from './store/states/auth.state';
+import { SearchFormComponent } from './components/sidebar/search-form/search-form.component';
+import { UserInfoComponent } from './components/sidebar/user-info/user-info.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { AuthState } from './store/states/auth.state';
     EntryFormComponent,
     EntryViewComponent,
     EntryListComponent,
-    EntryListPreviewComponent
+    EntryListPreviewComponent,
+    SearchFormComponent,
+    UserInfoComponent,
   ],
   imports: [
     BrowserModule,
