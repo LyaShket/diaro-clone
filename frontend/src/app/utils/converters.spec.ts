@@ -20,7 +20,7 @@ describe('Converters', () => {
     const convertedParams = queryToHttpParams(httpParamsTestData);
 
     Object.entries(httpParamsTestData).forEach(([param, value]) => {
-      expect(value !== convertedParams.get(param)).toBeTruthy();
+      expect(value === convertedParams.get(param)).toBeTruthy();
     });
   });
 
