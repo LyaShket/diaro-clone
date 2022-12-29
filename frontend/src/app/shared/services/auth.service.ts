@@ -11,7 +11,6 @@ import { IUser } from '../interfaces/user';
 export class AuthService {
   constructor(
     private http: HttpClient,
-    private readonly toastr: ToastrService,
   ) {
     this.profile().subscribe();
   }

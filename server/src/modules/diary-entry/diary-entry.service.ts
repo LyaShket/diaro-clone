@@ -24,6 +24,10 @@ export class DiaryEntryService {
     return this.diaryEntryModel.findOne({ userId, id });
   }
 
+  getPublic(id: string) {
+    return this.diaryEntryModel.findOne({ id, public: true });
+  }
+
   search(userId: string, categories: string[], tags: string[], moods: string[], timeFrom: number, timeTo: number, text: string) {
     const filter: FilterQuery<DiaryEntry> = {
       $and: [

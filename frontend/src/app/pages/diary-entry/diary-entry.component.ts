@@ -8,7 +8,13 @@ import {DiaryTagService} from "../../shared/services/diary-tag.service";
 import {first, take} from "rxjs/operators";
 import { Select, Store } from '@ngxs/store';
 import { EntryState } from '../../store/states/entry.state';
-import { SetActiveEntry, SetEdit, LoadActiveEntry, UpdateEntry } from '../../store/actions/entry.actions';
+import {
+  SetActiveEntry,
+  SetEdit,
+  LoadActiveEntry,
+  UpdateEntry,
+  SetEntryPublic
+} from '../../store/actions/entry.actions';
 import { TagState } from '../../store/states/tag.state';
 import { ITag } from '../../interfaces/tag';
 import { CategoryState } from '../../store/states/category.state';
@@ -16,6 +22,8 @@ import { ICategory } from '../../interfaces/category';
 import { AddCategory, LoadCategories } from '../../store/actions/category.actions';
 import { AddTag, LoadTags } from '../../store/actions/tag.actions';
 import { SearchState } from '../../store/states/search.state';
+import { ChangePublicEvent } from './entry-actions/entry-actions.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-diary-entry',
@@ -36,6 +44,7 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
     private diaryCategoryService: DiaryCategoryService,
     private route: ActivatedRoute,
     private store: Store,
+    private toastr: ToastrService,
   ) {
   }
 
@@ -64,7 +73,7 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
   onEntryChange(entry: IEntry) {
     this.store.dispatch(new SetActiveEntry(entry));
     this.store.dispatch(new SetEdit(false));
-    this.store.dispatch(new UpdateEntry(entry))
+    this.store.dispatch(new UpdateEntry(entry));
   }
 
   onAddCategory(category: ICategory) {
@@ -73,5 +82,17 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
 
   onAddTag(tag: ITag) {
     this.store.dispatch(new AddTag(tag));
+  }
+
+  onChangePublic(entryPublic: ChangePublicEvent) {
+    this.store.dispatch(new SetEntryPublic(entryPublic.id, entryPublic.public));
+  }
+
+  onCopyLink(id: string) {
+    navigator.clipboard.writeText(`${location.origin}/entry/public/${id}`).then(() => {
+      this.toastr.success('Link successfully copied!');
+    }, () => {
+      this.toastr.error('Failed to copy link. Try to reload page or grant access');
+    });
   }
 }

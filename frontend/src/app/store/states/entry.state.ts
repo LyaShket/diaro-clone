@@ -5,8 +5,8 @@ import {
   SetActiveEntry,
   SetEdit,
   SetEntries,
-  LoadActiveEntry, LoadActiveEntryComplete, LoadActiveEntryError,
-  UpdateEntry
+  LoadActiveEntry, LoadEntryComplete, LoadEntryError,
+  UpdateEntry, SetEntryPublic, LoadPublicEntry
 } from '../actions/entry.actions';
 import { IEntry } from '../../interfaces/entry';
 import { DiaryEntryService } from '../../shared/services/diary-entry.service';
@@ -127,19 +127,39 @@ export class EntryState {
     });
 
     return this.diaryEntryService.get(action.id).pipe(
-      map(entry => dispatch(new LoadActiveEntryComplete(entry))),
+      map(entry => dispatch(new LoadEntryComplete(entry))),
       catchError(err => {
-        dispatch(new LoadActiveEntryError(err));
+        dispatch(new LoadEntryError(err));
 
-        return of(new LoadActiveEntryError(err));
+        return of(new LoadEntryError(err));
       })
     );
   }
 
-  @Action(LoadActiveEntryComplete)
+  @Action(LoadPublicEntry)
+  loadPublicEntry(
+    { dispatch, patchState }: StateContext<EntryStateModel>,
+    action: LoadPublicEntry
+  ) {
+    patchState({
+      edit: false,
+      loading: true
+    });
+
+    return this.diaryEntryService.getPublic(action.id).pipe(
+      map(entry => dispatch(new LoadEntryComplete(entry))),
+      catchError(err => {
+        dispatch(new LoadEntryError(err));
+
+        return of(new LoadEntryError(err));
+      })
+    );
+  }
+
+  @Action(LoadEntryComplete)
   loadActiveEntryComplete(
     { patchState }: StateContext<EntryStateModel>,
-    action: LoadActiveEntryComplete
+    action: LoadEntryComplete
   ) {
     patchState({
       edit: false,
@@ -148,10 +168,10 @@ export class EntryState {
     });
   }
 
-  @Action(LoadActiveEntryError)
+  @Action(LoadEntryError)
   loadActiveEntryError(
     { patchState }: StateContext<EntryStateModel>,
-    action: LoadActiveEntryError
+    action: LoadEntryError
   ) {
     patchState({
       edit: false,
@@ -159,5 +179,26 @@ export class EntryState {
     });
   }
 
+
+  @Action(SetEntryPublic)
+  setEntryPublic(
+    { patchState, getState, dispatch }: StateContext<EntryStateModel>,
+    action: SetEntryPublic
+  ) {
+    const state = getState();
+    patchState({
+      entries: state.entries.map(i => {
+        if (i.id === action.id) {
+          return { ...i, public: action.entryPublic };
+        }
+        return i;
+      }),
+      activeEntry: {
+        ...state.activeEntry,
+        public: action.entryPublic
+      }
+    });
+    dispatch(new UpdateEntry({ id: action.id, public: action.entryPublic }));
+  }
 
 }

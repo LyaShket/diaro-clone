@@ -20,6 +20,12 @@
                     [entry]="entry$ | async"
                     (click)="switchEdit(true)"
     ></app-entry-view>
+
+    <app-entry-actions class="mt-2 d-block"
+                       [entry]="entry$ | async"
+                       (changePublic)="onChangePublic($event)"
+                       (copyLink)="onCopyLink($event)"
+    ></app-entry-actions>
   </ng-template>
 
 </section>

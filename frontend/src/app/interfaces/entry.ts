@@ -10,6 +10,7 @@ export interface IEntry {
   tags?: ITag[]
   category?: ICategory
   mood?: string
+  public?: boolean
   created?: number
   updated?: number
 }

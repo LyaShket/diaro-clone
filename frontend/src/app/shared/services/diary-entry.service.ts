@@ -30,4 +30,8 @@ export class DiaryEntryService {
   get(id: string) {
     return this.http.get<IEntry>('http://localhost:3000/diary-entry/' + id).pipe(first());
   }
+
+  getPublic(id: string) {
+    return this.http.get<IEntry>('http://localhost:3000/diary-entry/public/' + id).pipe(first());
+  }
 }

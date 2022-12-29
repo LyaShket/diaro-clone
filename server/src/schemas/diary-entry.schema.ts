@@ -32,6 +32,9 @@ export class DiaryEntry {
   mood: string;
 
   @Prop()
+  public: boolean;
+
+  @Prop()
   created: number;
 
   @Prop()

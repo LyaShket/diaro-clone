@@ -41,4 +41,9 @@ export class DiaryEntryController {
     return this.diaryEntryService.get(req.user.id, id);
   }
 
+  @Get('public/:id')
+  getPublic(@Param('id') id: string) {
+    return this.diaryEntryService.getPublic(id);
+  }
+
 }

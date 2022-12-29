@@ -1,0 +1,10 @@
+<section class="p-4">
+  <app-entry-preview *ngIf="loading$ | async; else content"></app-entry-preview>
+
+  <ng-template #content>
+    <p class="mb-1 text-nowrap">{{ (entry$ | async).created | date }}</p>
+
+    <app-entry-view [entry]="entry$ | async"></app-entry-view>
+
+  </ng-template>
+</section>

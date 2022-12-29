@@ -1,5 +1,4 @@
 import { IEntry } from '../../interfaces/entry';
-import { ISearchEntriesQuery } from '../../shared/interfaces/search-entries-query';
 
 export class AddEntry {
   static readonly type = '[Entry] Add Entry';
@@ -31,13 +30,23 @@ export class LoadActiveEntry {
   constructor(public id?: string) {}
 }
 
-export class LoadActiveEntryComplete {
-  static readonly type = '[Entry] Load Active Entry Complete';
+export class LoadPublicEntry {
+  static readonly type = '[Entry] Load Public Entry';
+  constructor(public id?: string) {}
+}
+
+export class LoadEntryComplete {
+  static readonly type = '[Entry] Load Entry Complete';
   constructor(public entry: IEntry) {}
 }
 
-export class LoadActiveEntryError {
-  static readonly type = '[Entry] Load Active Entry Error';
+export class LoadEntryError {
+  static readonly type = '[Entry] Load Entry Error';
   constructor(public error: any) {}
+}
+
+export class SetEntryPublic {
+  static readonly type = '[Entry] Set Entry Public';
+  constructor(public id: string, public entryPublic: boolean) {}
 }
 

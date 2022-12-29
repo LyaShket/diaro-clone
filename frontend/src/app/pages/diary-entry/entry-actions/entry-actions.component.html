@@ -1,0 +1,11 @@
+<div class="btn-group">
+  <ng-container *ngIf="entry?.public; else setPublic">
+    <button class="btn btn-sm btn-secondary" (click)="setEntryPublic(false)">Set private</button>
+    <button class="btn btn-sm btn-outline-secondary" (click)="copyPublicEntryLink()">Copy Link</button>
+  </ng-container>
+  <ng-template #setPublic>
+    <button class="btn btn-sm btn-warning" (click)="setEntryPublic(true)">Set public</button>
+  </ng-template>
+
+  <button class="btn btn-sm btn-danger">Delete</button>
+</div>

@@ -24,9 +24,9 @@ import { GuidedTourModule, GuidedTourService } from "ngx-guided-tour";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatNativeDateModule } from "@angular/material/core";
-import { EntryPreviewComponent } from './pages/diary-entry/entry-preview/entry-preview.component';
+import { EntryPreviewComponent } from './shared/components/entry-preview/entry-preview.component';
 import { EntryFormComponent } from './pages/diary-entry/entry-form/entry-form.component';
-import { EntryViewComponent } from './pages/diary-entry/entry-view/entry-view.component';
+import { EntryViewComponent } from './shared/components/entry-view/entry-view.component';
 import { EntryListComponent } from './pages/home/entry-list/entry-list.component';
 import { EntryListPreviewComponent } from './pages/home/entry-list-preview/entry-list-preview.component';
 import { ToastrModule } from 'ngx-toastr';
@@ -40,6 +40,8 @@ import { SearchState } from './store/states/search.state';
 import { AuthState } from './store/states/auth.state';
 import { SearchFormComponent } from './components/sidebar/search-form/search-form.component';
 import { UserInfoComponent } from './components/sidebar/user-info/user-info.component';
+import { EntryActionsComponent } from './pages/diary-entry/entry-actions/entry-actions.component';
+import { PublicDiaryEntryComponent } from './pages/public-diary-entry/public-diary-entry.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,8 @@ import { UserInfoComponent } from './components/sidebar/user-info/user-info.comp
     EntryListPreviewComponent,
     SearchFormComponent,
     UserInfoComponent,
+    EntryActionsComponent,
+    PublicDiaryEntryComponent,
   ],
   imports: [
     BrowserModule,
