@@ -1,20 +1,34 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { SidebarComponent } from './sidebar.component';
+import { Store } from '@ngxs/store';
+import { DiaryCategoryService } from '../../shared/services/diary-category.service';
+import { DiaryTagService } from '../../shared/services/diary-tag.service';
+import { DiaryEntryService } from '../../shared/services/diary-entry.service';
+import { AuthService } from '../../shared/services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';
+
+class MockService {}
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
-  let fixture: ComponentFixture<SidebarComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ SidebarComponent ]
-    })
-    .compileComponents();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        SidebarComponent,
+        { provide: DiaryCategoryService, useClass: MockService },
+        { provide: DiaryTagService, useClass: MockService },
+        { provide: DiaryEntryService, useClass: MockService },
+        { provide: AuthService, useClass: MockService },
+        { provide: Router, useClass: MockService },
+        { provide: ChangeDetectorRef, useClass: MockService },
+        { provide: ActivatedRoute, useClass: MockService },
+        { provide: Store, useClass: MockService },
+      ],
+    });
 
-    fixture = TestBed.createComponent(SidebarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = TestBed.inject(SidebarComponent);
   });
 
   it('should create', () => {

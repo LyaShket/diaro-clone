@@ -1,20 +1,26 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
+import { DiaryEntryService } from '../../shared/services/diary-entry.service';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngxs/store';
+
+class MockService {}
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
-    })
-    .compileComponents();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        HomeComponent,
+        { provide: DiaryEntryService, useClass: MockService },
+        { provide: ActivatedRoute, useClass: MockService },
+        { provide: Store, useClass: MockService },
+      ],
+    });
 
-    fixture = TestBed.createComponent(HomeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = TestBed.inject(HomeComponent);
   });
 
   it('should create', () => {

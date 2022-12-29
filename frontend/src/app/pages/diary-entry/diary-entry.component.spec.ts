@@ -1,20 +1,36 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { DiaryEntryComponent } from './diary-entry.component';
+import { DiaryCategoryService } from '../../shared/services/diary-category.service';
+import { DiaryTagService } from '../../shared/services/diary-tag.service';
+import { DiaryEntryService } from '../../shared/services/diary-entry.service';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Store } from '@ngxs/store';
+
+class MockService {}
+
+class MockStore {
+  dispatch() {}
+}
 
 describe('DiaryEntryComponent', () => {
   let component: DiaryEntryComponent;
-  let fixture: ComponentFixture<DiaryEntryComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ DiaryEntryComponent ]
-    })
-    .compileComponents();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        DiaryEntryComponent,
+        { provide: DiaryEntryService, useClass: MockService },
+        { provide: DiaryTagService, useClass: MockService },
+        { provide: DiaryCategoryService, useClass: MockService },
+        { provide: ActivatedRoute, useClass: MockService },
+        { provide: Store, useClass: MockStore },
+        { provide: ToastrService, useClass: MockService },
+      ],
+    });
 
-    fixture = TestBed.createComponent(DiaryEntryComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = TestBed.inject(DiaryEntryComponent);
   });
 
   it('should create', () => {

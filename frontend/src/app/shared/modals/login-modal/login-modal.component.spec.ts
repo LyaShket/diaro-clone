@@ -1,20 +1,26 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { LoginModalComponent } from './login-modal.component';
+import { AuthService } from '../../services/auth.service';
+import { Store } from '@ngxs/store';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
+class MockService {}
 
 describe('LoginModalComponent', () => {
   let component: LoginModalComponent;
-  let fixture: ComponentFixture<LoginModalComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ LoginModalComponent ]
-    })
-    .compileComponents();
+    TestBed.configureTestingModule({
+      providers: [
+        LoginModalComponent,
+        { provide: AuthService, useClass: MockService },
+        { provide: NgbActiveModal, useClass: MockService },
+        { provide: Store, useClass: MockService },
+      ],
+    });
 
-    fixture = TestBed.createComponent(LoginModalComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = TestBed.inject(LoginModalComponent);
   });
 
   it('should create', () => {

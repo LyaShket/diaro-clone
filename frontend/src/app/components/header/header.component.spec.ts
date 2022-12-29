@@ -1,20 +1,30 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { HeaderComponent } from './header.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GuidedTourService } from 'ngx-guided-tour';
+import { Router } from '@angular/router';
+import { AuthService } from '../../shared/services/auth.service';
+import { Store } from '@ngxs/store';
+
+class MockService {}
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ]
-    })
-    .compileComponents();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        HeaderComponent,
+        { provide: NgbModal, useClass: MockService },
+        { provide: GuidedTourService, useClass: MockService },
+        { provide: Router, useClass: MockService },
+        { provide: AuthService, useClass: MockService },
+        { provide: Store, useClass: MockService },
+      ],
+    });
 
-    fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = TestBed.inject(HeaderComponent);
   });
 
   it('should create', () => {

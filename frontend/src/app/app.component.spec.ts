@@ -1,6 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { DiaryCategoryService } from './shared/services/diary-category.service';
+import { Store } from '@ngxs/store';
+
+class MockStore {
+  dispatch() {}
+}
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -11,6 +17,9 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      providers: [
+        { provide: Store, useClass: MockStore },
+      ]
     }).compileComponents();
   });
 
