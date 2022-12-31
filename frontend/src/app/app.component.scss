@@ -1,12 +1,30 @@
 :host {
-  display: flex;
-  flex-direction: column;
+  --header-height: 64px;
+  --footer-height: 23.5px;
+  display: grid;
   min-height: 100vh;
+  grid-template-areas: "header  header"
+                       "sidebar main"
+                       "footer  footer";
+  grid-template-columns: 1fr 5fr;
+  grid-template-rows: var(--header-height)
+                      calc(100vh - var(--header-height) - var(--footer-height))
+                      var(--footer-height);
 }
 
-main {
-  width: 100%;
+#header {
+  grid-area: header;
+}
+
+#sidebar {
+  grid-area: sidebar;
+}
+
+#main {
+  grid-area: main;
   overflow-y: auto;
-  height: calc(100vh - 24px - 64px);
 }
 
+#footer {
+  grid-area: footer;
+}

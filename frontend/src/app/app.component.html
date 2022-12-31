@@ -1,12 +1,11 @@
-<app-header></app-header>
+<app-header id="header"></app-header>
 
-<div class="d-flex">
-  <app-sidebar></app-sidebar>
-  <main>
-    <router-outlet></router-outlet>
-  </main>
-</div>
+<app-sidebar id="sidebar"></app-sidebar>
 
-<app-footer></app-footer>
+<main id="main">
+  <router-outlet></router-outlet>
+</main>
+
+<app-footer id="footer"></app-footer>
 
 <ngx-guided-tour></ngx-guided-tour>
