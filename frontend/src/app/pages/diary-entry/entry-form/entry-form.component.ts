@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { IEntry } from '../../../interfaces/entry';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ITag } from '../../../interfaces/tag';
-import { ICategory } from '../../../interfaces/category';
+import { IAddTag, ITag } from '../../../interfaces/tag';
+import { IAddCategory, ICategory } from '../../../interfaces/category';
 import { ContentChange } from 'ngx-quill';
-import uniqid from 'uniqid';
 
 @Component({
   selector: 'app-entry-form',
@@ -16,16 +15,17 @@ export class EntryFormComponent implements OnInit {
   @Input() tags?: ITag[];
   @Input() categories?: ICategory[];
 
-  @Output() entryChange: EventEmitter<IEntry> = new EventEmitter<IEntry>();
-  @Output() addCategory: EventEmitter<ICategory> = new EventEmitter<ICategory>();
-  @Output() addTag: EventEmitter<ITag> = new EventEmitter<ITag>();
+  @Output() createEntry: EventEmitter<IEntry> = new EventEmitter<IEntry>();
+  @Output() changeEntry: EventEmitter<IEntry> = new EventEmitter<IEntry>();
+  @Output() addCategory: EventEmitter<IAddCategory> = new EventEmitter<IAddCategory>();
+  @Output() addTag: EventEmitter<IAddTag> = new EventEmitter<IAddTag>();
 
   moodList = ['Awesome', 'Happy', 'Neutral', 'Bad', 'Awful'];
 
   content = '';
 
   formGroup = new FormGroup({
-    id: new FormControl('', [Validators.required]),
+    _id: new FormControl(''),
     title: new FormControl('', []),
     body: new FormControl('', [Validators.required]),
     text: new FormControl('', [Validators.required]),
@@ -64,7 +64,12 @@ export class EntryFormComponent implements OnInit {
     }
 
     this.formGroup.reset();
-    this.entryChange.emit(entry);
+
+    if (entry._id) {
+      this.changeEntry.emit(entry);
+    } else {
+      this.createEntry.emit(entry);
+    }
   }
 
   onEditorChange(value: ContentChange) {
@@ -73,7 +78,7 @@ export class EntryFormComponent implements OnInit {
   }
 
   buildForm(entry: IEntry) {
-    this.formGroup.controls.id.setValue(entry?.id || uniqid());
+    this.formGroup.controls._id.setValue(entry?._id);
     this.formGroup.controls.body.setValue(entry?.body || '');
     this.formGroup.controls.text.setValue(entry?.text || '');
     this.formGroup.controls.title.setValue(entry?.title || '');
@@ -83,8 +88,7 @@ export class EntryFormComponent implements OnInit {
   }
 
   addNewTag(term: string) {
-    const tag: ITag = {
-      id: uniqid(),
+    const tag: IAddTag = {
       name: term
     };
     this.addTag.emit(tag);
@@ -92,8 +96,7 @@ export class EntryFormComponent implements OnInit {
   }
 
   addNewCategory(term: string) {
-    const category: ICategory = {
-      id: uniqid(),
+    const category: IAddCategory = {
       name: term
     };
     this.addCategory.emit(category);

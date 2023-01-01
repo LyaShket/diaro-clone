@@ -6,9 +6,6 @@ export class DiaryCategory {
   userId: string;
 
   @Prop()
-  id: string;
-
-  @Prop()
   name: string;
 }
 

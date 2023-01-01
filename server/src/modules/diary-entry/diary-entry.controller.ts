@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post, Query, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Put, Query, Request, UseGuards } from '@nestjs/common';
 import {DiaryEntryService} from "./diary-entry.service";
 import {DiaryEntry} from "../../schemas/diary-entry.schema";
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { UpdateEntryDto } from './dto/update-entry.dto';
 
 @Controller('diary-entry')
 export class DiaryEntryController {
@@ -13,8 +14,14 @@ export class DiaryEntryController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  createUpdate(@Request() req, @Body() entry: DiaryEntry) {
-    return this.diaryEntryService.createUpdate(req.user.id, entry);
+  create(@Request() req, @Body() entry: DiaryEntry) {
+    return this.diaryEntryService.create(req.user.id, entry);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put(':id')
+  update(@Request() req, @Param('id') _id: string, @Body() entry: UpdateEntryDto) {
+    return this.diaryEntryService.update(req.user.id, _id, entry);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -37,13 +44,13 @@ export class DiaryEntryController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  get(@Request() req, @Param('id') id: string) {
-    return this.diaryEntryService.get(req.user.id, id);
+  get(@Request() req, @Param('id') _id: string) {
+    return this.diaryEntryService.get(req.user.id, _id);
   }
 
   @Get('public/:id')
-  getPublic(@Param('id') id: string) {
-    return this.diaryEntryService.getPublic(id);
+  getPublic(@Param('id') _id: string) {
+    return this.diaryEntryService.getPublic(_id);
   }
 
 }

@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, Request, UseGuards } from '@nestjs/
 import {DiaryTagService} from "./diary-tag.service";
 import {DiaryTag} from "../../schemas/diary-tag.schema";
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { CreateTagDto } from './dto/create-tag.dto';
 
 @Controller('diary-tag')
 export class DiaryTagController {
@@ -13,8 +14,8 @@ export class DiaryTagController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  createUpdate(@Request() req, @Body() tag: DiaryTag) {
-    return this.diaryTagService.createUpdate(req.user.id, tag);
+  create(@Request() req, @Body() tag: CreateTagDto) {
+    return this.diaryTagService.create(req.user.id, tag);
   }
 
   @UseGuards(JwtAuthGuard)

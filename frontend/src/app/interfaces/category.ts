@@ -1,4 +1,8 @@
 export interface ICategory {
-  id: string
+  _id: string
+  name: string
+}
+
+export interface IAddCategory {
   name: string
 }

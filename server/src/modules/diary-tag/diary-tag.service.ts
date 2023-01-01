@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { DiaryTag } from '../../schemas/diary-tag.schema';
+import { CreateTagDto } from './dto/create-tag.dto';
 
 @Injectable()
 export class DiaryTagService {
@@ -11,10 +12,8 @@ export class DiaryTagService {
   ) {
   }
 
-  createUpdate(userId: string, tag: DiaryTag) {
-    return this.diaryTagModel.findOneAndUpdate(
-      { userId, id: tag.id }, { ...tag, userId }, { upsert: true, new: true }
-    );
+  create(userId: string, tag: CreateTagDto) {
+    return this.diaryTagModel.create({ ...tag, userId });
   }
 
   getAll(userId: string) {

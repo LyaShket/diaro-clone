@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { DiaryEntry } from '../../schemas/diary-entry.schema';
-import { FilterQuery, Model } from 'mongoose';
+import mongoose, { FilterQuery, Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { DAY_IN_MILLISECONDS } from './diary-entry.constants';
+import { UpdateEntryDto } from './dto/update-entry.dto';
 
 @Injectable()
 export class DiaryEntryService {
@@ -12,20 +13,28 @@ export class DiaryEntryService {
   ) {
   }
 
-  createUpdate(userId: string, entry: DiaryEntry) {
-    return this.diaryEntryModel.findOneAndUpdate({ userId, id: entry.id }, { ...entry, userId }, { upsert: true, new: true });
+  create(userId: string, entry: DiaryEntry) {
+    return this.diaryEntryModel.create({ ...entry, userId });
+  }
+
+  update(userId: string, _id: string, entry: UpdateEntryDto) {
+    return this.diaryEntryModel.findOneAndUpdate(
+      { userId, _id: new mongoose.Types.ObjectId(_id) },
+      { ...entry, userId },
+      { upsert: true, new: true }
+    );
   }
 
   getAll(userId: string) {
     return this.diaryEntryModel.find({ userId }).sort({ 'created': 'desc' });
   }
 
-  get(userId: string, id: string) {
-    return this.diaryEntryModel.findOne({ userId, id });
+  get(userId: string, _id: string) {
+    return this.diaryEntryModel.findOne({ userId, _id: new mongoose.Types.ObjectId(_id) });
   }
 
-  getPublic(id: string) {
-    return this.diaryEntryModel.findOne({ id, public: true });
+  getPublic(_id: string) {
+    return this.diaryEntryModel.findOne({ _id: new mongoose.Types.ObjectId(_id), public: true });
   }
 
   search(userId: string, categories: string[], tags: string[], moods: string[], timeFrom: number, timeTo: number, text: string) {

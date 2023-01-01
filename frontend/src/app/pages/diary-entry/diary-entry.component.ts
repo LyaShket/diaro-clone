@@ -13,12 +13,12 @@ import {
   SetEdit,
   LoadActiveEntry,
   UpdateEntry,
-  SetEntryPublic
+  SetEntryPublic, CreateEntry
 } from '../../store/actions/entry.actions';
 import { TagState } from '../../store/states/tag.state';
-import { ITag } from '../../interfaces/tag';
+import { IAddTag, ITag } from '../../interfaces/tag';
 import { CategoryState } from '../../store/states/category.state';
-import { ICategory } from '../../interfaces/category';
+import { IAddCategory, ICategory } from '../../interfaces/category';
 import { AddCategory, LoadCategories } from '../../store/actions/category.actions';
 import { AddTag, LoadTags } from '../../store/actions/tag.actions';
 import { SearchState } from '../../store/states/search.state';
@@ -70,22 +70,24 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
     this.store.dispatch(new SetEdit(false));
   }
 
-  onEntryChange(entry: IEntry) {
-    this.store.dispatch(new SetActiveEntry(entry));
-    this.store.dispatch(new SetEdit(false));
+  onCreateEntry(entry: IEntry) {
+    this.store.dispatch(new CreateEntry(entry));
+  }
+
+  onChangeEntry(entry: IEntry) {
     this.store.dispatch(new UpdateEntry(entry));
   }
 
-  onAddCategory(category: ICategory) {
+  onAddCategory(category: IAddCategory) {
     this.store.dispatch(new AddCategory(category));
   }
 
-  onAddTag(tag: ITag) {
+  onAddTag(tag: IAddTag) {
     this.store.dispatch(new AddTag(tag));
   }
 
   onChangePublic(entryPublic: ChangePublicEvent) {
-    this.store.dispatch(new SetEntryPublic(entryPublic.id, entryPublic.public));
+    this.store.dispatch(new SetEntryPublic(entryPublic._id, entryPublic.public));
   }
 
   onCopyLink(id: string) {
@@ -95,4 +97,5 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
       this.toastr.error('Failed to copy link. Try to reload page or grant access');
     });
   }
+
 }

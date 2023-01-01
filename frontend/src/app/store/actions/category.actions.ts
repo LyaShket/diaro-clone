@@ -1,8 +1,8 @@
-import { ICategory } from '../../interfaces/category';
+import { IAddCategory, ICategory } from '../../interfaces/category';
 
 export class AddCategory {
   static readonly type = '[Category] Add Category';
-  constructor(public category: ICategory) {}
+  constructor(public category: IAddCategory) {}
 }
 
 export class LoadCategories {

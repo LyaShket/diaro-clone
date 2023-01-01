@@ -8,9 +8,6 @@ export class DiaryEntry {
   userId: string;
 
   @Prop()
-  id: string;
-
-  @Prop()
   title: string;
 
   @Prop()

@@ -1,8 +1,8 @@
-import { ITag } from '../../interfaces/tag';
+import { IAddTag, ITag } from '../../interfaces/tag';
 
 export class AddTag {
   static readonly type = '[Tag] Add Tag';
-  constructor(public tag: ITag) {}
+  constructor(public tag: IAddTag) {}
 }
 
 export class LoadTags {

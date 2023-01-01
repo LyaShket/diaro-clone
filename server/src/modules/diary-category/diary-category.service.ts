@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { DiaryTag } from '../../schemas/diary-tag.schema';
 import { Model } from 'mongoose';
 import { DiaryCategory } from '../../schemas/diary-category.schema';
+import { CreateCategoryDto } from './dto/create-category.dto';
 
 @Injectable()
 export class DiaryCategoryService {
@@ -13,10 +14,8 @@ export class DiaryCategoryService {
   ) {
   }
 
-  createUpdate(userId: string, category: DiaryCategory) {
-    return this.diaryCategoryModel.findOneAndUpdate(
-      { userId, id: category.id }, { ...category, userId }, { upsert: true, new: true }
-    );
+  create(userId: string, category: CreateCategoryDto) {
+    return this.diaryCategoryModel.create({ ...category, userId });
   }
 
   getAll(userId: string) {

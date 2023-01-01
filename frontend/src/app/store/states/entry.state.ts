@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import {
-  AddEntry,
+  CreateEntry,
   SetActiveEntry,
   SetEdit,
   SetEntries,
@@ -11,7 +11,7 @@ import {
 import { IEntry } from '../../interfaces/entry';
 import { DiaryEntryService } from '../../shared/services/diary-entry.service';
 import { of, tap } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, first, map } from 'rxjs/operators';
 import { SearchState, SearchStateModel } from './search.state';
 import { SearchComplete } from '../actions/search.actions';
 
@@ -59,26 +59,30 @@ export class EntryState {
     return state.activeEntry;
   }
 
-  @Action(AddEntry)
-  addEntry(
-    { getState, patchState }: StateContext<EntryStateModel>,
-    action: AddEntry
+  @Action(CreateEntry)
+  createEntry(
+    { getState, patchState, dispatch }: StateContext<EntryStateModel>,
+    action: CreateEntry
   ) {
     const state = getState();
-    patchState({ entries: [...state.entries, action.entry] });
 
-    return this.diaryEntryService.create(action.entry);
+    return this.diaryEntryService.create(action.entry).subscribe(res => {
+      patchState({ edit: false, entries: [...state.entries, res] });
+      dispatch(new SetActiveEntry(res));
+    });
   }
 
   @Action(UpdateEntry)
   updateEntry(
-    { getState, patchState }: StateContext<EntryStateModel>,
+    { getState, patchState, dispatch }: StateContext<EntryStateModel>,
     action: UpdateEntry
   ) {
     const state = getState();
-    patchState({ entries: state.entries.map(i => i.id === action.entry.id ? action.entry : i) });
 
-    return this.diaryEntryService.create(action.entry);
+    patchState({ edit: false, entries: state.entries.map(i => i._id === action.entry._id ? action.entry : i) });
+    dispatch(new SetActiveEntry(action.entry));
+
+    return this.diaryEntryService.update(action.entry._id, action.entry);
   }
 
   @Action(SetEntries)
@@ -126,7 +130,7 @@ export class EntryState {
       loading: true
     });
 
-    return this.diaryEntryService.get(action.id).pipe(
+    return this.diaryEntryService.get(action._id).pipe(
       map(entry => dispatch(new LoadEntryComplete(entry))),
       catchError(err => {
         dispatch(new LoadEntryError(err));
@@ -146,7 +150,7 @@ export class EntryState {
       loading: true
     });
 
-    return this.diaryEntryService.getPublic(action.id).pipe(
+    return this.diaryEntryService.getPublic(action._id).pipe(
       map(entry => dispatch(new LoadEntryComplete(entry))),
       catchError(err => {
         dispatch(new LoadEntryError(err));
@@ -188,7 +192,7 @@ export class EntryState {
     const state = getState();
     patchState({
       entries: state.entries.map(i => {
-        if (i.id === action.id) {
+        if (i._id === action.id) {
           return { ...i, public: action.entryPublic };
         }
         return i;
@@ -198,7 +202,7 @@ export class EntryState {
         public: action.entryPublic
       }
     });
-    dispatch(new UpdateEntry({ id: action.id, public: action.entryPublic }));
+    dispatch(new UpdateEntry({ _id: action.id, public: action.entryPublic }));
   }
 
 }

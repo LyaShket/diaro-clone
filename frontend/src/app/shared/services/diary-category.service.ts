@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {IEntry} from "../../interfaces/entry";
-import {ICategory} from "../../interfaces/category";
+import { IAddCategory, ICategory } from '../../interfaces/category';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,8 @@ export class DiaryCategoryService {
     private http: HttpClient
   ) { }
 
-  create(category: ICategory) {
-    return this.http.post('http://localhost:3000/diary-category', category);
+  create(category: IAddCategory) {
+    return this.http.post<ICategory>('http://localhost:3000/diary-category', category);
   }
 
   getAll() {

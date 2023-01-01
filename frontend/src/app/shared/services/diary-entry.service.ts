@@ -15,7 +15,11 @@ export class DiaryEntryService {
   }
 
   create(entry: IEntry) {
-    return this.http.post('http://localhost:3000/diary-entry', entry).pipe(first());
+    return this.http.post<IEntry>('http://localhost:3000/diary-entry', entry).pipe(first());
+  }
+
+  update(id: string, entry: IEntry) {
+    return this.http.put<IEntry>('http://localhost:3000/diary-entry/' + id, entry).pipe(first());
   }
 
   getAll() {

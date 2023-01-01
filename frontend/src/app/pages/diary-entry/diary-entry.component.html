@@ -11,7 +11,8 @@
                     [entry]="entry$ | async"
                     [tags]="tags$ | async"
                     [categories]="categories$ | async"
-                    (entryChange)="onEntryChange($event)"
+                    (createEntry)="onCreateEntry($event)"
+                    (changeEntry)="onChangeEntry($event)"
                     (addCategory)="onAddCategory($event)"
                     (addTag)="onAddTag($event)"
     ></app-entry-form>

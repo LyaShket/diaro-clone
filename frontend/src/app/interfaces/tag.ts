@@ -1,4 +1,8 @@
 export interface ITag {
-  id: string
+  _id: string
+  name: string
+}
+
+export interface IAddTag {
   name: string
 }

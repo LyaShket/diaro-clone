@@ -2,7 +2,7 @@ import {ITag} from "./tag";
 import {ICategory} from "./category";
 
 export interface IEntry {
-  id?: string
+  _id?: string
   title?: string
   author?: string
   body?: string

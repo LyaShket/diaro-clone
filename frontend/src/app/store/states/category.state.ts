@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, first, map } from 'rxjs/operators';
 import { DiaryCategoryService } from '../../shared/services/diary-category.service';
 import { ICategory } from '../../interfaces/category';
 import { AddCategory, LoadCategories, LoadCategoriesComplete, LoadCategoriesError } from '../actions/category.actions';
@@ -41,9 +41,10 @@ export class CategoryState {
     action: AddCategory
   ) {
     const state = getState();
-    patchState({ categories: [...state.categories, action.category] });
-
-    return this.diaryCategoryService.create(action.category);
+    
+    return this.diaryCategoryService.create(action.category).pipe(first()).subscribe(res => {
+      patchState({ categories: [...state.categories, res] });
+    });
   }
 
   @Action(LoadCategories)

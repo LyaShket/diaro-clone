@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, first, map } from 'rxjs/operators';
 import { ITag } from '../../interfaces/tag';
 import { AddTag, LoadTags, LoadTagsComplete, LoadTagsError } from '../actions/tag.actions';
 import { DiaryTagService } from '../../shared/services/diary-tag.service';
@@ -41,9 +41,10 @@ export class TagState {
     action: AddTag
   ) {
     const state = getState();
-    patchState({ tags: [...state.tags, action.tag] });
 
-    return this.diaryTagService.create(action.tag);
+    return this.diaryTagService.create(action.tag).pipe(first()).subscribe(res => {
+      patchState({ tags: [...state.tags, res] });
+    });
   }
 
   @Action(LoadTags)

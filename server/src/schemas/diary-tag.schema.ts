@@ -6,9 +6,6 @@ export class DiaryTag {
   userId: string;
 
   @Prop()
-  id: string;
-
-  @Prop()
   name: string;
 }
 

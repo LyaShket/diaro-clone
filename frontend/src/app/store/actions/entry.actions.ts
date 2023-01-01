@@ -1,7 +1,7 @@
 import { IEntry } from '../../interfaces/entry';
 
-export class AddEntry {
-  static readonly type = '[Entry] Add Entry';
+export class CreateEntry {
+  static readonly type = '[Entry] Create Entry';
   constructor(public entry: IEntry) {}
 }
 
@@ -27,12 +27,12 @@ export class SetEdit {
 
 export class LoadActiveEntry {
   static readonly type = '[Entry] Load Active Entry';
-  constructor(public id?: string) {}
+  constructor(public _id?: string) {}
 }
 
 export class LoadPublicEntry {
   static readonly type = '[Entry] Load Public Entry';
-  constructor(public id?: string) {}
+  constructor(public _id?: string) {}
 }
 
 export class LoadEntryComplete {

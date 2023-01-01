@@ -3,7 +3,7 @@ import { IEntry } from '../../../interfaces/entry';
 import * as url from 'url';
 
 export interface ChangePublicEvent {
-  id: string,
+  _id: string,
   public: boolean,
 }
 
@@ -25,10 +25,10 @@ export class EntryActionsComponent implements OnInit {
   }
 
   setEntryPublic(entryPublic: boolean) {
-    this.changePublic.emit({ id: this.entry.id, public: entryPublic });
+    this.changePublic.emit({ _id: this.entry._id, public: entryPublic });
   }
 
   copyPublicEntryLink() {
-    this.copyLink.emit(this.entry.id);
+    this.copyLink.emit(this.entry._id);
   }
 }

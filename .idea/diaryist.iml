@@ -5,6 +5,7 @@
       <excludeFolder url="file://$MODULE_DIR$/frontend/.angular" />
       <excludeFolder url="file://$MODULE_DIR$/frontend/.vscode" />
       <excludeFolder url="file://$MODULE_DIR$/server/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/coverage" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ITag} from "../../interfaces/tag";
-import uniqid from 'uniqid';
+import { IAddTag, ITag } from '../../interfaces/tag';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +12,8 @@ export class DiaryTagService {
   ) {
   }
 
-  create(tag: ITag) {
-    return this.http.post('http://localhost:3000/diary-tag', tag);
+  create(tag: IAddTag) {
+    return this.http.post<ITag>('http://localhost:3000/diary-tag', tag);
   }
 
   getAll() {
