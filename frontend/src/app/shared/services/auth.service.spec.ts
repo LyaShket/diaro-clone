@@ -2,13 +2,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { IUser } from '../interfaces/user';
+import { of } from 'rxjs';
 
 class MockHttpClient {
-  get(): Observable<IUser> {
-    return of(null);
-  }
+  get = () => of({});
+  post = () => of({});
 }
 
 describe('AuthService', () => {
@@ -26,4 +24,17 @@ describe('AuthService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should get the current user profile', () => {
+    expect(service.profile()).toBeTruthy();
+  });
+
+  it('should login', () => {
+    expect(service.login({ 'username': 'test', 'password': 'test' })).toBeTruthy();
+  });
+
+  it('should register', () => {
+    expect(service.register({ 'username': 'test', 'password': 'test' })).toBeTruthy();
+  });
+
 });
