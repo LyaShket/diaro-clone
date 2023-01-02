@@ -22,7 +22,8 @@
                     (click)="switchEdit(true)"
     ></app-entry-view>
 
-    <app-entry-actions class="mt-2 d-block"
+    <app-entry-actions *ngIf="(entry$ | async)._id"
+                       class="mt-2 d-block"
                        [entry]="entry$ | async"
                        (changePublic)="onChangePublic($event)"
                        (delete)="onDelete($event)"
