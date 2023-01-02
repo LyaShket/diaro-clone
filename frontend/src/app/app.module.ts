@@ -42,6 +42,7 @@ import { SearchFormComponent } from './components/sidebar/search-form/search-for
 import { UserInfoComponent } from './components/sidebar/user-info/user-info.component';
 import { EntryActionsComponent } from './pages/diary-entry/entry-actions/entry-actions.component';
 import { PublicDiaryEntryComponent } from './pages/public-diary-entry/public-diary-entry.component';
+import { SettingsModalComponent } from './shared/modals/settings-modal/settings-modal.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { PublicDiaryEntryComponent } from './pages/public-diary-entry/public-dia
     UserInfoComponent,
     EntryActionsComponent,
     PublicDiaryEntryComponent,
+    SettingsModalComponent,
   ],
   imports: [
     BrowserModule,

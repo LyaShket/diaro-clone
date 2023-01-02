@@ -26,4 +26,8 @@ export class AuthService {
   profile(): Observable<IUser> {
     return this.http.get<IUser>('http://localhost:3000/auth/profile').pipe(first());
   }
+
+  updateProfile(payload: { avatar: string }) {
+    return this.http.put<IUser>('http://localhost:3000/auth/profile', payload).pipe(first());
+  }
 }

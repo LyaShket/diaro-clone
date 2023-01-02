@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { of } from 'rxjs';
+import { of, tap } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
 import { AuthService } from '../../shared/services/auth.service';
 import { IUser } from '../../shared/interfaces/user';
-import { LoadProfile, Login, Logout, Register } from '../actions/auth.actions';
+import { LoadProfile, Login, Logout, Register, UpdateProfile, UpdateProfileSuccess } from '../actions/auth.actions';
 import { HttpStatusCode } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 
 export interface AuthStateModel {
-  user: IUser,
+    user: IUser,
 }
 
 export const authStateDefaults: AuthStateModel = {
@@ -85,6 +85,25 @@ export class AuthState {
     return this.authService.profile().pipe(
       map(user => patchState({ user }))
     );
+  }
+
+  @Action(UpdateProfile)
+  updateProfile(
+    { dispatch }: StateContext<AuthStateModel>,
+    action: UpdateProfile
+  ) {
+    return this.authService.updateProfile(action.payload).pipe(
+      map(user => dispatch(new UpdateProfileSuccess(user)))
+    );
+  }
+
+  @Action(UpdateProfileSuccess)
+  updateProfileSuccess(
+    { patchState }: StateContext<AuthStateModel>,
+    action: UpdateProfileSuccess
+  ) {
+    patchState({ user: action.user });
+    this.toastr.success('Profile updated');
   }
 
 }

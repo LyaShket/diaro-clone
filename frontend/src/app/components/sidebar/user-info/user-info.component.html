@@ -1,5 +1,5 @@
 <div class="user-info mb-2" id="tour-sidebar-general" *ngIf="user; else needAuthorize">
-  <img src="https://i.pinimg.com/originals/e8/e0/6d/e8e06d24ad79ca2f93ef6968d0b12342.jpg"
+  <img [src]="user.avatar || '/assets/images/default-avatar.jpg'"
        class="w-100 object-fit-cover" height="240"
        alt="Avatar">
   <div class="panel d-flex justify-content-between px-3 py-2">

@@ -4,16 +4,17 @@
       <a [routerLink]="['/']" class="text-white text-decoration-none me-2">Diaryist</a>
     </div>
     <div>
-      <button mat-button (click)="startTour()">Start tour</button>
-
       <ng-container *ngIf="user$ | async; else unauthorizedButtons">
+        <button mat-icon-button class="text-white" (click)="openSettings()">
+          <mat-icon>settings</mat-icon>
+        </button>
+        <button mat-button (click)="startTour()">Start tour</button>
         <button mat-button (click)="logout()">Log Out</button>
       </ng-container>
       <ng-template #unauthorizedButtons>
         <button mat-button (click)="login()">Log In</button>
         <button mat-button (click)="signup()">Sign Up</button>
       </ng-template>
-
     </div>
   </mat-toolbar>
 </header>

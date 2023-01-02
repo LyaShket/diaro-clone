@@ -2,6 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/register.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class AuthService {
@@ -34,5 +35,13 @@ export class AuthService {
 
     const createdUser = await this.usersService.create(registerDto);
     return this.login(createdUser);
+  }
+
+  updateProfile(userId: string, updateProfileDto: UpdateProfileDto) {
+    return this.usersService.update(userId, updateProfileDto);
+  }
+
+  getProfile(id: string) {
+    return this.usersService.get(id);
   }
 }

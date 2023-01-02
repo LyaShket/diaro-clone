@@ -13,6 +13,7 @@ import { TagState } from '../../store/states/tag.state';
 import { ITag } from '../../interfaces/tag';
 import { AuthState } from '../../store/states/auth.state';
 import { IUser } from '../../shared/interfaces/user';
+import { SettingsModalComponent } from '../../shared/modals/settings-modal/settings-modal.component';
 
 @Component({
   selector: 'app-header',
@@ -43,6 +44,10 @@ export class HeaderComponent implements OnDestroy {
 
   signup() {
     this.modalService.open(SignupModalComponent);
+  }
+
+  openSettings() {
+    this.modalService.open(SettingsModalComponent);
   }
 
   startTour() {

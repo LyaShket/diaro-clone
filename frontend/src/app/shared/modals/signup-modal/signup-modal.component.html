@@ -12,7 +12,5 @@
     <label>Repeat password</label>
     <input type="password" class="form-control" placeholder="Write your password again" formControlName="passwordRepeat">
   </div>
-  <div>
-    <button class="btn btn-primary w-100">Sign Up</button>
-  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Sign Up</button>
 </form>
