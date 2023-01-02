@@ -12,17 +12,12 @@ export interface ChangePublicEvent {
   templateUrl: './entry-actions.component.html',
   styleUrls: ['./entry-actions.component.scss']
 })
-export class EntryActionsComponent implements OnInit {
+export class EntryActionsComponent {
   @Input() entry: IEntry;
 
   @Output() changePublic = new EventEmitter<ChangePublicEvent>();
   @Output() copyLink = new EventEmitter<string>();
-
-  constructor() {
-  }
-
-  ngOnInit(): void {
-  }
+  @Output() delete = new EventEmitter<string>();
 
   setEntryPublic(entryPublic: boolean) {
     this.changePublic.emit({ _id: this.entry._id, public: entryPublic });
@@ -30,5 +25,9 @@ export class EntryActionsComponent implements OnInit {
 
   copyPublicEntryLink() {
     this.copyLink.emit(this.entry._id);
+  }
+
+  deleteEntry() {
+    this.delete.emit(this.entry._id);
   }
 }

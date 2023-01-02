@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import {
   CreateEntry,
@@ -6,7 +6,7 @@ import {
   SetEdit,
   SetEntries,
   LoadActiveEntry, LoadEntryComplete, LoadEntryError,
-  UpdateEntry, SetEntryPublic, LoadPublicEntry
+  UpdateEntry, SetEntryPublic, LoadPublicEntry, DeleteEntry
 } from '../actions/entry.actions';
 import { IEntry } from '../../interfaces/entry';
 import { DiaryEntryService } from '../../shared/services/diary-entry.service';
@@ -14,6 +14,8 @@ import { of, tap } from 'rxjs';
 import { catchError, first, map } from 'rxjs/operators';
 import { SearchState, SearchStateModel } from './search.state';
 import { SearchComplete } from '../actions/search.actions';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 export interface EntryStateModel {
   loading: boolean
@@ -36,7 +38,12 @@ export const entryStateDefaults: EntryStateModel = {
 })
 @Injectable()
 export class EntryState {
-  constructor(private diaryEntryService: DiaryEntryService) {
+  constructor(
+    private diaryEntryService: DiaryEntryService,
+    private router: Router,
+    private ngZone: NgZone,
+    private toastr: ToastrService
+  ) {
   }
 
   @Selector()
@@ -192,7 +199,7 @@ export class EntryState {
     const state = getState();
     patchState({
       entries: state.entries.map(i => {
-        if (i._id === action.id) {
+        if (i._id === action._id) {
           return { ...i, public: action.entryPublic };
         }
         return i;
@@ -202,7 +209,27 @@ export class EntryState {
         public: action.entryPublic
       }
     });
-    dispatch(new UpdateEntry({ _id: action.id, public: action.entryPublic }));
+    dispatch(new UpdateEntry({ _id: action._id, public: action.entryPublic }));
+  }
+
+  @Action(DeleteEntry)
+  deleteEntry(
+    { patchState, getState, dispatch }: StateContext<EntryStateModel>,
+    action: DeleteEntry
+  ) {
+    const state = getState();
+    patchState({
+      entries: state.entries.filter(i => i._id !== action._id),
+      activeEntry: {}
+    });
+
+    this.ngZone.run(() => {
+      this.router.navigate(['/']);
+    });
+
+    return this.diaryEntryService.delete(action._id).pipe(tap(() => {
+      this.toastr.success('Entry deleted');
+    }));
   }
 
 }

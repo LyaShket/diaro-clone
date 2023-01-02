@@ -13,7 +13,7 @@ import {
   SetEdit,
   LoadActiveEntry,
   UpdateEntry,
-  SetEntryPublic, CreateEntry
+  SetEntryPublic, CreateEntry, DeleteEntry
 } from '../../store/actions/entry.actions';
 import { TagState } from '../../store/states/tag.state';
 import { IAddTag, ITag } from '../../interfaces/tag';
@@ -90,12 +90,15 @@ export class DiaryEntryComponent implements OnInit, OnDestroy {
     this.store.dispatch(new SetEntryPublic(entryPublic._id, entryPublic.public));
   }
 
-  onCopyLink(id: string) {
-    navigator.clipboard.writeText(`${location.origin}/entry/public/${id}`).then(() => {
+  onCopyLink(_id: string) {
+    navigator.clipboard.writeText(`${location.origin}/entry/public/${_id}`).then(() => {
       this.toastr.success('Link successfully copied!');
     }, () => {
       this.toastr.error('Failed to copy link. Try to reload page or grant access');
     });
   }
 
+  onDelete(_id: string) {
+    this.store.dispatch(new DeleteEntry(_id));
+  }
 }

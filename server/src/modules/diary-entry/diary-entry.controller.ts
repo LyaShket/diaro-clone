@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Put, Query, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Request, UseGuards } from '@nestjs/common';
 import {DiaryEntryService} from "./diary-entry.service";
 import {DiaryEntry} from "../../schemas/diary-entry.schema";
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -51,6 +51,12 @@ export class DiaryEntryController {
   @Get('public/:id')
   getPublic(@Param('id') _id: string) {
     return this.diaryEntryService.getPublic(_id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  delete(@Request() req, @Param('id') _id: string) {
+    return this.diaryEntryService.delete(req.user.id, _id);
   }
 
 }

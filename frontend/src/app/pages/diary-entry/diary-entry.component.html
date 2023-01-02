@@ -25,6 +25,7 @@
     <app-entry-actions class="mt-2 d-block"
                        [entry]="entry$ | async"
                        (changePublic)="onChangePublic($event)"
+                       (delete)="onDelete($event)"
                        (copyLink)="onCopyLink($event)"
     ></app-entry-actions>
   </ng-template>

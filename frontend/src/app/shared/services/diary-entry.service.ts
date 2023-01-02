@@ -38,4 +38,8 @@ export class DiaryEntryService {
   getPublic(id: string) {
     return this.http.get<IEntry>('http://localhost:3000/diary-entry/public/' + id).pipe(first());
   }
+
+  delete(id: string) {
+    return this.http.delete('http://localhost:3000/diary-entry/' + id).pipe(first());
+  }
 }

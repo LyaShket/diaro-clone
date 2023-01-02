@@ -82,4 +82,8 @@ export class DiaryEntryService {
 
     return this.diaryEntryModel.find(filter).sort({ 'created': 'desc' });
   }
+
+  delete(userId: string, _id: string) {
+    return this.diaryEntryModel.findOneAndDelete({ userId, _id: new mongoose.Types.ObjectId(_id) });
+  }
 }

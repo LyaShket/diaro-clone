@@ -47,6 +47,10 @@ export class LoadEntryError {
 
 export class SetEntryPublic {
   static readonly type = '[Entry] Set Entry Public';
-  constructor(public id: string, public entryPublic: boolean) {}
+  constructor(public _id: string, public entryPublic: boolean) {}
 }
 
+export class DeleteEntry {
+  static readonly type = '[Entry] Delete Entry';
+  constructor(public _id: string) {}
+}
