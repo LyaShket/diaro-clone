@@ -6,14 +6,7 @@ import { IEntry } from '../../../interfaces/entry';
   templateUrl: './entry-list.component.html',
   styleUrls: ['./entry-list.component.scss']
 })
-export class EntryListComponent implements OnInit {
+export class EntryListComponent {
   @Input() entries?: IEntry[];
-
   trackById = (index: number, item: any) => item.id;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

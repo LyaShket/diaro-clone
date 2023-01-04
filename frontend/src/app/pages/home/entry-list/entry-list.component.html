@@ -1,5 +1,5 @@
-<ul id="tour-entry-list" class="list-group">
-  <li class="list-group-item cursor-pointer list-group-item-action"
+<ul id="tour-entry-list" class="list-group entry-list">
+  <li class="entry-list-item list-group-item cursor-pointer list-group-item-action"
       *ngFor="let item of entries; trackBy:trackById" [routerLink]="['/entry/' + item._id ]">
     <div class="d-flex gap-3 align-items-center">
       <p class="mb-0 text-nowrap">{{ item.created | date }}</p>

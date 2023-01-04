@@ -20,4 +20,26 @@ describe('EntryListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render entries', () => {
+    const entries = [
+      {
+        id: 1,
+        title: 'Test Entry 1',
+        description: 'Test Description 1',
+        date: new Date()
+      },
+      {
+        id: 2,
+        title: 'Test Entry 2',
+        description: 'Test Description 2',
+        date: new Date()
+      }
+    ];
+    component.entries = entries;
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelectorAll('.entry-list-item').length).toEqual(2);
+  });
+
 });
