@@ -5,6 +5,7 @@ import { Store } from '@ngxs/store';
 import { of } from 'rxjs';
 import Spy = jasmine.Spy;
 import { IUser } from '../../interfaces/user';
+import { FormBuilder } from '@angular/forms';
 
 describe('SettingsModalComponent', () => {
   let component: SettingsModalComponent;
@@ -17,6 +18,7 @@ describe('SettingsModalComponent', () => {
     TestBed.configureTestingModule({
       providers: [
         SettingsModalComponent,
+        FormBuilder,
         { provide: Store, useValue: store },
       ],
     });

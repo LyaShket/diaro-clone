@@ -4,6 +4,7 @@ import { SignupModalComponent } from './signup-modal.component';
 import { AuthService } from '../../services/auth.service';
 import { Store } from '@ngxs/store';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder } from '@angular/forms';
 
 class MockService {}
 
@@ -14,6 +15,7 @@ describe('SignupModalComponent', () => {
     TestBed.configureTestingModule({
       providers: [
         SignupModalComponent,
+        FormBuilder,
         { provide: AuthService, useClass: MockService },
         { provide: NgbActiveModal, useClass: MockService },
         { provide: Store, useClass: MockService },

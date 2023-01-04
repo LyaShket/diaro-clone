@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { ITag } from '../../../interfaces/tag';
 import { ICategory } from '../../../interfaces/category';
 import { ISearchForm } from '../../../store/states/search.state';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { NavigateSearch, UpdateForm } from '../../../store/actions/search.actions';
 import { first } from 'rxjs/operators';
@@ -22,17 +22,19 @@ export class SearchFormComponent implements OnChanges {
   text: string;
   moodList: string[] = ['Awesome', 'Happy', 'Neutral', 'Bad', 'Awful'];
 
-  form = new FormGroup({
-    timeFrom: new FormControl(''),
-    timeTo: new FormControl(''),
-    text: new FormControl(''),
-    categories: new FormControl([]),
-    tags: new FormControl([]),
-    moods: new FormControl([]),
+  form = this.fb.group({
+    timeFrom: [''],
+    timeTo: [''],
+    text: [''],
+    categories: [[] as string[]],
+    tags: [[] as string[]],
+    moods: [[] as string[]],
   });
 
-  constructor(private store: Store) {
-  }
+  constructor(
+    private store: Store,
+    private fb: FormBuilder
+  ) {}
 
   ngOnChanges(): void {
     this.buildForm();

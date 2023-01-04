@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { IEntry } from '../../../interfaces/entry';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAddTag, ITag } from '../../../interfaces/tag';
 import { IAddCategory, ICategory } from '../../../interfaces/category';
 import { ContentChange } from 'ngx-quill';
@@ -24,17 +24,19 @@ export class EntryFormComponent implements OnInit {
 
   content = '';
 
-  formGroup = new FormGroup({
-    _id: new FormControl(''),
-    title: new FormControl('', []),
-    body: new FormControl('', [Validators.required]),
-    text: new FormControl('', [Validators.required]),
-    tags: new FormControl(<ITag[]>[]),
-    category: new FormControl(<ICategory>{}),
-    mood: new FormControl(''),
+  formGroup = this.fb.group({
+    _id: [''],
+    title: [''],
+    body: ['', [Validators.required]],
+    text: ['', [Validators.required]],
+    tags: [[] as ITag[]],
+    category: [{} as ICategory],
+    mood: [''],
   });
 
-  constructor() {}
+  constructor(
+    private fb: FormBuilder,
+  ) {}
 
   ngOnInit(): void {
     if (!this.entry) {

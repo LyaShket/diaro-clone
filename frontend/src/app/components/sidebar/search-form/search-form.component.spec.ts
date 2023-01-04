@@ -5,6 +5,7 @@ import { Store } from '@ngxs/store';
 import { of } from 'rxjs';
 import Spy = jasmine.Spy;
 import SpyObj = jasmine.SpyObj;
+import { FormBuilder } from '@angular/forms';
 
 
 describe('SearchFormComponent', () => {
@@ -18,6 +19,7 @@ describe('SearchFormComponent', () => {
     TestBed.configureTestingModule({
       providers: [
         SearchFormComponent,
+        FormBuilder,
         { provide: Store, useValue: store },
       ],
     });

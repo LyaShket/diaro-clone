@@ -15,14 +15,16 @@ import { filter } from 'rxjs/operators';
 export class SettingsModalComponent implements OnInit {
   @Select(AuthState.getUser) user$: Observable<IUser>;
 
-  formGroup = new FormGroup({
-    // password: new FormControl(''),
-    // repeatPassword: new FormControl(''),
-    avatar: new FormControl('', [Validators.required, Validators.pattern('https?://.+')]),
+  formGroup = this.fb.group({
+    // password: ['', [Validators.required]],
+    // repeatPassword: ['', [Validators.required]],
+    avatar: ['', [Validators.required, Validators.pattern('https?://.+')]],
   });
 
-  constructor(private readonly store: Store) {
-  }
+  constructor(
+    private readonly store: Store,
+    private readonly fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.user$.pipe(filter(user => !!user)).subscribe(user => {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Login, Register } from '../../../store/actions/auth.actions';
@@ -15,16 +15,17 @@ import { SearchEntries } from '../../../store/actions/search.actions';
   styleUrls: ['./signup-modal.component.scss']
 })
 export class SignupModalComponent {
-  formGroup = new FormGroup({
-    username: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
-    passwordRepeat: new FormControl('', [Validators.required]),
+  formGroup = this.fb.group({
+    username: ['', [Validators.required]],
+    password: ['', [Validators.required]],
+    passwordRepeat: ['', [Validators.required]],
   });
 
   constructor(
     private readonly authService: AuthService,
     private readonly activeModal: NgbActiveModal,
     private readonly store: Store,
+    private readonly fb: FormBuilder
   ) {
   }
 
