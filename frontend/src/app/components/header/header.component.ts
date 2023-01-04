@@ -51,7 +51,7 @@ export class HeaderComponent implements OnDestroy {
   }
 
   startTour() {
-    this.router.navigate(['/']).then(() => {
+    return this.router.navigate(['/']).then(() => {
       this.guidedTourService.startTour(homeTour);
     });
   }
