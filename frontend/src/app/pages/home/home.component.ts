@@ -24,7 +24,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
 
   constructor(
-    private diaryEntryService: DiaryEntryService,
     private route: ActivatedRoute,
     private store: Store,
   ) {}
