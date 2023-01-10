@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of, tap } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
@@ -25,6 +25,7 @@ export class AuthState {
   constructor(
     private authService: AuthService,
     private toastr: ToastrService,
+    private ngZone: NgZone,
   ) {}
 
   @Selector()
@@ -103,7 +104,9 @@ export class AuthState {
     action: UpdateProfileSuccess
   ) {
     patchState({ user: action.user });
-    this.toastr.success('Profile updated');
+    this.ngZone.run(() => {
+      this.toastr.success('Profile updated');
+    });
   }
 
 }
