@@ -10,7 +10,7 @@ import {
 } from '../actions/entry.actions';
 import { IEntry } from '../../interfaces/entry';
 import { DiaryEntryService } from '../../shared/services/diary-entry.service';
-import { of, tap } from 'rxjs';
+import { interval, of, tap, timeout } from 'rxjs';
 import { catchError, first, map } from 'rxjs/operators';
 import { SearchState, SearchStateModel } from './search.state';
 import { SearchComplete } from '../actions/search.actions';
@@ -86,10 +86,11 @@ export class EntryState {
   ) {
     const state = getState();
 
-    patchState({ edit: false, entries: state.entries.map(i => i._id === action.entry._id ? action.entry : i) });
-    dispatch(new SetActiveEntry(action.entry));
-
-    return this.diaryEntryService.update(action.entry._id, action.entry);
+    return this.diaryEntryService.update(action.entry._id, action.entry)
+      .pipe(map(entry => {
+        patchState({ edit: false, entries: state.entries.map(i => i._id === entry._id ? entry : i) });
+        dispatch(new SetActiveEntry(entry));
+      }));
   }
 
   @Action(SetEntries)
