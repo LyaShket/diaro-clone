@@ -9,7 +9,7 @@ import { HttpStatusCode } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 
 export interface AuthStateModel {
-    user: IUser,
+  user: IUser,
 }
 
 export const authStateDefaults: AuthStateModel = {
@@ -26,7 +26,8 @@ export class AuthState {
     private authService: AuthService,
     private toastr: ToastrService,
     private ngZone: NgZone,
-  ) {}
+  ) {
+  }
 
   @Selector()
   static getUser(state: AuthStateModel) {
@@ -49,7 +50,7 @@ export class AuthState {
       map((res: { access_token: string }) => {
         localStorage.setItem('access_token', res.access_token);
         this.toastr.success('Login success');
-        return(dispatch(new LoadProfile()));
+        return (dispatch(new LoadProfile()));
       }),
     );
   }
