@@ -7,21 +7,21 @@ import {DiaryCategoryService} from "../../shared/services/diary-category.service
 import {DiaryTagService} from "../../shared/services/diary-tag.service";
 import {first, take} from "rxjs/operators";
 import { Select, Store } from '@ngxs/store';
-import { EntryState } from '../../store/states/entry.state';
+import { EntryState } from '../../store/entry/entry.state';
 import {
   SetActiveEntry,
   SetEdit,
   LoadActiveEntry,
   UpdateEntry,
   SetEntryPublic, CreateEntry, DeleteEntry
-} from '../../store/actions/entry.actions';
-import { TagState } from '../../store/states/tag.state';
+} from '../../store/entry/entry.actions';
+import { TagState } from '../../store/tag/tag.state';
 import { IAddTag, ITag } from '../../interfaces/tag';
-import { CategoryState } from '../../store/states/category.state';
+import { CategoryState } from '../../store/category/category.state';
 import { IAddCategory, ICategory } from '../../interfaces/category';
-import { AddCategory, LoadCategories } from '../../store/actions/category.actions';
-import { AddTag, LoadTags } from '../../store/actions/tag.actions';
-import { SearchState } from '../../store/states/search.state';
+import { AddCategory, LoadCategories } from '../../store/category/category.actions';
+import { AddTag, LoadTags } from '../../store/tag/tag.actions';
+import { SearchState } from '../../store/search/search.state';
 import { ChangePublicEvent } from './entry-actions/entry-actions.component';
 import { ToastrService } from 'ngx-toastr';
 

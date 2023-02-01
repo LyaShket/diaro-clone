@@ -1,6 +1,6 @@
 import { ISearchEntriesQuery } from '../../shared/interfaces/search-entries-query';
 import { IEntry } from '../../interfaces/entry';
-import { ISearchForm } from '../states/search.state';
+import { ISearchForm } from './search.state';
 
 export class UpdateForm {
   static readonly type = '[Search] Update Form';

@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { EntryState } from '../../store/states/entry.state';
+import { EntryState } from '../../store/entry/entry.state';
 import { Observable } from 'rxjs';
 import { IEntry } from '../../interfaces/entry';
 import { ActivatedRoute } from '@angular/router';
-import { LoadPublicEntry, SetActiveEntry } from '../../store/actions/entry.actions';
+import { LoadPublicEntry, SetActiveEntry } from '../../store/entry/entry.actions';
 
 @Component({
   selector: 'app-public-diary-entry',

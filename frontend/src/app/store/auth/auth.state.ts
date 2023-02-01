@@ -4,7 +4,7 @@ import { of, tap } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
 import { AuthService } from '../../shared/services/auth.service';
 import { IUser } from '../../shared/interfaces/user';
-import { LoadProfile, Login, Logout, Register, UpdateProfile, UpdateProfileSuccess } from '../actions/auth.actions';
+import { LoadProfile, Login, Logout, Register, UpdateProfile, UpdateProfileSuccess } from './auth.actions';
 import { HttpStatusCode } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 

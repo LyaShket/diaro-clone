@@ -5,9 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil, of } from 'rxjs';
 import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
-import { EntryState } from '../../store/states/entry.state';
-import { ClearSearch, SearchEntries } from '../../store/actions/search.actions';
-import { SearchState } from '../../store/states/search.state';
+import { EntryState } from '../../store/entry/entry.state';
+import { ClearSearch, SearchEntries } from '../../store/search/search.actions';
+import { SearchState } from '../../store/search/search.state';
 
 
 @Component({

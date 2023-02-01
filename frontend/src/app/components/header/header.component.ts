@@ -8,10 +8,10 @@ import {Router} from "@angular/router";
 import { AuthService } from '../../shared/services/auth.service';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
-import { Logout } from '../../store/actions/auth.actions';
-import { TagState } from '../../store/states/tag.state';
+import { Logout } from '../../store/auth/auth.actions';
+import { TagState } from '../../store/tag/tag.state';
 import { ITag } from '../../interfaces/tag';
-import { AuthState } from '../../store/states/auth.state';
+import { AuthState } from '../../store/auth/auth.state';
 import { IUser } from '../../shared/interfaces/user';
 import { SettingsModalComponent } from '../../shared/modals/settings-modal/settings-modal.component';
 

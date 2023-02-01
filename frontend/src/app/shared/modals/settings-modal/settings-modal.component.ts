@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { IUser } from '../../interfaces/user';
-import { AuthState } from '../../../store/states/auth.state';
+import { AuthState } from '../../../store/auth/auth.state';
 import { Observable } from 'rxjs';
-import { UpdateProfile } from '../../../store/actions/auth.actions';
+import { UpdateProfile } from '../../../store/auth/auth.actions';
 import { filter } from 'rxjs/operators';
 
 @Component({

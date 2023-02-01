@@ -3,7 +3,7 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of } from 'rxjs';
 import { catchError, first, map } from 'rxjs/operators';
 import { ITag } from '../../interfaces/tag';
-import { AddTag, LoadTags, LoadTagsComplete, LoadTagsError } from '../actions/tag.actions';
+import { AddTag, LoadTags, LoadTagsComplete, LoadTagsError } from './tag.actions';
 import { DiaryTagService } from '../../shared/services/diary-tag.service';
 
 export interface TagStateModel {

@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { ITag } from '../../../interfaces/tag';
 import { ICategory } from '../../../interfaces/category';
-import { ISearchForm } from '../../../store/states/search.state';
+import { ISearchForm } from '../../../store/search/search.state';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { NavigateSearch, UpdateForm } from '../../../store/actions/search.actions';
+import { NavigateSearch, UpdateForm } from '../../../store/search/search.actions';
 import { first } from 'rxjs/operators';
 
 @Component({

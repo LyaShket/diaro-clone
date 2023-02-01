@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { catchError, first, map } from 'rxjs/operators';
 import { DiaryCategoryService } from '../../shared/services/diary-category.service';
 import { ICategory } from '../../interfaces/category';
-import { AddCategory, LoadCategories, LoadCategoriesComplete, LoadCategoriesError } from '../actions/category.actions';
+import { AddCategory, LoadCategories, LoadCategoriesComplete, LoadCategoriesError } from './category.actions';
 
 export interface CategoryStateModel {
   loading: boolean,
@@ -41,7 +41,7 @@ export class CategoryState {
     action: AddCategory
   ) {
     const state = getState();
-    
+
     return this.diaryCategoryService.create(action.category).pipe(first()).subscribe(res => {
       patchState({ categories: [...state.categories, res] });
     });

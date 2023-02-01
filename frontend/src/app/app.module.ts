@@ -32,12 +32,12 @@ import { EntryListPreviewComponent } from './pages/home/entry-list-preview/entry
 import { ToastrModule } from 'ngx-toastr';
 import { AuthInterceptor } from "./shared/interceptors/auth.interceptor";
 import { NgxsModule } from '@ngxs/store';
-import { EntryState } from './store/states/entry.state';
+import { EntryState } from './store/entry/entry.state';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
-import { CategoryState } from './store/states/category.state';
-import { TagState } from './store/states/tag.state';
-import { SearchState } from './store/states/search.state';
-import { AuthState } from './store/states/auth.state';
+import { CategoryState } from './store/category/category.state';
+import { TagState } from './store/tag/tag.state';
+import { SearchState } from './store/search/search.state';
+import { AuthState } from './store/auth/auth.state';
 import { SearchFormComponent } from './components/sidebar/search-form/search-form.component';
 import { UserInfoComponent } from './components/sidebar/user-info/user-info.component';
 import { EntryActionsComponent } from './pages/diary-entry/entry-actions/entry-actions.component';

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { LoadProfile } from './store/actions/auth.actions';
+import { LoadProfile } from './store/auth/auth.actions';
 
 @Component({
   selector: 'app-root',

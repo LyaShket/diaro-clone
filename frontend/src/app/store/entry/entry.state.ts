@@ -7,13 +7,13 @@ import {
   SetEntries,
   LoadActiveEntry, LoadEntryComplete, LoadEntryError,
   UpdateEntry, SetEntryPublic, LoadPublicEntry, DeleteEntry
-} from '../actions/entry.actions';
+} from './entry.actions';
 import { IEntry } from '../../interfaces/entry';
 import { DiaryEntryService } from '../../shared/services/diary-entry.service';
 import { interval, of, tap, timeout } from 'rxjs';
 import { catchError, first, map } from 'rxjs/operators';
-import { SearchState, SearchStateModel } from './search.state';
-import { SearchComplete } from '../actions/search.actions';
+import { SearchState, SearchStateModel } from '../search/search.state';
+import { SearchComplete } from '../search/search.actions';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 

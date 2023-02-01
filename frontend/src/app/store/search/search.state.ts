@@ -7,7 +7,7 @@ import {
   ClearSearch,
   InitValuesFromUrlParams, NavigateSearch, SearchComplete, SearchEntries, SearchError,
   UpdateForm
-} from '../actions/search.actions';
+} from './search.actions';
 import { Router } from '@angular/router';
 import { ISearchEntriesQuery } from '../../shared/interfaces/search-entries-query';
 

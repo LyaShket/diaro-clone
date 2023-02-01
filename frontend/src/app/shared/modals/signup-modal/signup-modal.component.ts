@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Login, Register } from '../../../store/actions/auth.actions';
+import { Login, Register } from '../../../store/auth/auth.actions';
 import { Store } from '@ngxs/store';
 import { first } from 'rxjs/operators';
-import { LoadCategories } from '../../../store/actions/category.actions';
-import { LoadTags } from '../../../store/actions/tag.actions';
-import { SearchEntries } from '../../../store/actions/search.actions';
+import { LoadCategories } from '../../../store/category/category.actions';
+import { LoadTags } from '../../../store/tag/tag.actions';
+import { SearchEntries } from '../../../store/search/search.actions';
 
 @Component({
   selector: 'app-signup-modal',

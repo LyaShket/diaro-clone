@@ -13,17 +13,17 @@ import { AuthService } from '../../shared/services/auth.service';
 import { IUser } from '../../shared/interfaces/user';
 import { DiaryEntryService } from '../../shared/services/diary-entry.service';
 import { Select, Store } from '@ngxs/store';
-import { TagState } from '../../store/states/tag.state';
-import { CategoryState } from '../../store/states/category.state';
-import { LoadCategories } from '../../store/actions/category.actions';
-import { LoadTags } from '../../store/actions/tag.actions';
-import { ISearchForm, SearchState } from '../../store/states/search.state';
+import { TagState } from '../../store/tag/tag.state';
+import { CategoryState } from '../../store/category/category.state';
+import { LoadCategories } from '../../store/category/category.actions';
+import { LoadTags } from '../../store/tag/tag.actions';
+import { ISearchForm, SearchState } from '../../store/search/search.state';
 import {
   InitValuesFromUrlParams,
   NavigateSearch,
   UpdateForm
-} from '../../store/actions/search.actions';
-import { AuthState } from '../../store/states/auth.state';
+} from '../../store/search/search.actions';
+import { AuthState } from '../../store/auth/auth.state';
 
 @Component({
   selector: 'app-sidebar',
