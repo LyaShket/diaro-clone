@@ -5,7 +5,7 @@ import {SignupModalComponent} from "../../shared/modals/signup-modal/signup-moda
 import {homeTour} from "../../shared/constants/tour/home";
 import {GuidedTourService} from "ngx-guided-tour";
 import {Router} from "@angular/router";
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService } from '../../shared/services/auth/auth.service';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 import { Logout } from '../../store/auth/auth.actions';

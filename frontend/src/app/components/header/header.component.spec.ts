@@ -4,7 +4,7 @@ import { HeaderComponent } from './header.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GuidedTourService } from 'ngx-guided-tour';
 import { Router } from '@angular/router';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService } from '../../shared/services/auth/auth.service';
 import { Store } from '@ngxs/store';
 
 class MockNgbModal {

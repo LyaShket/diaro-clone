@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { catchError, first, map } from 'rxjs/operators';
 import { ITag } from '../../interfaces/tag';
 import { AddTag, LoadTags, LoadTagsComplete, LoadTagsError } from './tag.actions';
-import { DiaryTagService } from '../../shared/services/diary-tag.service';
+import { DiaryTagService } from '../../shared/services/diary-tag/diary-tag.service';
 
 export interface TagStateModel {
   loading: boolean,

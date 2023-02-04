@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {IEntry} from "../../interfaces/entry";
-import { IAddCategory, ICategory } from '../../interfaces/category';
+import { IAddCategory, ICategory } from '../../../interfaces/category';
 
 @Injectable({
   providedIn: 'root'

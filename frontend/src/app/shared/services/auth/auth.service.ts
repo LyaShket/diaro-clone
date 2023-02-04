@@ -3,7 +3,7 @@ import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { catchError, filter, first, map, tap } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { IUser } from '../interfaces/user';
+import { IUser } from '../../interfaces/user';
 
 @Injectable({
   providedIn: 'root'

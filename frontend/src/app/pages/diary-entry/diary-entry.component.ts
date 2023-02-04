@@ -1,10 +1,10 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {DiaryEntryService} from "../../shared/services/diary-entry.service";
+import {DiaryEntryService} from "../../shared/services/diary-entry/diary-entry.service";
 import {ActivatedRoute} from "@angular/router";
 import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
 import {IEntry} from "../../interfaces/entry";
-import {DiaryCategoryService} from "../../shared/services/diary-category.service";
-import {DiaryTagService} from "../../shared/services/diary-tag.service";
+import {DiaryCategoryService} from "../../shared/services/diary-category/diary-category.service";
+import {DiaryTagService} from "../../shared/services/diary-tag/diary-tag.service";
 import {first, take} from "rxjs/operators";
 import { Select, Store } from '@ngxs/store';
 import { EntryState } from '../../store/entry/entry.state';

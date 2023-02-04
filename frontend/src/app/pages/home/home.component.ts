@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { DiaryEntryService } from '../../shared/services/diary-entry.service';
+import { DiaryEntryService } from '../../shared/services/diary-entry/diary-entry.service';
 import { IEntry } from '../../interfaces/entry';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil, of } from 'rxjs';

@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of, tap } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService } from '../../shared/services/auth/auth.service';
 import { IUser } from '../../shared/interfaces/user';
 import { LoadProfile, Login, Logout, Register, UpdateProfile, UpdateProfileSuccess } from './auth.actions';
 import { HttpStatusCode } from '@angular/common/http';

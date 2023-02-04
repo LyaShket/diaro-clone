@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { DiaryEntryService } from '../../shared/services/diary-entry.service';
+import { DiaryEntryService } from '../../shared/services/diary-entry/diary-entry.service';
 import {
   ClearSearch,
   InitValuesFromUrlParams, NavigateSearch, SearchComplete, SearchEntries, SearchError,

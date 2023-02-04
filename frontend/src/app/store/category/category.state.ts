@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of } from 'rxjs';
 import { catchError, first, map } from 'rxjs/operators';
-import { DiaryCategoryService } from '../../shared/services/diary-category.service';
+import { DiaryCategoryService } from '../../shared/services/diary-category/diary-category.service';
 import { ICategory } from '../../interfaces/category';
 import { AddCategory, LoadCategories, LoadCategoriesComplete, LoadCategoriesError } from './category.actions';
 

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IEntry } from '../../interfaces/entry';
-import { ISearchEntriesQuery } from '../interfaces/search-entries-query';
-import { queryToHttpParams } from '../../utils/converters';
+import { IEntry } from '../../../interfaces/entry';
+import { ISearchEntriesQuery } from '../../interfaces/search-entries-query';
+import { queryToHttpParams } from '../../../utils/converters';
 import { first } from 'rxjs/operators';
 
 @Injectable({

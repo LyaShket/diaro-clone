@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import { IAddTag, ITag } from '../../interfaces/tag';
+import { IAddTag, ITag } from '../../../interfaces/tag';
 
 @Injectable({
   providedIn: 'root'

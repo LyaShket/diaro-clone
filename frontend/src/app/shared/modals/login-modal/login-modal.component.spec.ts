@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { LoginModalComponent } from './login-modal.component';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { Store } from '@ngxs/store';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';

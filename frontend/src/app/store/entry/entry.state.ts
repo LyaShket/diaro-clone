@@ -9,7 +9,7 @@ import {
   UpdateEntry, SetEntryPublic, LoadPublicEntry, DeleteEntry
 } from './entry.actions';
 import { IEntry } from '../../interfaces/entry';
-import { DiaryEntryService } from '../../shared/services/diary-entry.service';
+import { DiaryEntryService } from '../../shared/services/diary-entry/diary-entry.service';
 import { interval, of, tap, timeout } from 'rxjs';
 import { catchError, first, map } from 'rxjs/operators';
 import { SearchState, SearchStateModel } from '../search/search.state';

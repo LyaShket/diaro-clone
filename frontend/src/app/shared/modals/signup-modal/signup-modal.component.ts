@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Login, Register } from '../../../store/auth/auth.actions';
 import { Store } from '@ngxs/store';
