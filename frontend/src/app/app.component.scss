@@ -1,6 +1,10 @@
 $header-height: 64px;
 $footer-height: 23.5px;
 
+@media screen and (max-width: 599px) {
+  $header-height: 56px;
+}
+
 :host {
   display: grid;
   min-height: 100vh;
@@ -8,7 +12,7 @@ $footer-height: 23.5px;
                        "sidebar main"
                        "footer  footer";
   grid-template-columns: 1fr 5fr;
-  grid-template-rows: $header-height
+  grid-template-rows: min-content
                       calc(100vh - $header-height - $footer-height)
                       $footer-height;
 }
@@ -29,3 +33,4 @@ $footer-height: 23.5px;
 #footer {
   grid-area: footer;
 }
+
