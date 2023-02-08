@@ -1,11 +1,14 @@
-<app-header id="header"></app-header>
+<div id="layout-container">
+  <app-header id="header"></app-header>
 
-<app-sidebar id="sidebar"></app-sidebar>
+  <div id="body">
+    <app-sidebar id="sidebar" [ngClass]="{ 'hidden': (hideSidebar$ | async) }"></app-sidebar>
+    <main id="main">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 
-<main id="main">
-  <router-outlet></router-outlet>
-</main>
-
-<app-footer id="footer"></app-footer>
+  <app-footer id="footer"></app-footer>
+</div>
 
 <ngx-guided-tour></ngx-guided-tour>

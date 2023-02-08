@@ -1,6 +1,10 @@
 <header>
   <mat-toolbar color="primary" class="d-flex justify-content-between">
     <div class="d-flex align-items-center">
+      <!-- menu burger button -->
+      <button id="open-menu" mat-icon-button class="text-white" (click)="toggleSidebar()">
+        <mat-icon>menu</mat-icon>
+      </button>
       <a [routerLink]="['/']" class="text-white text-decoration-none me-2">Diaryist</a>
     </div>
     <div>

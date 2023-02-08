@@ -1,36 +1,27 @@
-$header-height: 64px;
-$footer-height: 23.5px;
-
-@media screen and (max-width: 599px) {
-  $header-height: 56px;
-}
-
-:host {
-  display: grid;
+#layout-container {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  grid-template-areas: "header  header"
-                       "sidebar main"
-                       "footer  footer";
-  grid-template-columns: 1fr 5fr;
-  grid-template-rows: min-content
-                      calc(100vh - $header-height - $footer-height)
-                      $footer-height;
+  max-height: 100vh;
 }
 
-#header {
-  grid-area: header;
-}
-
-#sidebar {
-  grid-area: sidebar;
+#body {
+  flex: 1 1 auto;
+  display: flex;
+  overflow: hidden;
+  position: relative;
 }
 
 #main {
-  grid-area: main;
-  overflow-y: auto;
+  width: 100%;
 }
 
-#footer {
-  grid-area: footer;
+#sidebar {
+  z-index: 1;
+  flex: 0 0 auto;
+  transition: transform 0.3s ease;
+  &.hidden {
+    position: absolute;
+    transform: translateX(-100%);
+  }
 }
-

@@ -14,6 +14,7 @@ import { ITag } from '../../interfaces/tag';
 import { AuthState } from '../../store/auth/auth.state';
 import { IUser } from '../../shared/interfaces/user';
 import { SettingsModalComponent } from '../../shared/modals/settings-modal/settings-modal.component';
+import { LayoutService } from '../../shared/services/layout/layout.service';
 
 @Component({
   selector: 'app-header',
@@ -30,6 +31,7 @@ export class HeaderComponent implements OnDestroy {
     private readonly guidedTourService: GuidedTourService,
     private readonly router: Router,
     private readonly authService: AuthService,
+    private readonly layoutService: LayoutService,
     private readonly store: Store,
   ) {
   }
@@ -58,5 +60,9 @@ export class HeaderComponent implements OnDestroy {
 
   logout() {
     this.store.dispatch(new Logout());
+  }
+
+  toggleSidebar() {
+    this.layoutService.toggleSidebar();
   }
 }
