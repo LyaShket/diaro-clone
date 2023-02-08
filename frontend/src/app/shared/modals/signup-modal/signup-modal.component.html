@@ -2,15 +2,15 @@
   <h2>Sign Up</h2>
   <div class="mb-2">
     <label>Username</label>
-    <input type="text" class="form-control" placeholder="Write your username" formControlName="username">
+    <input id="username" type="text" class="form-control" placeholder="Write your username" formControlName="username">
   </div>
   <div class="mb-2">
     <label>Password</label>
-    <input type="password" class="form-control" placeholder="Write your password" formControlName="password">
+    <input id="password" type="password" class="form-control" placeholder="Write your password" formControlName="password">
   </div>
   <div class="mb-2">
     <label>Repeat password</label>
-    <input type="password" class="form-control" placeholder="Write your password again" formControlName="passwordRepeat">
+    <input id="repeat-password" type="password" class="form-control" placeholder="Write your password again" formControlName="passwordRepeat">
   </div>
-  <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Sign Up</button>
+  <button id="submit" type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Sign Up</button>
 </form>
