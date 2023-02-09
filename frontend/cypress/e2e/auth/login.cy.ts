@@ -5,13 +5,13 @@ import { clientUrl } from '../../../src/app/shared/constants/url/url';
 context('Login', () => {
   beforeEach(() => {
     cy.visit(clientUrl);
-  })
+  });
 
   it('display login button in header', () => {
     cy.get('#header #log-in')
       .should('have.text', 'Log In')
       .should('exist');
-  })
+  });
 
   it('open login modal', () => {
     cy.get('#header #log-in').click();

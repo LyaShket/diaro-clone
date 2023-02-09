@@ -25,7 +25,7 @@ export interface EntryStateModel {
 }
 
 export const entryStateDefaults: EntryStateModel = {
-  loading: true,
+  loading: false,
   entries: [],
   activeEntry: {},
   edit: false,

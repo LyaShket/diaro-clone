@@ -6,13 +6,13 @@ import { clientUrl } from '../../../src/app/shared/constants/url/url';
 context('Login', () => {
   beforeEach(() => {
     cy.visit(clientUrl);
-  })
+  });
 
   it('display register button in header', () => {
     cy.get('#header #sign-up')
       .should('have.text', 'Sign Up')
       .should('exist');
-  })
+  });
 
   it('open register modal', () => {
     cy.get('#header #sign-up').click();
