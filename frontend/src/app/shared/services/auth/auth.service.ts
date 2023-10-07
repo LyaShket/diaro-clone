@@ -4,6 +4,7 @@ import { catchError, filter, first, map, tap } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { IUser } from '../../interfaces/user';
+import { serverUrl } from '../../constants/url/url';
 
 @Injectable({
   providedIn: 'root'
@@ -16,18 +17,18 @@ export class AuthService {
   }
 
   login(payload: { username: string, password: string }): Observable<{ access_token: string }> {
-    return this.http.post<{ access_token: string }>('http://localhost:3000/auth/login', payload).pipe(first());
+    return this.http.post<{ access_token: string }>(`${serverUrl}/auth/login`, payload).pipe(first());
   }
 
   register(payload: { username: string, password: string }) {
-    return this.http.post<{ access_token: string }>('http://localhost:3000/auth/register', payload).pipe(first());
+    return this.http.post<{ access_token: string }>(`${serverUrl}/auth/register`, payload).pipe(first());
   }
 
   profile(): Observable<IUser> {
-    return this.http.get<IUser>('http://localhost:3000/auth/profile').pipe(first());
+    return this.http.get<IUser>(`${serverUrl}/auth/profile`).pipe(first());
   }
 
   updateProfile(payload: { avatar: string }) {
-    return this.http.put<IUser>('http://localhost:3000/auth/profile', payload).pipe(first());
+    return this.http.put<IUser>(`${serverUrl}/auth/profile`, payload).pipe(first());
   }
 }

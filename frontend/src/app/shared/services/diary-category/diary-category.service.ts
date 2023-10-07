@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import { IAddCategory, ICategory } from '../../../interfaces/category';
+import { serverUrl } from '../../constants/url/url';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,10 @@ export class DiaryCategoryService {
   ) { }
 
   create(category: IAddCategory) {
-    return this.http.post<ICategory>('http://localhost:3000/diary-category', category);
+    return this.http.post<ICategory>(`${serverUrl}/diary-category`, category);
   }
 
   getAll() {
-    return this.http.get<ICategory[]>('http://localhost:3000/diary-category');
+    return this.http.get<ICategory[]>(`${serverUrl}/diary-category`);
   }
 }
